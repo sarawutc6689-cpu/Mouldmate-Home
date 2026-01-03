@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แอปพลิเคชันของฉัน</title>
+    <style>
+        /* Reset CSS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            display: none; /* ซ่อนถ้าไม่ต้องการ */
+        }
+        
+        .content {
+            flex: 1;
+            position: relative;
+        }
+        
+        .app-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+        
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        
+        .controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        .fullscreen-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>แอปพลิเคชันของฉัน</h1>
+            <p>แสดงผลแบบเต็มหน้าจอ</p>
+        </div>
+        
+        <div class="content">
+            <div class="loading" id="loading">
+                <h3>กำลังโหลดแอปพลิเคชัน...</h3>
+                <div class="spinner"></div>
+            </div>
+            
+            <iframe 
+                class="app-frame"
+                id="appFrame"
+                src="https://script.google.com/macros/s/AKfycbwbd2POdqVSUZVacHrGEIYjh65391tC2h88U0MwvmbWf-aasYdVla5PHQdSnSSkus1EJQ/exec"
+                sandbox="allow-scripts allow-forms allow-same-origin allow-popups allow-modals"
+                allow="fullscreen"
+                onload="hideLoading()">
+            </iframe>
+        </div>
+        
+        <div class="controls">
+            <button class="fullscreen-btn" onclick="toggleFullscreen()">
+                📺 เปิดเต็มจอ
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // ซ่อน loading screen
+        function hideLoading() {
+            const loading = document.getElementById('loading');
+            loading.style.display = 'none';
+        }
+        
+        // Fullscreen function
+        function toggleFullscreen() {
+            const iframe = document.getElementById('appFrame');
+            
+            if (!document.fullscreenElement) {
+                if (iframe.requestFullscreen) {
+                    iframe.requestFullscreen();
+                } else if (iframe.webkitRequestFullscreen) {
+                    iframe.webkitRequestFullscreen();
+                } else if (iframe.msRequestFullscreen) {
+                    iframe.msRequestFullscreen();
+                }
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }
+            }
+        }
+        
+        // Auto-hide loading after 5 seconds (fallback)
+        setTimeout(hideLoading, 5000);
+        
+        // Adjust iframe on resize
+        window.addEventListener('resize', function() {
+            const iframe = document.getElementById('appFrame');
+            iframe.style.height = window.innerHeight + 'px';
+        });
+    </script>
+</body>
+</html>
