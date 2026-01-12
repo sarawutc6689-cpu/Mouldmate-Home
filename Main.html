@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TokaiSolidtire System - ระบบบริหารจัดการองค์กร</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&family=Sarabun:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #1a73e8;
+            --dark-blue: #0d47a1;
+            --light-blue: #e8f0fe;
+            --gray-bg: #f5f7fa;
+            --text-dark: #202124;
+            --text-light: #5f6368;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --card-shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.12);
+            --border-radius: 12px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: var(--gray-bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Kanit', sans-serif;
+            font-weight: 500;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
+            color: white;
+            padding: 25px 0;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            box-shadow: 0 4px 12px rgba(13, 71, 161, 0.2);
+            margin-bottom: 40px;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            font-size: 2.5rem;
+            background: white;
+            color: var(--primary-blue);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-text h1 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+
+        .logo-text p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Search Bar */
+        .search-container {
+            width: 100%;
+            max-width: 500px;
+            margin: 25px auto 0;
+            position: relative;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 14px 20px;
+            padding-left: 50px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-family: 'Sarabun', sans-serif;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+        }
+
+        .search-bar:focus {
+            outline: none;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+            font-size: 1.2rem;
+        }
+
+        /* Marquee Section */
+        .marquee-container {
+            background: linear-gradient(90deg, #f0f7ff, #e8f0fe);
+            border-radius: var(--border-radius);
+            padding: 15px 20px;
+            margin-bottom: 30px;
+            border-left: 5px solid var(--primary-blue);
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .marquee-label {
+            display: inline-block;
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-family: 'Kanit', sans-serif;
+            font-weight: 500;
+            font-size: 0.9rem;
+            margin-right: 20px;
+            white-space: nowrap;
+        }
+
+        .marquee-content {
+            display: inline-flex;
+            align-items: center;
+            white-space: nowrap;
+            animation: marquee 30s linear infinite;
+            padding-left: 100%;
+            animation-delay: 2s;
+        }
+
+        .marquee-content:hover {
+            animation-play-state: paused;
+        }
+
+        .marquee-item {
+            display: inline-flex;
+            align-items: center;
+            margin-right: 40px;
+            color: var(--text-dark);
+        }
+
+        .marquee-icon {
+            color: var(--primary-blue);
+            margin-right: 10px;
+            font-size: 1.1rem;
+        }
+
+        @keyframes marquee {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        /* Main Content */
+        .main-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--text-dark);
+        }
+
+        .main-title h2 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .main-title p {
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Department Cards */
+        .departments-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        .department-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            cursor: pointer;
+            border-left: 5px solid var(--primary-blue);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .department-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--card-shadow-hover);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 1.8rem;
+            color: white;
+        }
+
+        .card-icon.maintenance {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+        }
+
+        .card-icon.it {
+            background: linear-gradient(135deg, #4ecdc4, #44a08d);
+        }
+
+        .card-icon.hr {
+            background: linear-gradient(135deg, #ffe66d, #ffd166);
+        }
+
+        .card-icon.vehicle {
+            background: linear-gradient(135deg, #1a936f, #136f63);
+        }
+
+        .card-icon.accounting {
+            background: linear-gradient(135deg, #9d4edd, #6a2c9c);
+        }
+
+        .card-title h3 {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+        }
+
+        .card-title p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .card-description {
+            margin-bottom: 20px;
+            flex-grow: 1;
+            color: var(--text-light);
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+
+        .visit-btn {
+            background-color: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-family: 'Kanit', sans-serif;
+            font-weight: 400;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .visit-btn:hover {
+            background-color: var(--dark-blue);
+        }
+
+        .external-link {
+            color: var(--primary-blue);
+            font-size: 1.2rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: white;
+            padding: 25px 0;
+            margin-top: 30px;
+            border-top: 1px solid #e0e0e0;
+            text-align: center;
+            color: var(--text-light);
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .footer-logo {
+            font-weight: 600;
+            color: var(--primary-blue);
+            font-size: 1.2rem;
+        }
+
+        /* No Results */
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            grid-column: 1 / -1;
+            color: var(--text-light);
+        }
+
+        .no-results i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #ccc;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 20px;
+            }
+            
+            .logo-container {
+                justify-content: center;
+            }
+            
+            .departments-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .main-title h2 {
+                font-size: 1.6rem;
+            }
+            
+            .marquee-container {
+                padding: 12px 15px;
+            }
+            
+            .marquee-label {
+                display: block;
+                margin-right: 0;
+                margin-bottom: 10px;
+                width: fit-content;
+            }
+            
+            .marquee-content {
+                animation: marquee 20s linear infinite;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="logo-container">
+                <div class="logo-icon">
+                    <i class="fas fa-industry"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>TokaiSolidTire System</h1>
+                    <p>ระบบบริหารจัดการองค์กร</p>
+                </div>
+            </div>
+            
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-bar" id="searchInput" placeholder="ค้นหาแผนก...">
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Marquee Announcement -->
+        <div class="marquee-container">
+            <span class="marquee-label">ประกาศ</span>
+            <div class="marquee-content" id="marqueeText">
+                <!-- Marquee items will be generated by JavaScript -->
+            </div>
+        </div>
+
+        <div class="main-title">
+            <h2>แผนกในระบบ TokaiSolidTire</h2>
+            <p>เข้าถึงระบบงานของแผนกต่างๆ ได้จากลิงก์ด้านล่างนี้</p>
+        </div>
+
+        <!-- Departments Grid -->
+        <div class="departments-grid" id="departmentsGrid">
+            <!-- Cards will be dynamically generated by JavaScript -->
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-logo">TokaiSolidTire System</div>
+            <p>© 2026 ระบบบริหารจัดการองค์กรครบวงจร | ออกแบบเพื่อความสะดวกและประสิทธิภาพ</p>
+            <span>พัฒนาระบบโดย Sarawut.C</span>
+        </div>
+    </footer>
+
+    <script>
+        // ข้อมูลแผนก
+        const departments = [
+            {
+                id: 1,
+                name: "แผนกซ่อมบำรุงและไฟฟ้า",
+                description: "ดูแลการซ่อมบำรุงอุปกรณ์ เครื่องจักร และระบบไฟฟ้าทั้งภายในและภายนอกองค์กร",
+                url: "https://sites.google.com/view/mouldmatema",
+                icon: "fas fa-tools",
+                iconClass: "maintenance",
+                color: "#ff6b6b"
+            },
+            {
+                id: 2,
+                name: "แผนกเทคโนโลยีสารสนเทศ",
+                description: "จัดการระบบไอที ดูแลเครือข่าย พัฒนาซอฟต์แวร์ และให้การสนับสนุนด้านเทคโนโลยี",
+                url: "https://sarawutc6689-cpu.github.io/Mouldmate-Login/Index_IT.html",
+                icon: "fas fa-laptop-code",
+                iconClass: "it",
+                color: "#4ecdc4"
+            },
+            {
+                id: 3,
+                name: "ฝ่ายทรัพยากรบุคคลและธุรการ",
+                description: "บริหารงานบุคคล ดูแลสวัสดิการ พัฒนาบุคลากร และงานธุรการทั่วไป",
+                url: "https://sarawutc6689-cpu.github.io/Mouldmate-HR/hrsaf.html",
+                icon: "fas fa-users",
+                iconClass: "hr",
+                color: "#ffe66d"
+            },
+            {
+                id: 4,
+                name: "แผนกบริการยานยนต์",
+                description: "ให้บริการด้านยานยนต์ ซ่อมบำรุงรถยนต์ และจัดการระบบขนส่งองค์กร",
+                url: "https://sarawutc6689-cpu.github.io/Mouldmate-Login/Index_AMS.html",
+                icon: "fas fa-car",
+                iconClass: "vehicle",
+                color: "#1a936f"
+            },
+            {
+                id: 5,
+                name: "แผนกบัญชีและการเงิน",
+                description: "จัดการด้านบัญชี การเงิน งบประมาณ ภาษี และรายงานทางการเงินขององค์กร",
+                url: "https://sites.google.com/view/mouldmate-acc/home",
+                icon: "fas fa-calculator",
+                iconClass: "accounting",
+                color: "#9d4edd"
+            }
+        ];
+
+        // ข้อมูลประกาศสำหรับข้อความวิ่ง
+        const announcements = [
+            { text: "🚀 ระบบอัปเดตล่าสุด: เพิ่มความเร็วในการเข้าถึงข้อมูล 30%", icon: "fas fa-rocket" },
+            { text: "📢 โปรดเปลี่ยนรหัสผ่านทุก 90 วันเพื่อความปลอดภัย", icon: "fas fa-shield-alt" },
+            { text: "💡 ระบบใหม่: แจ้งปัญหาได้ผ่านแชทบอท ตลอด 24 ชม.", icon: "fas fa-robot" },
+            { text: "📅 อบรมการใช้ระบบ: ทุกวันพุธ เวลา 13:00-15:00 น.", icon: "fas fa-chalkboard-teacher" },
+            { text: "🏆 แผนก IT ได้รับรางวัลระบบดีเด่นประจำปี 2025", icon: "fas fa-trophy" },
+            { text: "🔧 ซ่อมบำรุงระบบ: วันที่ 25 ของทุกเดือน เวลา 22:00-02:00 น.", icon: "fas fa-tools" },
+            { text: "📈 ประสิทธิภาพองค์กรเพิ่มขึ้น 45% หลังใช้ระบบครบ 1 ปี", icon: "fas fa-chart-line" }
+        ];
+
+        // ฟังก์ชันสร้างข้อความวิ่ง
+        function createMarquee() {
+            const marqueeContainer = document.getElementById('marqueeText');
+            
+            // สร้างเนื้อหาข้อความวิ่งจาก announcements
+            const marqueeItems = announcements.map(announcement => {
+                return `
+                    <span class="marquee-item">
+                        <i class="${announcement.icon} marquee-icon"></i>
+                        ${announcement.text}
+                    </span>
+                `;
+            }).join('');
+            
+            // ทำซ้ำเนื้อหาเพื่อให้วิ่งต่อเนื่องได้อย่างราบรื่น
+            marqueeContainer.innerHTML = marqueeItems + marqueeItems;
+        }
+
+        // ฟังก์ชันสร้างการ์ดแผนก
+        function createDepartmentCard(dept) {
+            return `
+                <div class="department-card" data-dept-id="${dept.id}">
+                    <div class="card-header">
+                        <div class="card-icon ${dept.iconClass}">
+                            <i class="${dept.icon}"></i>
+                        </div>
+                        <div class="card-title">
+                            <h3>${dept.name}</h3>
+                            <p>${dept.description}</p>
+                        </div>
+                    </div>
+                    <div class="card-description">
+                        เข้าสู่ระบบงานของแผนกเพื่อบริหารจัดการงานด้าน${dept.name.split(' ')[0]}
+                    </div>
+                    <div class="card-footer">
+                        <button class="visit-btn" onclick="window.open('${dept.url}', '_blank')">
+                            <i class="fas fa-external-link-alt"></i> เข้าสู่ระบบ
+                        </button>
+                        <a href="${dept.url}" target="_blank" class="external-link">
+                            <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+                </div>
+            `;
+        }
+
+        // ฟังก์ชันแสดงแผนกทั้งหมด
+        function renderDepartments(deptArray) {
+            const grid = document.getElementById('departmentsGrid');
+            
+            if (deptArray.length === 0) {
+                grid.innerHTML = `
+                    <div class="no-results">
+                        <i class="fas fa-search"></i>
+                        <h3>ไม่พบแผนกที่คุณค้นหา</h3>
+                        <p>ลองค้นหาด้วยคำอื่นหรือดูแผนกทั้งหมด</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            grid.innerHTML = deptArray.map(dept => createDepartmentCard(dept)).join('');
+        }
+
+        // ฟังก์ชันค้นหาแผนก
+        function searchDepartments() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            
+            if (!searchTerm) {
+                renderDepartments(departments);
+                return;
+            }
+            
+            const filteredDepts = departments.filter(dept => 
+                dept.name.toLowerCase().includes(searchTerm) || 
+                dept.description.toLowerCase().includes(searchTerm)
+            );
+            
+            renderDepartments(filteredDepts);
+        }
+
+        // ฟังก์ชันเริ่มต้น
+        function init() {
+            // สร้างข้อความวิ่ง
+            createMarquee();
+            
+            // แสดงแผนกทั้งหมดเมื่อโหลดหน้า
+            renderDepartments(departments);
+            
+            // เพิ่ม event listener สำหรับการค้นหา
+            document.getElementById('searchInput').addEventListener('input', searchDepartments);
+            
+            // เพิ่ม event listener สำหรับการกด Enter ในช่องค้นหา
+            document.getElementById('searchInput').addEventListener('keyup', function(event) {
+                if (event.key === 'Enter') {
+                    searchDepartments();
+                }
+            });
+            
+            // อัพเดตข้อความวิ่งแบบสุ่มทุก 10 วินาที (ออฟชั่นเสริม)
+            setInterval(updateRandomAnnouncement, 10000);
+        }
+
+        // ฟังก์ชันอัพเดตข้อความวิ่งแบบสุ่ม (ออฟชั่นเสริม)
+        function updateRandomAnnouncement() {
+            const randomIndex = Math.floor(Math.random() * announcements.length);
+            const randomAnnouncement = announcements[randomIndex];
+            
+            // เพิ่มข้อความใหม่เข้าไปใน announcements เพื่อแสดงในรอบถัดไป
+            announcements.push(randomAnnouncement);
+            
+            // อัพเดตข้อความวิ่ง
+            createMarquee();
+        }
+
+        // เริ่มต้นแอปเมื่อหน้าเว็บโหลดเสร็จ
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
