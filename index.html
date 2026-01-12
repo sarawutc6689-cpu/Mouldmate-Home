@@ -68,16 +68,23 @@
             gap: 15px;
         }
 
-        .logo-icon {
-            font-size: 2.5rem;
-            background: white;
-            color: var(--primary-blue);
+        .logo-image {
             width: 60px;
             height: 60px;
             border-radius: 50%;
+            background: white;
             display: flex;
             align-items: center;
             justify-content: center;
+            overflow: hidden;
+            padding: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
         }
 
         .logo-text h1 {
@@ -153,7 +160,7 @@
             display: inline-flex;
             align-items: center;
             white-space: nowrap;
-            animation: marquee 60s linear infinite;
+            animation: marquee 50s linear infinite;
             padding-left: 100%;
             animation-delay: 2s;
         }
@@ -313,238 +320,6 @@
             font-size: 1.2rem;
         }
 
-        /* AI Chatbot */
-        .chatbot-container {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 1000;
-        }
-
-        .chatbot-toggle {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-            box-shadow: 0 6px 20px rgba(26, 115, 232, 0.3);
-            transition: var(--transition);
-            border: none;
-        }
-
-        .chatbot-toggle:hover {
-            transform: scale(1.1);
-            box-shadow: 0 8px 25px rgba(26, 115, 232, 0.4);
-        }
-
-        .chatbot-toggle.active {
-            transform: rotate(45deg);
-        }
-
-        .chatbot-window {
-            position: absolute;
-            bottom: 80px;
-            right: 0;
-            width: 350px;
-            height: 500px;
-            background: white;
-            border-radius: var(--border-radius);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-            display: none;
-            flex-direction: column;
-            overflow: hidden;
-            border: 1px solid #e0e0e0;
-        }
-
-        .chatbot-window.active {
-            display: flex;
-        }
-
-        .chatbot-header {
-            background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
-            color: white;
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .chatbot-avatar {
-            width: 40px;
-            height: 40px;
-            background: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary-blue);
-            font-size: 1.2rem;
-        }
-
-        .chatbot-header-info h3 {
-            font-size: 1.1rem;
-            margin-bottom: 3px;
-        }
-
-        .chatbot-header-info p {
-            font-size: 0.8rem;
-            opacity: 0.9;
-        }
-
-        .chatbot-close {
-            margin-left: auto;
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.2rem;
-            cursor: pointer;
-        }
-
-        .chatbot-messages {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            background: #f9f9f9;
-        }
-
-        .message {
-            max-width: 80%;
-            padding: 12px 16px;
-            border-radius: 18px;
-            font-size: 0.95rem;
-            line-height: 1.4;
-            animation: messageAppear 0.3s ease;
-        }
-
-        @keyframes messageAppear {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .message.bot {
-            align-self: flex-start;
-            background: white;
-            border: 1px solid #e0e0e0;
-            border-bottom-left-radius: 5px;
-        }
-
-        .message.user {
-            align-self: flex-end;
-            background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
-            color: white;
-            border-bottom-right-radius: 5px;
-        }
-
-        .chatbot-input-container {
-            padding: 20px;
-            border-top: 1px solid #e0e0e0;
-            display: flex;
-            gap: 10px;
-            background: white;
-        }
-
-        .chatbot-input {
-            flex: 1;
-            padding: 12px 16px;
-            border: 1px solid #ddd;
-            border-radius: 24px;
-            font-family: 'Sarabun', sans-serif;
-            font-size: 0.95rem;
-            transition: var(--transition);
-        }
-
-        .chatbot-input:focus {
-            outline: none;
-            border-color: var(--primary-blue);
-            box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
-        }
-
-        .chatbot-send {
-            width: 45px;
-            height: 45px;
-            background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
-            border: none;
-            border-radius: 50%;
-            color: white;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .chatbot-send:hover {
-            transform: scale(1.05);
-        }
-
-        .typing-indicator {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            padding: 12px 16px;
-            background: white;
-            border: 1px solid #e0e0e0;
-            border-radius: 18px;
-            align-self: flex-start;
-            border-bottom-left-radius: 5px;
-            max-width: 80%;
-        }
-
-        .typing-dot {
-            width: 8px;
-            height: 8px;
-            background: #bbb;
-            border-radius: 50%;
-            animation: typingAnimation 1.5s infinite ease-in-out;
-        }
-
-        .typing-dot:nth-child(1) { animation-delay: -0.3s; }
-        .typing-dot:nth-child(2) { animation-delay: -0.15s; }
-        .typing-dot:nth-child(3) { animation-delay: 0s; }
-
-        @keyframes typingAnimation {
-            0%, 60%, 100% { transform: translateY(0); }
-            30% { transform: translateY(-10px); }
-        }
-
-        .quick-questions {
-            padding: 0 20px 15px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            background: #f9f9f9;
-        }
-
-        .quick-question {
-            padding: 8px 15px;
-            background: white;
-            border: 1px solid #e0e0e0;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .quick-question:hover {
-            background: var(--light-blue);
-            border-color: var(--primary-blue);
-        }
-
         /* Footer */
         footer {
             background-color: white;
@@ -566,6 +341,25 @@
             font-weight: 600;
             color: var(--primary-blue);
             font-size: 1.2rem;
+        }
+
+        /* Footer Logo */
+        .footer-logo-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .footer-logo-img {
+            width: 40px;
+            height: 40px;
+        }
+
+        .footer-logo-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
         }
 
         /* No Results */
@@ -617,17 +411,6 @@
             .marquee-content {
                 animation: marquee 20s linear infinite;
             }
-            
-            .chatbot-container {
-                bottom: 20px;
-                right: 20px;
-            }
-            
-            .chatbot-window {
-                width: 300px;
-                height: 450px;
-                right: -10px;
-            }
         }
     </style>
 </head>
@@ -636,8 +419,8 @@
     <header>
         <div class="container header-content">
             <div class="logo-container">
-                <div class="logo-icon">
-                    <i class="fas fa-industry"></i>
+                <div class="logo-image">
+                    <img src="https://sarawutc6689-cpu.github.io/Mouldmate-HR/logotokai.png" alt="TokaiSolidTire Logo" onerror="this.onerror=null; this.src='https://via.placeholder.com/60/1a73e8/FFFFFF?text=T';">
                 </div>
                 <div class="logo-text">
                     <h1>TokaiSolidTire System</h1>
@@ -673,47 +456,15 @@
         </div>
     </main>
 
-    <!-- AI Chatbot -->
-    <div class="chatbot-container">
-        <button class="chatbot-toggle" id="chatbotToggle">
-            <i class="fas fa-robot"></i>
-        </button>
-        
-        <div class="chatbot-window" id="chatbotWindow">
-            <div class="chatbot-header">
-                <div class="chatbot-avatar">
-                    <i class="fas fa-robot"></i>
-                </div>
-                <div class="chatbot-header-info">
-                    <h3>Tokai Assistant</h3>
-                    <p>AI ช่วยเหลือภายในองค์กร</p>
-                </div>
-                <button class="chatbot-close" id="chatbotClose">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            
-            <div class="chatbot-messages" id="chatbotMessages">
-                <!-- Messages will be added here dynamically -->
-            </div>
-            
-            <div class="quick-questions" id="quickQuestions">
-                <!-- Quick questions will be added here -->
-            </div>
-            
-            <div class="chatbot-input-container">
-                <input type="text" class="chatbot-input" id="chatbotInput" placeholder="พิมพ์คำถามของคุณ...">
-                <button class="chatbot-send" id="chatbotSend">
-                    <i class="fas fa-paper-plane"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-
     <!-- Footer -->
     <footer>
         <div class="container footer-content">
-            <div class="footer-logo">TokaiSolidTire System</div>
+            <div class="footer-logo-container">
+                <div class="footer-logo-img">
+                    <img src="https://sarawutc6689-cpu.github.io/Mouldmate-HR/logotokai.png" alt="TokaiSolidTire Logo" onerror="this.onerror=null; this.src='https://via.placeholder.com/40/1a73e8/FFFFFF?text=T';">
+                </div>
+                <div class="footer-logo">TokaiSolidTire System</div>
+            </div>
             <p>© 2026 ระบบบริหารจัดการองค์กรครบวงจร | ออกแบบเพื่อความสะดวกและประสิทธิภาพ</p>
             <span>พัฒนาระบบโดย Sarawut.C</span>
         </div>
@@ -761,7 +512,7 @@
             {
                 id: 5,
                 name: "แผนกบัญชีและการเงิน",
-                description: "จัดการด้านบัญชี การเงิน งบประมาณ ภาษี และราย报告ทางการเงินขององค์กร",
+                description: "จัดการด้านบัญชี การเงิน งบประมาณ ภาษี และรายงานทางการเงินขององค์กร",
                 url: "https://sites.google.com/view/mouldmate-acc/home",
                 icon: "fas fa-calculator",
                 iconClass: "accounting",
@@ -773,103 +524,16 @@
         const announcements = [
             { text: "🚀 ระบบอัปเดตล่าสุด: เพิ่มความเร็วในการเข้าถึงข้อมูล 30%", icon: "fas fa-rocket" },
             { text: "📢 โปรดเปลี่ยนรหัสผ่านทุก 90 วันเพื่อความปลอดภัย", icon: "fas fa-shield-alt" },
-            { text: "💡 ระบบใหม่: แจ้งปัญหาได้ผ่านแชทบอท ตลอด 24 ชม.", icon: "fas fa-robot" },
-            { text: "📅 อบรมการใช้ระบบ: ทุกวันพุธ เวลา 13:00-15:00 น.", icon: "fas fa-chalkboard-teacher" },
-            { text: "🏆 แผนก IT ได้รับรางวัลระบบดีเด่นประจำปี 2025", icon: "fas fa-trophy" },
-            { text: "🔧 ซ่อมบำรุงระบบ: วันที่ 25 ของทุกเดือน เวลา 22:00-02:00 น.", icon: "fas fa-tools" },
-            { text: "📈 ประสิทธิภาพองค์กรเพิ่มขึ้น 45% หลังใช้ระบบครบ 1 ปี", icon: "fas fa-chart-line" }
-        ];
-
-        // AI Chatbot Knowledge Base
-        const chatbotKnowledge = {
-            greetings: {
-                patterns: ["สวัสดี", "hello", "hi", "หวัดดี", "ดี", "หวัดดีคับ", "หวัดดีครับ", "สวัสดีครับ"],
-                responses: [
-                    "สวัสดีครับ! ผมเป็น Tokai Assistant AI ช่วยเหลือภายในองค์กร มีอะไรให้ช่วยไหมครับ? 😊",
-                    "สวัสดีค่ะ! ยินดีช่วยเหลือค่ะ พอดีมีคำถามเกี่ยวกับระบบอะไรไหมคะ?",
-                    "สวัสดีครับ! ยินดีต้อนรับเข้าสู่ระบบ TokaiSolidTire มีอะไรให้ช่วยเหลือครับ?"
-                ]
-            },
-            departments: {
-                patterns: ["แผนก", "department", "ระบบงาน", "เข้าสู่ระบบ", "งาน", "ส่วนงาน"],
-                responses: [
-                    "เรามีแผนกหลักๆ 5 แผนก ได้แก่: \n1. แผนกซ่อมบำรุงและไฟฟ้า \n2. แผนกเทคโนโลยีสารสนเทศ \n3. ฝ่ายทรัพยากรบุคคลและธุรการ \n4. แผนกบริการยานยนต์ \n5. แผนกบัญชีและการเงิน \n\nต้องการทราบข้อมูลเพิ่มเติมของแผนกไหนครับ?",
-                    "ระบบของเราประกอบด้วย 5 แผนกหลัก คุณสามารถคลิกที่การ์ดแผนกเพื่อเข้าสู่ระบบงานได้โดยตรงเลยครับ"
-                ]
-            },
-            maintenance: {
-                patterns: ["ซ่อมบำรุง", "ไฟฟ้า", "maintenance", "เครื่องจักร", "อุปกรณ์"],
-                responses: [
-                    "แผนกซ่อมบำรุงและไฟฟ้า ดูแลการซ่อมบำรุงอุปกรณ์ เครื่องจักร และระบบไฟฟ้าทั้งภายในและภายนอกองค์กร \n🔗 ลิงก์ระบบ: https://sites.google.com/view/mouldmatema",
-                    "หากมีปัญหาเกี่ยวกับอุปกรณ์หรือระบบไฟฟ้า สามารถติดต่อแผนกซ่อมบำรุงได้ที่เบอร์ 02-XXX-XXXX ต่อ 101"
-                ]
-            },
-            it: {
-                patterns: ["ไอที", "it", "คอมพิวเตอร์", "ระบบ", "โปรแกรม", "ซอฟต์แวร์", "อินเทอร์เน็ต"],
-                responses: [
-                    "แผนกเทคโนโลยีสารสนเทศ (IT) จัดการระบบไอที ดูแลเครือข่าย พัฒนาซอฟต์แวร์ และให้การสนับสนุนด้านเทคโนโลยี \n🔗 ลิงก์ระบบ: https://sarawutc6689-cpu.github.io/Mouldmate-Login/Index_IT.html",
-                    "มีปัญหาเรื่องคอมพิวเตอร์หรือระบบไอทีติดต่อแผนก IT ได้ที่เบอร์ 02-XXX-XXXX ต่อ 102 หรือแจ้งผ่านระบบ Helpdesk ได้เลยครับ"
-                ]
-            },
-            hr: {
-                patterns: ["บุคคล", "hr", "ทรัพยากร", "สวัสดิการ", "เงินเดือน", "ลางาน", "ประกัน"],
-                responses: [
-                    "ฝ่ายทรัพยากรบุคคลและธุรการ ดูแลงานบุคคล สวัสดิการ พัฒนาบุคลากร และงานธุรการทั่วไป \n🔗 ลิงก์ระบบ: https://sarawutc6689-cpu.github.io/Mouldmate-HR/hrsaf.html",
-                    "เรื่องลางาน เงินเดือน สวัสดิการ หรือเอกสารประกันสังคม ติดต่อฝ่ายบุคคลได้ที่เบอร์ 02-XXX-XXXX ต่อ 103"
-                ]
-            },
-            vehicle: {
-                patterns: ["รถ", "ยานยนต์", "ขนส่ง", "ขับรถ", "vehicle", "car", "รถยนต์"],
-                responses: [
-                    "แผนกบริการยานยนต์ ให้บริการด้านยานยนต์ ซ่อมบำรุงรถยนต์ และจัดการระบบขนส่งองค์กร \n🔗 ลิงก์ระบบ: https://sarawutc6689-cpu.github.io/Mouldmate-Login/Index_AMS.html",
-                    "ต้องการใช้บริการรถบริษัทหรือแจ้งซ่อมรถ ติดต่อแผนกยานยนต์ได้ที่เบอร์ 02-XXX-XXXX ต่อ 104"
-                ]
-            },
-            accounting: {
-                patterns: ["บัญชี", "การเงิน", "เงิน", "invoice", "invoice", "ภาษี", "งบประมาณ"],
-                responses: [
-                    "แผนกบัญชีและการเงิน จัดการด้านบัญชี การเงิน งบประมาณ ภาษี และรายงานทางการเงินขององค์กร \n🔗 ลิงก์ระบบ: https://sites.google.com/view/mouldmate-acc/home",
-                    "เรื่องใบแจ้งหนี้ งบประมาณ หรือภาษี ติดต่อแผนกบัญชีได้ที่เบอร์ 02-XXX-XXXX ต่อ 105"
-                ]
-            },
-            contact: {
-                patterns: ["ติดต่อ", "เบอร์", "โทร", "contact", "phone", "email", "อีเมล"],
-                responses: [
-                    "ข้อมูลติดต่อองค์กร: \n📞 เบอร์สำนักงาน: 02-XXX-XXXX \n📧 อีเมล: info@tokaisolidtire.co.th \n📍 ที่อยู่: 123 ถนนธุรกิจ แขวงสีลม เขตบางรัก กทม. 10500",
-                    "หากต้องการติดต่อแผนกเฉพาะทาง สามารถดูเบอร์ต่อได้จากข้อมูลแผนกแต่ละแผนกเลยครับ"
-                ]
-            },
-            thanks: {
-                patterns: ["ขอบคุณ", "thank", "thanks", "ขอบใจ", "ดีมาก"],
-                responses: [
-                    "ยินดีช่วยเหลือครับ! 😊 มีอะไรให้ช่วยอีกไหมครับ?",
-                    "ด้วยความยินดีครับ! 👍 ถ้ามีคำถามเพิ่มเติม ติดต่อมาได้ตลอดนะครับ",
-                    "ไม่เป็นไรครับ! ยินดีช่วยเหลือเสมอ 😄"
-                ]
-            },
-            unknown: {
-                patterns: [],
-                responses: [
-                    "ขออภัยครับ ฉันยังไม่เข้าใจคำถามนี้ ลองถามใหม่หรือถามเกี่ยวกับแผนกในองค์กรได้ไหมครับ?",
-                    "ฉันยังเรียนรู้อยู่ครับ 😅 ลองถามเกี่ยวกับแผนกต่างๆ ในระบบ TokaiSolidTire ดูสิครับ",
-                    "ตอนนี้ฉันสามารถช่วยตอบคำถามเกี่ยวกับแผนกต่างๆ ในองค์กรได้ครับ ลองถามดูนะครับ!"
-                ]
-            }
-        };
-
-        // Quick questions for chatbot
-        const quickQuestions = [
-            "แผนกซ่อมบำรุงอยู่ที่ไหน?",
-            "ติดต่อแผนก IT ยังไง?",
-            "ระบบ HR ใช้ทำอะไร?",
-            "เบอร์ติดต่อบริษัท",
-            "มีแผนกอะไรบ้าง?"
+            { text: "💡 ระบบใหม่: แจ้งปัญหาได้ตลอด 24 ชม.", icon: "fas fa-robot" },
+            { text: "🔧 ซ่อมบำรุงระบบ: วันที่ 25 ของทุกเดือน เวลา 20:00-00:00 น.", icon: "fas fa-tools" },
+            { text: "📈 ประสิทธิภาพองค์กรเพิ่มขึ้น", icon: "fas fa-chart-line" }
         ];
 
         // ฟังก์ชันสร้างข้อความวิ่ง
         function createMarquee() {
             const marqueeContainer = document.getElementById('marqueeText');
             
+            // สร้างเนื้อหาข้อความวิ่งจาก announcements
             const marqueeItems = announcements.map(announcement => {
                 return `
                     <span class="marquee-item">
@@ -879,6 +543,7 @@
                 `;
             }).join('');
             
+            // ทำซ้ำเนื้อหาเพื่อให้วิ่งต่อเนื่องได้อย่างราบรื่น
             marqueeContainer.innerHTML = marqueeItems + marqueeItems;
         }
 
@@ -945,154 +610,6 @@
             renderDepartments(filteredDepts);
         }
 
-        // ========== AI CHATBOT FUNCTIONS ==========
-        
-        // Initialize chatbot
-        function initChatbot() {
-            const chatbotToggle = document.getElementById('chatbotToggle');
-            const chatbotWindow = document.getElementById('chatbotWindow');
-            const chatbotClose = document.getElementById('chatbotClose');
-            const chatbotSend = document.getElementById('chatbotSend');
-            const chatbotInput = document.getElementById('chatbotInput');
-            const chatbotMessages = document.getElementById('chatbotMessages');
-            const quickQuestionsContainer = document.getElementById('quickQuestions');
-            
-            // Add quick questions
-            quickQuestions.forEach(question => {
-                const button = document.createElement('button');
-                button.className = 'quick-question';
-                button.textContent = question;
-                button.addEventListener('click', () => {
-                    sendMessage(question);
-                });
-                quickQuestionsContainer.appendChild(button);
-            });
-            
-            // Toggle chatbot window
-            chatbotToggle.addEventListener('click', () => {
-                chatbotToggle.classList.toggle('active');
-                chatbotWindow.classList.toggle('active');
-                
-                // Add welcome message when opening first time
-                if (chatbotWindow.classList.contains('active') && chatbotMessages.children.length === 0) {
-                    setTimeout(() => {
-                        addBotMessage("สวัสดีครับ! ผมเป็น Tokai Assistant AI ช่วยเหลือภายในองค์กร มีอะไรให้ช่วยไหมครับ? 😊");
-                    }, 300);
-                }
-            });
-            
-            // Close chatbot window
-            chatbotClose.addEventListener('click', () => {
-                chatbotToggle.classList.remove('active');
-                chatbotWindow.classList.remove('active');
-            });
-            
-            // Send message on button click
-            chatbotSend.addEventListener('click', () => {
-                sendMessage(chatbotInput.value);
-            });
-            
-            // Send message on Enter key
-            chatbotInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    sendMessage(chatbotInput.value);
-                }
-            });
-            
-            // Function to send message
-            function sendMessage(message) {
-                if (!message.trim()) return;
-                
-                // Add user message
-                addUserMessage(message);
-                
-                // Clear input
-                chatbotInput.value = '';
-                
-                // Show typing indicator
-                showTypingIndicator();
-                
-                // Simulate AI thinking
-                setTimeout(() => {
-                    // Remove typing indicator
-                    removeTypingIndicator();
-                    
-                    // Get AI response
-                    const aiResponse = getAIResponse(message);
-                    
-                    // Add bot message
-                    addBotMessage(aiResponse);
-                }, 1000 + Math.random() * 1000);
-            }
-            
-            // Function to add user message
-            function addUserMessage(text) {
-                const messageDiv = document.createElement('div');
-                messageDiv.className = 'message user';
-                messageDiv.textContent = text;
-                chatbotMessages.appendChild(messageDiv);
-                scrollToBottom();
-            }
-            
-            // Function to add bot message
-            function addBotMessage(text) {
-                const messageDiv = document.createElement('div');
-                messageDiv.className = 'message bot';
-                messageDiv.textContent = text;
-                chatbotMessages.appendChild(messageDiv);
-                scrollToBottom();
-            }
-            
-            // Function to show typing indicator
-            function showTypingIndicator() {
-                const typingDiv = document.createElement('div');
-                typingDiv.className = 'typing-indicator';
-                typingDiv.id = 'typingIndicator';
-                typingDiv.innerHTML = `
-                    <div class="typing-dot"></div>
-                    <div class="typing-dot"></div>
-                    <div class="typing-dot"></div>
-                `;
-                chatbotMessages.appendChild(typingDiv);
-                scrollToBottom();
-            }
-            
-            // Function to remove typing indicator
-            function removeTypingIndicator() {
-                const typingIndicator = document.getElementById('typingIndicator');
-                if (typingIndicator) {
-                    typingIndicator.remove();
-                }
-            }
-            
-            // Function to scroll to bottom
-            function scrollToBottom() {
-                chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
-            }
-            
-            // Function to get AI response
-            function getAIResponse(userMessage) {
-                const message = userMessage.toLowerCase();
-                
-                // Check for matches in knowledge base
-                for (const category in chatbotKnowledge) {
-                    if (category === 'unknown') continue;
-                    
-                    const patterns = chatbotKnowledge[category].patterns;
-                    for (const pattern of patterns) {
-                        if (message.includes(pattern.toLowerCase())) {
-                            const responses = chatbotKnowledge[category].responses;
-                            return responses[Math.floor(Math.random() * responses.length)];
-                        }
-                    }
-                }
-                
-                // Default response for unknown queries
-                const unknownResponses = chatbotKnowledge.unknown.responses;
-                return unknownResponses[Math.floor(Math.random() * unknownResponses.length)];
-            }
-        }
-
         // ฟังก์ชันเริ่มต้น
         function init() {
             // สร้างข้อความวิ่ง
@@ -1111,8 +628,20 @@
                 }
             });
             
-            // Initialize chatbot
-            initChatbot();
+            // อัพเดตข้อความวิ่งแบบสุ่มทุก 10 วินาที (ออฟชั่นเสริม)
+            setInterval(updateRandomAnnouncement, 10000);
+        }
+
+        // ฟังก์ชันอัพเดตข้อความวิ่งแบบสุ่ม (ออฟชั่นเสริม)
+        function updateRandomAnnouncement() {
+            const randomIndex = Math.floor(Math.random() * announcements.length);
+            const randomAnnouncement = announcements[randomIndex];
+            
+            // เพิ่มข้อความใหม่เข้าไปใน announcements เพื่อแสดงในรอบถัดไป
+            announcements.push(randomAnnouncement);
+            
+            // อัพเดตข้อความวิ่ง
+            createMarquee();
         }
 
         // เริ่มต้นแอปเมื่อหน้าเว็บโหลดเสร็จ
