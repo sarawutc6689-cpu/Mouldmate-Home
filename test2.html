@@ -596,10 +596,7 @@
                 </div>
                 <div class="notice-board-controls">
                     <button class="notice-board-btn" id="showAllBtn">
-                        <i class="fas fa-eye"></i> แสดงทั้งหมด
-                    </button>
-                    <button class="notice-board-btn" id="markAllReadBtn">
-                        <i class="fas fa-check-double"></i> อ่านทั้งหมด
+                        <i class="fas fa-eye"></i> แสดง
                     </button>
                     <button class="notice-board-btn" id="toggleNoticesBtn">
                         <i class="fas fa-chevron-down"></i> ซ่อนประกาศ
@@ -766,17 +763,6 @@
                             <h4 style="margin: 0; font-size: 1.1rem;">${notice.title}</h4>
                         </div>
                         <p style="margin-left: 30px;">${notice.content}</p>
-                    </div>
-                    <div class="notice-card-footer">
-                        <span class="notice-status">
-                            ${notice.read ? 
-                                '<i class="fas fa-check-circle" style="color: #4caf50;"></i> อ่านแล้ว' : 
-                                '<i class="far fa-circle" style="color: #ff9800;"></i> ยังไม่อ่าน'
-                            }
-                        </span>
-                        <button class="notice-card-close" onclick="markAsRead(${notice.id})">
-                            <i class="fas fa-times"></i> ปิด
-                        </button>
                     </div>
                 </div>
             `;
