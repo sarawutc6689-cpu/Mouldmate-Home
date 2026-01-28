@@ -18,6 +18,10 @@
             --card-shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.12);
             --border-radius: 12px;
             --transition: all 0.3s ease;
+            --notice-urgent: #ff5252;
+            --notice-info: #2196f3;
+            --notice-warning: #ff9800;
+            --notice-success: #4caf50;
         }
 
         * {
@@ -131,64 +135,177 @@
             font-size: 1.2rem;
         }
 
-        /* Marquee Section */
-        .marquee-container {
-            background: linear-gradient(90deg, #f0f7ff, #e8f0fe);
+        /* Notice Board Section */
+        .notice-board-container {
+            background: white;
             border-radius: var(--border-radius);
-            padding: 15px 20px;
+            padding: 20px;
             margin-bottom: 30px;
-            border-left: 5px solid var(--primary-blue);
             box-shadow: var(--card-shadow);
-            overflow: hidden;
-            position: relative;
+            border-top: 5px solid var(--primary-blue);
         }
 
-        .marquee-label {
-            display: inline-block;
-            background-color: var(--primary-blue);
-            color: white;
-            padding: 6px 15px;
-            border-radius: 20px;
-            font-family: 'Kanit', sans-serif;
-            font-weight: 500;
-            font-size: 0.9rem;
-            margin-right: 20px;
-            white-space: nowrap;
-        }
-
-        .marquee-content {
-            display: inline-flex;
+        .notice-board-header {
+            display: flex;
+            justify-content: space-between;
             align-items: center;
-            white-space: nowrap;
-            animation: marquee 50s linear infinite;
-            padding-left: 100%;
-            animation-delay: 2s;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
         }
 
-        .marquee-content:hover {
-            animation-play-state: paused;
-        }
-
-        .marquee-item {
-            display: inline-flex;
+        .notice-board-title {
+            display: flex;
             align-items: center;
-            margin-right: 40px;
+            gap: 10px;
+        }
+
+        .notice-board-title h3 {
+            font-size: 1.4rem;
             color: var(--text-dark);
         }
 
-        .marquee-icon {
+        .notice-board-icon {
+            background-color: var(--primary-blue);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .notice-board-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .notice-board-btn {
+            background-color: var(--light-blue);
             color: var(--primary-blue);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-family: 'Kanit', sans-serif;
+            font-weight: 400;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .notice-board-btn:hover {
+            background-color: #dce8ff;
+        }
+
+        .notice-board-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .notice-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid var(--notice-info);
+            transition: var(--transition);
+            border: 1px solid #eee;
+        }
+
+        .notice-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .notice-card.urgent {
+            border-left-color: var(--notice-urgent);
+        }
+
+        .notice-card.warning {
+            border-left-color: var(--notice-warning);
+        }
+
+        .notice-card.success {
+            border-left-color: var(--notice-success);
+        }
+
+        .notice-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .notice-card-type {
+            font-size: 0.8rem;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 500;
+            font-family: 'Kanit', sans-serif;
+        }
+
+        .notice-card-type.info {
+            background-color: rgba(33, 150, 243, 0.1);
+            color: var(--notice-info);
+        }
+
+        .notice-card-type.urgent {
+            background-color: rgba(255, 82, 82, 0.1);
+            color: var(--notice-urgent);
+        }
+
+        .notice-card-type.warning {
+            background-color: rgba(255, 152, 0, 0.1);
+            color: var(--notice-warning);
+        }
+
+        .notice-card-type.success {
+            background-color: rgba(76, 175, 80, 0.1);
+            color: var(--notice-success);
+        }
+
+        .notice-card-content {
+            margin-bottom: 10px;
+            color: var(--text-dark);
+        }
+
+        .notice-card-icon {
             margin-right: 10px;
             font-size: 1.1rem;
         }
 
-        @keyframes marquee {
-            0% {
-                transform: translateX(0);
-            }
-            100% {
-                transform: translateX(-100%);
-            }
+        .notice-card-icon.info {
+            color: var(--notice-info);
+        }
+
+        .notice-card-icon.urgent {
+            color: var(--notice-urgent);
+        }
+
+        .notice-card-icon.warning {
+            color: var(--notice-warning);
+        }
+
+        .notice-card-icon.success {
+            color: var(--notice-success);
+        }
+
+        .empty-notices {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-light);
+        }
+
+        .empty-notices i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #ddd;
         }
 
         /* Main Content */
@@ -388,6 +505,10 @@
                 justify-content: center;
             }
             
+            .notice-board-grid {
+                grid-template-columns: 1fr;
+            }
+            
             .departments-grid {
                 grid-template-columns: 1fr;
                 gap: 20px;
@@ -397,51 +518,140 @@
                 font-size: 1.6rem;
             }
             
-            .marquee-container {
-                padding: 12px 15px;
+            .notice-board-header {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
             }
             
-            .marquee-label {
-                display: block;
-                margin-right: 0;
-                margin-bottom: 10px;
-                width: fit-content;
+            .notice-board-controls {
+                width: 100%;
+                justify-content: space-between;
             }
-            
-            .marquee-content {
-                animation: marquee 20s linear infinite;
-            }
+
+             .search-register-container {
+        flex-direction: column;
+        gap: 15px;
+        max-width: 100%;
+    }
+    
+    .register-btn-container {
+        margin-left: 0;
+        width: 100%;
+    }
+    
+    .register-btn {
+        width: 100%;
+        justify-content: center;
+    }
         }
+
+        /* Register Button */
+.register-btn-container {
+    margin-left: 15px;
+}
+
+.register-btn {
+    background: linear-gradient(135deg, #34a853, #2e8b57);
+    color: white;
+    border: none;
+    padding: 14px 20px;
+    border-radius: 50px;
+    font-family: 'Kanit', sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    box-shadow: 0 4px 12px rgba(52, 168, 83, 0.2);
+}
+
+.register-btn:hover {
+    background: linear-gradient(135deg, #2e8b57, #267349);
+    box-shadow: 0 6px 16px rgba(52, 168, 83, 0.3);
+    transform: translateY(-2px);
+}
+
+.register-btn:active {
+    transform: translateY(0);
+}
+
+/* Header layout adjustment */
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.search-register-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 650px;
+    margin: 25px auto 0;
+}
+
+/* Update the existing search-container */
+.search-container {
+    flex-grow: 1;
+    margin: 0;
+    position: relative;
+}
     </style>
 </head>
 <body>
     <!-- Header -->
     <header>
-        <div class="container header-content">
-            <div class="logo-container">
-                <div class="logo-image">
-                    <img src="https://sarawutc6689-cpu.github.io/Mouldmate-HR/logotokai.png" alt="TokaiSolidTire Logo" onerror="this.onerror=null; this.src='https://via.placeholder.com/60/1a73e8/FFFFFF?text=T';">
-                </div>
-                <div class="logo-text">
-                    <h1>TokaiSolidTire System</h1>
-                    <p>ระบบบริหารจัดการองค์กร</p>
-                </div>
+    <div class="container header-content">
+        <div class="logo-container">
+            <div class="logo-image">
+                <img src="https://sarawutc6689-cpu.github.io/Mouldmate-HR/logotokai.png" alt="TokaiSolidTire Logo" onerror="this.onerror=null; this.src='https://via.placeholder.com/60/1a73e8/FFFFFF?text=T';">
             </div>
-            
+            <div class="logo-text">
+                <h1>TokaiSolidTire System</h1>
+                <p>ระบบบริหารจัดการองค์กร</p>
+            </div>
+        </div>
+        
+        <div class="search-register-container">
             <div class="search-container">
                 <i class="fas fa-search search-icon"></i>
                 <input type="text" class="search-bar" id="searchInput" placeholder="ค้นหาแผนก...">
             </div>
+            <div class="register-btn-container">
+                <button class="register-btn" id="registerBtn">
+                    <i class="fas fa-user-plus"></i> ลงทะเบียนขอเข้าระบบ
+                </button>
+            </div>
         </div>
-    </header>
+    </div>
+</header>
 
     <!-- Main Content -->
     <main class="container">
-        <!-- Marquee Announcement -->
-        <div class="marquee-container">
-            <span class="marquee-label">ประกาศ</span>
-            <div class="marquee-content" id="marqueeText">
-                <!-- Marquee items will be generated by JavaScript -->
+        <!-- Notice Board Section -->
+        <div class="notice-board-container">
+            <div class="notice-board-header">
+                <div class="notice-board-title">
+                    <div class="notice-board-icon">
+                        <i class="fas fa-bullhorn"></i>
+                    </div>
+                    <h3>กระดานประกาศองค์กร</h3>
+                    <span id="noticeCount" style="background-color: var(--primary-blue); color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.9rem; margin-left: 10px;">5</span>
+                </div>
+                <div class="notice-board-controls">
+                    <button class="notice-board-btn" id="toggleNoticesBtn">
+                        <i class="fas fa-chevron-down"></i> ซ่อนประกาศ
+                    </button>
+                </div>
+            </div>
+            
+            <div class="notice-board-grid" id="noticeBoard">
+                <!-- Notice cards will be generated by JavaScript -->
             </div>
         </div>
 
@@ -520,31 +730,98 @@
             }
         ];
 
-        // ข้อมูลประกาศสำหรับข้อความวิ่ง
+        // ข้อมูลประกาศสำหรับกระดานประกาศ
         const announcements = [
-            { text: "🚀 ระบบอัปเดตล่าสุด: เพิ่มความเร็วในการเข้าถึงข้อมูล 30%", icon: "fas fa-rocket" },
-            { text: "📢 โปรดเปลี่ยนรหัสผ่านทุก 90 วันเพื่อความปลอดภัย", icon: "fas fa-shield-alt" },
-            { text: "💡 ระบบใหม่: แจ้งปัญหาได้ตลอด 24 ชม.", icon: "fas fa-robot" },
-            { text: "🔧 ซ่อมบำรุงระบบ: วันที่ 25 ของทุกเดือน เวลา 20:00-00:00 น.", icon: "fas fa-tools" },
-            { text: "📈 ประสิทธิภาพองค์กรเพิ่มขึ้น", icon: "fas fa-chart-line" }
+            {
+                id: 1,
+                title: "ระบบอัปเดตล่าสุด",
+                content: "เพิ่มความเร็วในการเข้าถึงข้อมูล 30% และเพิ่มฟังก์ชันการทำงานใหม่",
+                type: "info",
+                icon: "fas fa-rocket"
+            },
+            {
+                id: 2,
+                title: "นโยบายความปลอดภัยใหม่",
+                content: "โปรดเปลี่ยนรหัสผ่านทุก 90 วันเพื่อความปลอดภัยของข้อมูลองค์กร",
+                type: "warning",
+                icon: "fas fa-shield-alt"
+            },
+            {
+                id: 3,
+                title: "ระบบแจ้งปัญหาผ่านช่องทางใหม่",
+                content: "แจ้งปัญหาได้ตลอด 24 ชม. ผ่านระบบออนไลน์และแอปพลิเคชันมือถือ",
+                type: "success",
+                icon: "fas fa-robot"
+            },
+            {
+                id: 4,
+                title: "ซ่อมบำรุงระบบ Helpdesk ประจำเดือน",
+                content: "วันที่ 25 ของทุกเดือน เวลา 20:00-00:00 น. ระบบอาจหยุดให้บริการชั่วคราว",
+                type: "warning",
+                icon: "fas fa-tools"
+            },
+            {
+                id: 5,
+                title: "รายงานประสิทธิภาพองค์กร",
+                content: "ประสิทธิภาพองค์กรเพิ่มขึ้น 10% ในเดือนที่ผ่านมา",
+                type: "success",
+                icon: "fas fa-chart-line"
+            },
+            {
+                id: 6,
+                title: "ประกาศด่วน! ระบบ Helpdesk สำรองข้อมูล",
+                content: "จะมีทดสอบระบบการสำรองข้อมูลทั้งหมดในวันที่ 31 มกราคม 2026 เวลา 21:00 น. อาจส่งผลกระทบต่อการใช้งาน",
+                type: "urgent",
+                icon: "fas fa-exclamation-triangle"
+            }
         ];
 
-        // ฟังก์ชันสร้างข้อความวิ่ง
-        function createMarquee() {
-            const marqueeContainer = document.getElementById('marqueeText');
+        // ฟังก์ชันสร้างการ์ดประกาศ
+        function createNoticeCard(notice) {
+            return `
+                <div class="notice-card ${notice.type}" data-notice-id="${notice.id}">
+                    <div class="notice-card-header">
+                        <span class="notice-card-type ${notice.type}">
+                            ${getTypeLabel(notice.type)}
+                        </span>
+                    </div>
+                    <div class="notice-card-content">
+                        <div style="display: flex; align-items: flex-start; margin-bottom: 10px;">
+                            <i class="${notice.icon} notice-card-icon ${notice.type}"></i>
+                            <h4 style="margin: 0; font-size: 1.1rem;">${notice.title}</h4>
+                        </div>
+                        <p style="margin-left: 30px;">${notice.content}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // ฟังก์ชันแสดงประกาศทั้งหมด
+        function renderNotices(noticeArray) {
+            const noticeBoard = document.getElementById('noticeBoard');
+            const noticeCount = document.getElementById('noticeCount');
             
-            // สร้างเนื้อหาข้อความวิ่งจาก announcements
-            const marqueeItems = announcements.map(announcement => {
-                return `
-                    <span class="marquee-item">
-                        <i class="${announcement.icon} marquee-icon"></i>
-                        ${announcement.text}
-                    </span>
+            // แสดงจำนวนประกาศทั้งหมด
+            noticeCount.textContent = noticeArray.length;
+            
+            if (noticeArray.length === 0) {
+                noticeBoard.innerHTML = `
+                    <div class="empty-notices">
+                        <i class="far fa-bell-slash"></i>
+                        <h3>ไม่มีประกาศในขณะนี้</h3>
+                        <p>เมื่อมีประกาศใหม่จะปรากฏที่นี่</p>
+                    </div>
                 `;
-            }).join('');
+                return;
+            }
             
-            // ทำซ้ำเนื้อหาเพื่อให้วิ่งต่อเนื่องได้อย่างราบรื่น
-            marqueeContainer.innerHTML = marqueeItems + marqueeItems;
+            // เรียงลำดับประกาศ: ด่วนมาก่อน > เตือน > ข้อมูล > สำเร็จ
+            const sortedNotices = [...noticeArray].sort((a, b) => {
+                const typeOrder = { urgent: 0, warning: 1, info: 2, success: 3 };
+                return typeOrder[a.type] - typeOrder[b.type];
+            });
+            
+            noticeBoard.innerHTML = sortedNotices.map(notice => createNoticeCard(notice)).join('');
         }
 
         // ฟังก์ชันสร้างการ์ดแผนก
@@ -610,10 +887,37 @@
             renderDepartments(filteredDepts);
         }
 
+        // ฟังก์ชันย่อยช่วยเหลือ
+        function getTypeLabel(type) {
+            const labels = {
+                'info': 'ข้อมูล',
+                'urgent': 'ด่วน',
+                'warning': 'เตือน',
+                'success': 'สำเร็จ'
+            };
+            return labels[type] || type;
+        }
+        
+        function toggleNoticesVisibility() {
+            const noticeBoard = document.getElementById('noticeBoard');
+            const toggleBtn = document.getElementById('toggleNoticesBtn');
+            const icon = toggleBtn.querySelector('i');
+            
+            if (noticeBoard.style.display === 'none') {
+                noticeBoard.style.display = 'grid';
+                icon.className = 'fas fa-chevron-down';
+                toggleBtn.innerHTML = '<i class="fas fa-chevron-down"></i> ซ่อนประกาศ';
+            } else {
+                noticeBoard.style.display = 'none';
+                icon.className = 'fas fa-chevron-up';
+                toggleBtn.innerHTML = '<i class="fas fa-chevron-up"></i> แสดงประกาศ';
+            }
+        }
+
         // ฟังก์ชันเริ่มต้น
         function init() {
-            // สร้างข้อความวิ่ง
-            createMarquee();
+            // แสดงประกาศทั้งหมด
+            renderNotices(announcements);
             
             // แสดงแผนกทั้งหมดเมื่อโหลดหน้า
             renderDepartments(departments);
@@ -628,24 +932,27 @@
                 }
             });
             
-            // อัพเดตข้อความวิ่งแบบสุ่มทุก 10 วินาที (ออฟชั่นเสริม)
-            setInterval(updateRandomAnnouncement, 10000);
-        }
-
-        // ฟังก์ชันอัพเดตข้อความวิ่งแบบสุ่ม (ออฟชั่นเสริม)
-        function updateRandomAnnouncement() {
-            const randomIndex = Math.floor(Math.random() * announcements.length);
-            const randomAnnouncement = announcements[randomIndex];
-            
-            // เพิ่มข้อความใหม่เข้าไปใน announcements เพื่อแสดงในรอบถัดไป
-            announcements.push(randomAnnouncement);
-            
-            // อัพเดตข้อความวิ่ง
-            createMarquee();
+            // เพิ่ม event listener สำหรับปุ่มซ่อน/แสดงประกาศ
+            document.getElementById('toggleNoticesBtn').addEventListener('click', toggleNoticesVisibility);
         }
 
         // เริ่มต้นแอปเมื่อหน้าเว็บโหลดเสร็จ
         document.addEventListener('DOMContentLoaded', init);
+
+        // เพิ่มฟังก์ชันสำหรับปุ่มลงทะเบียน
+function handleRegisterClick() {
+    alert("ระบบลงทะเบียนขอเข้าถึงระบบ\n\nกรุณาติดต่อแผนกไอที (IT Department)\nเพื่อขอรับสิทธิ์การเข้าถึงระบบ\n\nโทร: 02-XXX-XXXX ต่อ 123\nอีเมล: it-support@tokaisolidtire.com");
+    // หรือสามารถเปลี่ยนเป็นเปิดหน้าลงทะเบียนได้
+    // window.open('https://example.com/register', '_blank');
+}
+
+// ในฟังก์ชัน init() ให้เพิ่ม event listener สำหรับปุ่มลงทะเบียน
+function init() {
+    // ... existing code ...
+    
+    // เพิ่ม event listener สำหรับปุ่มลงทะเบียน
+    document.getElementById('registerBtn').addEventListener('click', handleRegisterClick);
+}
     </script>
 </body>
 </html>
