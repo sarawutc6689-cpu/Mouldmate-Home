@@ -22,6 +22,8 @@
             --notice-info: #2196f3;
             --notice-warning: #ff9800;
             --notice-success: #4caf50;
+            --success-green: #34a853;
+            --success-green-dark: #2e8b47;
         }
 
         * {
@@ -101,11 +103,19 @@
             opacity: 0.9;
         }
 
+        /* Header Search and Button Container */
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            width: 100%;
+            max-width: 700px;
+            margin: 25px auto 0;
+        }
+
         /* Search Bar */
         .search-container {
-            width: 100%;
-            max-width: 500px;
-            margin: 25px auto 0;
+            flex: 1;
             position: relative;
         }
 
@@ -133,6 +143,35 @@
             transform: translateY(-50%);
             color: var(--text-light);
             font-size: 1.2rem;
+        }
+
+        /* Register Button */
+        .register-btn {
+            background-color: var(--success-green);
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            border-radius: 50px;
+            font-family: 'Kanit', sans-serif;
+            font-weight: 500;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+            box-shadow: 0 4px 12px rgba(52, 168, 83, 0.3);
+        }
+
+        .register-btn:hover {
+            background-color: var(--success-green-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(52, 168, 83, 0.4);
+        }
+
+        .register-btn i {
+            font-size: 1.1rem;
         }
 
         /* Notice Board Section */
@@ -493,6 +532,145 @@
             color: #ccc;
         }
 
+        /* Registration Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--success-green), var(--success-green-dark));
+            color: white;
+            padding: 20px;
+            border-top-left-radius: var(--border-radius);
+            border-top-right-radius: var(--border-radius);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+
+        .close-modal:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .modal-body {
+            padding: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-dark);
+            font-family: 'Kanit', sans-serif;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: 'Sarabun', sans-serif;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--success-green);
+            box-shadow: 0 0 0 3px rgba(52, 168, 83, 0.1);
+        }
+
+        .modal-footer {
+            padding: 20px 25px;
+            background-color: #f9f9f9;
+            border-bottom-left-radius: var(--border-radius);
+            border-bottom-right-radius: var(--border-radius);
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+        }
+
+        .btn-secondary {
+            background-color: #f1f3f4;
+            color: var(--text-dark);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-family: 'Kanit', sans-serif;
+            font-weight: 400;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-secondary:hover {
+            background-color: #e8eaed;
+        }
+
+        .btn-primary {
+            background-color: var(--success-green);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-family: 'Kanit', sans-serif;
+            font-weight: 400;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--success-green-dark);
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .header-content {
@@ -502,6 +680,21 @@
             }
             
             .logo-container {
+                justify-content: center;
+            }
+            
+            .header-controls {
+                flex-direction: column;
+                gap: 15px;
+                max-width: 100%;
+            }
+            
+            .search-container {
+                width: 100%;
+            }
+            
+            .register-btn {
+                width: 100%;
                 justify-content: center;
             }
             
@@ -528,108 +721,89 @@
                 width: 100%;
                 justify-content: space-between;
             }
-
-             .search-register-container {
-        flex-direction: column;
-        gap: 15px;
-        max-width: 100%;
-    }
-    
-    .register-btn-container {
-        margin-left: 0;
-        width: 100%;
-    }
-    
-    .register-btn {
-        width: 100%;
-        justify-content: center;
-    }
+            
+            .modal-content {
+                width: 95%;
+            }
         }
-
-        /* Register Button */
-.register-btn-container {
-    margin-left: 15px;
-}
-
-.register-btn {
-    background: linear-gradient(135deg, #34a853, #2e8b57);
-    color: white;
-    border: none;
-    padding: 14px 20px;
-    border-radius: 50px;
-    font-family: 'Kanit', sans-serif;
-    font-size: 1rem;
-    font-weight: 400;
-    cursor: pointer;
-    transition: var(--transition);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    white-space: nowrap;
-    box-shadow: 0 4px 12px rgba(52, 168, 83, 0.2);
-}
-
-.register-btn:hover {
-    background: linear-gradient(135deg, #2e8b57, #267349);
-    box-shadow: 0 6px 16px rgba(52, 168, 83, 0.3);
-    transform: translateY(-2px);
-}
-
-.register-btn:active {
-    transform: translateY(0);
-}
-
-/* Header layout adjustment */
-.header-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-}
-
-.search-register-container {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    max-width: 650px;
-    margin: 25px auto 0;
-}
-
-/* Update the existing search-container */
-.search-container {
-    flex-grow: 1;
-    margin: 0;
-    position: relative;
-}
     </style>
 </head>
 <body>
     <!-- Header -->
     <header>
-    <div class="container header-content">
-        <div class="logo-container">
-            <div class="logo-image">
-                <img src="https://sarawutc6689-cpu.github.io/Mouldmate-HR/logotokai.png" alt="TokaiSolidTire Logo" onerror="this.onerror=null; this.src='https://via.placeholder.com/60/1a73e8/FFFFFF?text=T';">
+        <div class="container header-content">
+            <div class="logo-container">
+                <div class="logo-image">
+                    <img src="https://sarawutc6689-cpu.github.io/Mouldmate-HR/logotokai.png" alt="TokaiSolidTire Logo" onerror="this.onerror=null; this.src='https://via.placeholder.com/60/1a73e8/FFFFFF?text=T';">
+                </div>
+                <div class="logo-text">
+                    <h1>TokaiSolidTire System</h1>
+                    <p>ระบบบริหารจัดการองค์กร</p>
+                </div>
             </div>
-            <div class="logo-text">
-                <h1>TokaiSolidTire System</h1>
-                <p>ระบบบริหารจัดการองค์กร</p>
-            </div>
-        </div>
-        
-        <div class="search-register-container">
-            <div class="search-container">
-                <i class="fas fa-search search-icon"></i>
-                <input type="text" class="search-bar" id="searchInput" placeholder="ค้นหาแผนก...">
-            </div>
-            <div class="register-btn-container">
+            
+            <div class="header-controls">
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" class="search-bar" id="searchInput" placeholder="ค้นหาแผนก...">
+                </div>
                 <button class="register-btn" id="registerBtn">
                     <i class="fas fa-user-plus"></i> ลงทะเบียนขอเข้าระบบ
                 </button>
             </div>
         </div>
+    </header>
+
+    <!-- Registration Modal -->
+    <div class="modal-overlay" id="registrationModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-user-plus"></i> ลงทะเบียนขอเข้าระบบ</h3>
+                <button class="close-modal" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="fullName">ชื่อ-นามสกุล <span style="color: red;">*</span></label>
+                    <input type="text" class="form-control" id="fullName" placeholder="กรอกชื่อ-นามสกุล">
+                </div>
+                <div class="form-group">
+                    <label for="employeeId">รหัสพนักงาน <span style="color: red;">*</span></label>
+                    <input type="text" class="form-control" id="employeeId" placeholder="กรอกรหัสพนักงาน">
+                </div>
+                <div class="form-group">
+                    <label for="department">แผนก <span style="color: red;">*</span></label>
+                    <select class="form-control" id="department">
+                        <option value="">เลือกแผนก</option>
+                        <option value="maintenance">แผนกซ่อมบำรุงและไฟฟ้า</option>
+                        <option value="it">แผนกเทคโนโลยีสารสนเทศ</option>
+                        <option value="hr">ฝ่ายทรัพยากรบุคคลและธุรการ</option>
+                        <option value="vehicle">แผนกบริการยานยนต์</option>
+                        <option value="accounting">แผนกบัญชีและการเงิน</option>
+                        <option value="other">อื่นๆ</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="position">ตำแหน่ง <span style="color: red;">*</span></label>
+                    <input type="text" class="form-control" id="position" placeholder="กรอกตำแหน่งงาน">
+                </div>
+                <div class="form-group">
+                    <label for="email">อีเมล <span style="color: red;">*</span></label>
+                    <input type="email" class="form-control" id="email" placeholder="กรอกอีเมลที่ใช้งาน">
+                </div>
+                <div class="form-group">
+                    <label for="reason">เหตุผลที่ขอใช้งานระบบ <span style="color: red;">*</span></label>
+                    <textarea class="form-control" id="reason" rows="3" placeholder="กรอกรายละเอียดเหตุผลที่ขอใช้งานระบบ"></textarea>
+                </div>
+                <p style="font-size: 0.9rem; color: var(--text-light); margin-top: 20px;">
+                    <i class="fas fa-info-circle"></i> หลังจากส่งคำขอแล้ว ท่านจะได้รับอีเมลยืนยันจากแผนก IT ภายใน 1-3 วันทำการ
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="cancelBtn">ยกเลิก</button>
+                <button class="btn-primary" id="submitBtn">ส่งคำขอลงทะเบียน</button>
+            </div>
+        </div>
     </div>
-</header>
 
     <!-- Main Content -->
     <main class="container">
@@ -914,6 +1088,61 @@
             }
         }
 
+        // ฟังก์ชันเปิด/ปิด Modal ลงทะเบียน
+        function openRegistrationModal() {
+            document.getElementById('registrationModal').style.display = 'flex';
+            document.body.style.overflow = 'hidden'; // ป้องกัน scroll ด้านหลัง
+        }
+        
+        function closeRegistrationModal() {
+            document.getElementById('registrationModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        function submitRegistration() {
+            const fullName = document.getElementById('fullName').value.trim();
+            const employeeId = document.getElementById('employeeId').value.trim();
+            const department = document.getElementById('department').value;
+            const position = document.getElementById('position').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const reason = document.getElementById('reason').value.trim();
+            
+            // ตรวจสอบว่าทุกช่องถูกกรอกครบ
+            if (!fullName || !employeeId || !department || !position || !email || !reason) {
+                alert('กรุณากรอกข้อมูลให้ครบทุกช่องที่มีเครื่องหมาย *');
+                return;
+            }
+            
+            // ตรวจสอบรูปแบบอีเมล
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert('กรุณากรอกอีเมลให้ถูกต้อง');
+                return;
+            }
+            
+            // สมมติว่าส่งข้อมูลไปยังเซิร์ฟเวอร์เรียบร้อยแล้ว
+            console.log('ข้อมูลการลงทะเบียน:', {
+                fullName,
+                employeeId,
+                department,
+                position,
+                email,
+                reason
+            });
+            
+            // แสดงข้อความสำเร็จ
+            alert('ส่งคำขอลงทะเบียนสำเร็จ! ท่านจะได้รับอีเมลยืนยันจากแผนก IT ภายใน 1-3 วันทำการ');
+            
+            // ปิด modal และรีเซ็ตฟอร์ม
+            closeRegistrationModal();
+            document.getElementById('fullName').value = '';
+            document.getElementById('employeeId').value = '';
+            document.getElementById('department').value = '';
+            document.getElementById('position').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('reason').value = '';
+        }
+
         // ฟังก์ชันเริ่มต้น
         function init() {
             // แสดงประกาศทั้งหมด
@@ -934,25 +1163,34 @@
             
             // เพิ่ม event listener สำหรับปุ่มซ่อน/แสดงประกาศ
             document.getElementById('toggleNoticesBtn').addEventListener('click', toggleNoticesVisibility);
+            
+            // เพิ่ม event listener สำหรับปุ่มลงทะเบียน
+            document.getElementById('registerBtn').addEventListener('click', openRegistrationModal);
+            
+            // เพิ่ม event listener สำหรับปุ่มปิด modal
+            document.getElementById('closeModal').addEventListener('click', closeRegistrationModal);
+            document.getElementById('cancelBtn').addEventListener('click', closeRegistrationModal);
+            
+            // เพิ่ม event listener สำหรับปุ่มส่งคำขอลงทะเบียน
+            document.getElementById('submitBtn').addEventListener('click', submitRegistration);
+            
+            // ปิด modal เมื่อคลิกที่ overlay นอก modal
+            document.getElementById('registrationModal').addEventListener('click', function(event) {
+                if (event.target === this) {
+                    closeRegistrationModal();
+                }
+            });
+            
+            // ปิด modal ด้วยปุ่ม Escape
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape' && document.getElementById('registrationModal').style.display === 'flex') {
+                    closeRegistrationModal();
+                }
+            });
         }
 
         // เริ่มต้นแอปเมื่อหน้าเว็บโหลดเสร็จ
         document.addEventListener('DOMContentLoaded', init);
-
-        // เพิ่มฟังก์ชันสำหรับปุ่มลงทะเบียน
-function handleRegisterClick() {
-    alert("ระบบลงทะเบียนขอเข้าถึงระบบ\n\nกรุณาติดต่อแผนกไอที (IT Department)\nเพื่อขอรับสิทธิ์การเข้าถึงระบบ\n\nโทร: 02-XXX-XXXX ต่อ 123\nอีเมล: it-support@tokaisolidtire.com");
-    // หรือสามารถเปลี่ยนเป็นเปิดหน้าลงทะเบียนได้
-    // window.open('https://example.com/register', '_blank');
-}
-
-// ในฟังก์ชัน init() ให้เพิ่ม event listener สำหรับปุ่มลงทะเบียน
-function init() {
-    // ... existing code ...
-    
-    // เพิ่ม event listener สำหรับปุ่มลงทะเบียน
-    document.getElementById('registerBtn').addEventListener('click', handleRegisterClick);
-}
     </script>
 </body>
 </html>
