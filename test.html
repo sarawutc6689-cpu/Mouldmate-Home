@@ -5,109 +5,172 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mouldmate Helpdesk</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&family=Noto+Sans+Thai:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
+        
         body {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
-            color: #f8fafc;
+            font-family: 'Kanit', 'Noto Sans Thai', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0c0c0c 100%);
+            color: #f0f0f0;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
             overflow-x: hidden;
+            position: relative;
         }
-
+        
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(200, 0, 0, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(200, 0, 0, 0.05) 0%, transparent 40%);
+            z-index: -1;
+        }
+        
         .container {
             max-width: 1200px;
-            width: 100%;
-            padding: 40px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
-
-        .header {
-            text-align: center;
-            margin-bottom: 60px;
+        
+        /* Header Styles */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
-
+        
         .logo {
             display: flex;
             align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
         }
-
-        .logo-image {
-            margin-right: 25px;
+        
+        .logo img {
+            height: 45px;
+            filter: drop-shadow(0 0 10px rgba(200, 0, 0, 0.3));
+            transition: all 0.3s ease;
+        }
+        
+        .logo img:hover {
+            filter: drop-shadow(0 0 15px rgba(200, 0, 0, 0.5));
+        }
+        
+        .logo-text {
+            margin-left: 15px;
+            font-size: 1.8rem;
+            font-weight: 600;
+            background: linear-gradient(to right, #ffffff, #e0e0e0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-link {
+            color: #ccc;
+            text-decoration: none;
+            font-weight: 400;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 5px 0;
+        }
+        
+        .nav-link:hover {
+            color: #fff;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #c00000;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        /* Hero Section */
+        .hero {
             display: flex;
             align-items: center;
-        }
-
-        .logo-image img {
-            height: 80px;
-            width: auto;
-            filter: drop-shadow(0 5px 15px rgba(59, 130, 246, 0.3));
-            transition: transform 0.3s ease;
-        }
-
-        .logo-image img:hover {
-            transform: scale(1.05);
-        }
-
-        .logo-text {
-            font-size: 2.8rem;
-            font-weight: 700;
-            background: linear-gradient(45deg, #60a5fa, #c4b5fd);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            letter-spacing: 1px;
-            text-shadow: 0 2px 10px rgba(96, 165, 250, 0.2);
-        }
-
-        .tagline {
-            font-size: 1.2rem;
-            color: #cbd5e1;
-            max-width: 600px;
-            margin: 0 auto;
-            line-height: 1.6;
-            margin-top: 15px;
-        }
-
-        .main-content {
-            display: flex;
+            justify-content: space-between;
+            padding: 80px 0;
             flex-wrap: wrap;
-            justify-content: center;
-            gap: 40px;
-            margin-bottom: 60px;
         }
-
-        .helpdesk-card {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(10px);
-            border-radius: 24px;
-            padding: 50px 40px;
-            width: 100%;
+        
+        .hero-content {
+            flex: 1;
+            min-width: 300px;
+            padding-right: 40px;
+        }
+        
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 600;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #ffffff, #c00000);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: #aaa;
+            margin-bottom: 30px;
+            line-height: 1.6;
             max-width: 500px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: transform 0.4s, box-shadow 0.4s;
+        }
+        
+        .highlight {
+            color: #c00000;
+            font-weight: 500;
+        }
+        
+        /* Helpdesk Button */
+        .helpdesk-section {
+            flex: 1;
+            min-width: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .helpdesk-card {
+            background: linear-gradient(145deg, rgba(40, 40, 40, 0.9), rgba(20, 20, 20, 0.9));
+            border-radius: 20px;
+            padding: 40px 30px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.05);
             position: relative;
             overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-
-        .helpdesk-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
-        }
-
+        
         .helpdesk-card::before {
             content: '';
             position: absolute;
@@ -115,393 +178,354 @@
             left: 0;
             width: 100%;
             height: 5px;
-            background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899);
+            background: linear-gradient(to right, #c00000, #ff3333);
         }
-
-        .card-title {
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-            color: #f1f5f9;
-        }
-
-        .card-description {
-            color: #94a3b8;
-            line-height: 1.6;
-            margin-bottom: 40px;
-        }
-
-        .icon-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 40px;
-        }
-
-        .helpdesk-icon {
-            width: 140px;
-            height: 140px;
-            background: linear-gradient(135deg, #1e40af, #7c3aed);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            box-shadow: 0 15px 30px rgba(59, 130, 246, 0.4);
-            transition: all 0.4s;
-            cursor: pointer;
-        }
-
-        .helpdesk-icon:hover {
-            transform: scale(1.05);
-            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.6);
-        }
-
-        .helpdesk-icon i {
-            font-size: 60px;
-            color: white;
-        }
-
-        .icon-glow {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-            filter: blur(15px);
-            opacity: 0.5;
-            z-index: -1;
-            animation: pulse 3s infinite alternate;
-        }
-
-        @keyframes pulse {
-            0% {
-                transform: scale(0.95);
-                opacity: 0.5;
-            }
-            100% {
-                transform: scale(1.1);
-                opacity: 0.8;
-            }
-        }
-
-        .helpdesk-btn {
-            display: block;
-            width: 100%;
-            background: linear-gradient(45deg, #3b82f6, #8b5cf6);
-            color: white;
-            border: none;
-            border-radius: 14px;
-            padding: 20px;
-            font-size: 1.2rem;
-            font-weight: 600;
-            letter-spacing: 1px;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-        }
-
-        .helpdesk-btn:hover {
+        
+        .helpdesk-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(59, 130, 246, 0.5);
-            background: linear-gradient(45deg, #2563eb, #7c3aed);
+            box-shadow: 
+                0 15px 40px rgba(192, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
-
-        .helpdesk-btn:active {
-            transform: translateY(0);
-        }
-
-        .features {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 30px;
-            margin-top: 40px;
-        }
-
-        .feature {
-            background: rgba(30, 41, 59, 0.6);
-            border-radius: 18px;
-            padding: 25px;
-            width: 100%;
-            max-width: 350px;
+        
+        .helpdesk-icon {
+            font-size: 4.5rem;
+            color: #c00000;
             text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: transform 0.3s;
+            margin-bottom: 20px;
+            text-shadow: 0 0 15px rgba(192, 0, 0, 0.3);
+            transition: all 0.3s ease;
         }
-
-        .feature:hover {
-            transform: translateY(-8px);
-            background: rgba(30, 41, 59, 0.8);
+        
+        .helpdesk-card:hover .helpdesk-icon {
+            transform: scale(1.05);
+            text-shadow: 0 0 20px rgba(192, 0, 0, 0.5);
         }
-
-        .feature-icon {
-            width: 70px;
-            height: 70px;
-            background: linear-gradient(45deg, #10b981, #06b6d4);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-        }
-
-        .feature-icon i {
-            font-size: 28px;
-            color: white;
-        }
-
-        .feature-title {
-            font-size: 1.2rem;
+        
+        .helpdesk-title {
+            font-size: 1.8rem;
+            text-align: center;
             margin-bottom: 10px;
-            color: #f1f5f9;
+            font-weight: 500;
         }
-
-        .feature-desc {
-            color: #94a3b8;
+        
+        .helpdesk-description {
+            color: #aaa;
+            text-align: center;
+            margin-bottom: 30px;
             font-size: 0.95rem;
             line-height: 1.5;
         }
-
-        .footer {
-            text-align: center;
-            margin-top: 60px;
-            color: #64748b;
-            font-size: 0.9rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 30px;
-            width: 100%;
-        }
-
-        .notification {
-            position: fixed;
-            top: 30px;
-            right: 30px;
-            background: linear-gradient(45deg, #059669, #0d9488);
+        
+        .helpdesk-button {
+            display: block;
+            background: linear-gradient(to right, #c00000, #ff3333);
             color: white;
-            padding: 20px 30px;
+            text-decoration: none;
+            text-align: center;
+            padding: 18px;
             border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-            display: none;
-            align-items: center;
-            gap: 15px;
-            z-index: 1000;
-            transform: translateX(150%);
-            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            font-size: 1.1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(192, 0, 0, 0.3);
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
         }
-
-        .notification.show {
-            transform: translateX(0);
+        
+        .helpdesk-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, #ff3333, #c00000);
+            transition: left 0.5s ease;
+            z-index: -1;
+        }
+        
+        .helpdesk-button:hover::before {
+            left: 0;
+        }
+        
+        .helpdesk-button:hover {
+            box-shadow: 0 8px 20px rgba(192, 0, 0, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        .helpdesk-button i {
+            margin-left: 8px;
+            transition: transform 0.3s ease;
+        }
+        
+        .helpdesk-button:hover i {
+            transform: translateX(5px);
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 80px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 50px;
+            font-weight: 500;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(to right, transparent, #c00000, transparent);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background: rgba(30, 30, 30, 0.7);
+            border-radius: 15px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .feature-card:hover {
+            background: rgba(40, 40, 40, 0.8);
+            transform: translateY(-5px);
+            border-color: rgba(192, 0, 0, 0.2);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: #c00000;
+            margin-bottom: 20px;
+        }
+        
+        .feature-title {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+        
+        .feature-desc {
+            color: #aaa;
+            line-height: 1.6;
+        }
+        
+        /* Footer */
+        footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 40px 0;
+            text-align: center;
+            color: #888;
+            font-size: 0.9rem;
+        }
+        
+        .footer-links {
             display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
         }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 20px;
-            }
-            
-            .logo {
+        
+        .footer-link {
+            color: #aaa;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-link:hover {
+            color: #c00000;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero {
                 flex-direction: column;
                 text-align: center;
             }
             
-            .logo-image {
-                margin-right: 0;
-                margin-bottom: 15px;
-                justify-content: center;
+            .hero-content {
+                padding-right: 0;
+                margin-bottom: 50px;
             }
             
-            .logo-image img {
-                height: 60px;
+            .hero-title {
+                font-size: 2.8rem;
             }
             
-            .logo-text {
+            .hero-subtitle {
+                margin: 0 auto 30px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .nav-links {
+                gap: 20px;
+            }
+            
+            .hero-title {
                 font-size: 2.2rem;
             }
             
             .helpdesk-card {
-                padding: 30px 25px;
-            }
-            
-            .helpdesk-icon {
-                width: 120px;
-                height: 120px;
-            }
-            
-            .helpdesk-icon i {
-                font-size: 50px;
-            }
-            
-            .features {
-                flex-direction: column;
-                align-items: center;
+                padding: 30px 20px;
             }
         }
         
         @media (max-width: 480px) {
-            .logo-text {
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero-title {
                 font-size: 1.8rem;
             }
             
-            .logo-image img {
-                height: 50px;
+            .features-grid {
+                grid-template-columns: 1fr;
             }
             
-            .tagline {
-                font-size: 1rem;
+            .footer-links {
+                flex-direction: column;
+                gap: 15px;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
+        <!-- Header -->
+        <header>
             <div class="logo">
-                <!-- ใส่โลโก้ Mouldmate จากลิงก์ของคุณ -->
-                <div class="logo-image">
-                    <img src="https://sarawutc6689-cpu.github.io/Mouldmate-Home/logotokai.png" alt="Mouldmate Logo">
-                </div>
-                <div class="logo-text">Mouldmate Helpdesk</div>
+                <img src="https://sarawutc6689-cpu.github.io/Mouldmate-Home/logotokai.png" alt="Mouldmate Logo">
+                <div class="logo-text">Mouldmate</div>
             </div>
-            <p class="tagline">ระบบช่วยเหลือและสนับสนุนลูกค้าแบบครบวงจร พร้อมให้บริการคุณด้วยความรวดเร็วและมีประสิทธิภาพสูงสุด</p>
-        </div>
-
-        <div class="main-content">
-            <div class="helpdesk-card">
-                <h2 class="card-title">ศูนย์ช่วยเหลือ Mouldmate</h2>
-                <p class="card-description">เข้าสู่ระบบช่วยเหลือของเราเพื่อรับการสนับสนุนด้านเทคนิค คำแนะนำการใช้งาน และแก้ไขปัญหาต่างๆ โดยทีมงานผู้เชี่ยวชาญของเรา</p>
-                
-                <div class="icon-container">
-                    <div class="helpdesk-icon" id="helpdeskIcon">
+            <nav class="nav-links">
+                <a href="#" class="nav-link">หน้าแรก</a>
+                <a href="#" class="nav-link">บริการ</a>
+                <a href="#" class="nav-link">เกี่ยวกับเรา</a>
+                <a href="#" class="nav-link">ติดต่อ</a>
+            </nav>
+        </header>
+        
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1 class="hero-title">Mouldmate Helpdesk</h1>
+                <p class="hero-subtitle">ระบบช่วยเหลือและสนับสนุนลูกค้าที่ครบวงจร พร้อมให้บริการคุณตลอด 24 ชั่วโมง ด้วยเทคโนโลยีที่ทันสมัยและทีมงานมืออาชีพ</p>
+                <p class="hero-subtitle">เราให้ความสำคัญกับ<span class="highlight">ความรวดเร็ว</span>และ<span class="highlight">ประสิทธิภาพ</span>ในการแก้ปัญหา เพื่อให้คุณได้ประสบการณ์การใช้งานที่ดีที่สุด</p>
+            </div>
+            
+            <!-- Helpdesk Card -->
+            <div class="helpdesk-section">
+                <div class="helpdesk-card">
+                    <div class="helpdesk-icon">
                         <i class="fas fa-headset"></i>
-                        <div class="icon-glow"></div>
                     </div>
+                    <h2 class="helpdesk-title">Mouldmate Helpdesk</h2>
+                    <p class="helpdesk-description">เข้าสู่ระบบศูนย์ช่วยเหลือของเราเพื่อรับการสนับสนุน แก้ไขปัญหา และบริการต่าง ๆ</p>
+                    <a href="#" class="helpdesk-button">
+                        เข้าสู่ระบบ Helpdesk <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Features Section -->
+        <section class="features">
+            <h2 class="section-title">บริการของเรา</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <h3 class="feature-title">สนับสนุนทางเทคนิค</h3>
+                    <p class="feature-desc">ทีมงานผู้เชี่ยวชาญพร้อมให้คำปรึกษาและแก้ไขปัญหาทางเทคนิคทุกประเภท</p>
                 </div>
                 
-                <button class="helpdesk-btn" id="helpdeskBtn">
-                    <i class="fas fa-sign-in-alt"></i>
-                    เข้าสู่ Mouldmate Helpdesk
-                </button>
-            </div>
-        </div>
-
-        <div class="features">
-            <div class="feature">
-                <div class="feature-icon">
-                    <i class="fas fa-clock"></i>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3 class="feature-title">บริการตลอด 24 ชั่วโมง</h3>
+                    <p class="feature-desc">เราพร้อมให้บริการคุณทุกเวลา ไม่เว้นวันหยุด เพื่อความต่อเนื่องในการดำเนินธุรกิจ</p>
                 </div>
-                <h3 class="feature-title">บริการ 24/7</h3>
-                <p class="feature-desc">ให้บริการตลอด 24 ชั่วโมง ทุกวัน ไม่มีวันหยุด</p>
-            </div>
-            
-            <div class="feature">
-                <div class="feature-icon">
-                    <i class="fas fa-users"></i>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="feature-title">ระบบรักษาความปลอดภัย</h3>
+                    <p class="feature-desc">ปกป้องข้อมูลของคุณด้วยระบบความปลอดภัยระดับสูงตามมาตรฐานสากล</p>
                 </div>
-                <h3 class="feature-title">ทีมงานมืออาชีพ</h3>
-                <p class="feature-desc">ทีมงานผู้เชี่ยวชาญพร้อมให้คำแนะนำและแก้ไขปัญหา</p>
             </div>
-            
-            <div class="feature">
-                <div class="feature-icon">
-                    <i class="fas fa-shield-alt"></i>
-                </div>
-                <h3 class="feature-title">รักษาความปลอดภัย</h3>
-                <p class="feature-desc">ระบบรักษาความปลอดภัยมาตรฐานสูง ข้อมูลของคุณจะปลอดภัย</p>
+        </section>
+        
+        <!-- Footer -->
+        <footer>
+            <p>© 2023 Mouldmate Helpdesk. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#" class="footer-link">นโยบายความเป็นส่วนตัว</a>
+                <a href="#" class="footer-link">ข้อกำหนดการใช้งาน</a>
+                <a href="#" class="footer-link">ติดต่อเรา</a>
             </div>
-        </div>
-    </div>
-
-    <div class="footer">
-        <p>© 2023 Mouldmate Helpdesk. All rights reserved.</p>
-        <p>ติดต่อ: support@mouldmate.com | โทร: 02-123-4567</p>
-    </div>
-
-    <div class="notification" id="notification">
-        <i class="fas fa-check-circle fa-2x"></i>
-        <div>
-            <h4>กำลังเข้าสู่ระบบ Helpdesk</h4>
-            <p>คุณกำลังถูกนำไปยังหน้า Mouldmate Helpdesk</p>
-        </div>
+        </footer>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const helpdeskBtn = document.getElementById('helpdeskBtn');
-            const helpdeskIcon = document.getElementById('helpdeskIcon');
-            const notification = document.getElementById('notification');
+        // เพิ่มเอฟเฟกต์ให้กับปุ่ม Helpdesk เมื่อคลิก
+        document.querySelector('.helpdesk-button').addEventListener('click', function(e) {
+            e.preventDefault();
             
-            // เพิ่มเอฟเฟกต์เมื่อคลิกปุ่ม
-            helpdeskBtn.addEventListener('click', function() {
-                // แสดง notification
-                notification.classList.add('show');
+            // เอฟเฟกต์ปล่อยประกาย
+            const button = this;
+            button.style.boxShadow = '0 0 20px rgba(192, 0, 0, 0.7)';
+            
+            // เปลี่ยนข้อความชั่วคราว
+            const originalText = button.innerHTML;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> กำลังเข้าสู่ระบบ...';
+            
+            // จำลองการโหลด
+            setTimeout(() => {
+                button.innerHTML = originalText;
+                button.style.boxShadow = '0 8px 20px rgba(192, 0, 0, 0.4)';
                 
-                // เพิ่มเอฟเฟกต์ animation บนปุ่ม
-                this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> กำลังเข้าสู่ระบบ...';
-                this.style.background = 'linear-gradient(45deg, #059669, #0d9488)';
-                
-                // จำลองการโหลดและเปลี่ยนหน้า
-                setTimeout(() => {
-                    // ในความเป็นจริงจะเปลี่ยนไปยังลิงก์จริง
-                    // window.location.href = 'https://helpdesk.mouldmate.com';
-                    
-                    // แสดงข้อความสำเร็จ
-                    notification.innerHTML = `
-                        <i class="fas fa-check-circle fa-2x"></i>
-                        <div>
-                            <h4>เข้าสู่ระบบสำเร็จ!</h4>
-                            <p>คุณกำลังถูกนำไปยังหน้า Mouldmate Helpdesk</p>
-                        </div>
-                    `;
-                    
-                    // รีเซ็ตปุ่มหลังจาก 2 วินาที
-                    setTimeout(() => {
-                        helpdeskBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> เข้าสู่ Mouldmate Helpdesk';
-                        helpdeskBtn.style.background = 'linear-gradient(45deg, #3b82f6, #8b5cf6)';
-                        notification.classList.remove('show');
-                        
-                        // จำลองการเปลี่ยนหน้า (ในเว็บจริงจะใช้การ redirect)
-                        alert('ในเว็บไซต์จริง คุณจะถูกนำไปยังหน้า Mouldmate Helpdesk');
-                    }, 2000);
-                }, 1500);
-            });
+                // แสดงข้อความแจ้งเตือน
+                alert('กำลังเข้าสู่ Mouldmate Helpdesk... (นี่คือตัวอย่างเท่านั้น)');
+            }, 1500);
+        });
+        
+        // เพิ่มเอฟเฟกต์เมื่อ scroll
+        window.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            const heroContent = document.querySelector('.hero-content');
             
-            // เพิ่มเอฟเฟกต์เมื่อคลิกที่ไอคอน
-            helpdeskIcon.addEventListener('click', function() {
-                this.style.transform = 'scale(0.95)';
-                setTimeout(() => {
-                    this.style.transform = 'scale(1.05)';
-                }, 150);
-                
-                // เรียกใช้การคลิกปุ่ม
-                helpdeskBtn.click();
-            });
-            
-            // เพิ่มเอฟเฟกต์ hover บนการ์ดและฟีเจอร์
-            const cards = document.querySelectorAll('.helpdesk-card, .feature');
-            cards.forEach(card => {
-                card.addEventListener('mouseenter', function() {
-                    this.style.zIndex = '10';
-                });
-                
-                card.addEventListener('mouseleave', function() {
-                    this.style.zIndex = '1';
-                });
-            });
-            
-            // เพิ่มเอฟเฟกต์เมื่อโลโก้โหลดสำเร็จ
-            const logoImage = document.querySelector('.logo-image img');
-            logoImage.addEventListener('load', function() {
-                console.log('โลโก้ Mouldmate โหลดสำเร็จแล้ว!');
-            });
-            
-            logoImage.addEventListener('error', function() {
-                console.error('ไม่สามารถโหลดโลโก้ได้');
-                // แสดงโลโก้สำรองหากจำเป็น
-                this.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjcwIiB2aWV3Qm94PSIwIDAgMjAwIDcwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iNzAiIHJ4PSIxMCIgZmlsbD0idXJsKCNwYWludDBfbGluZWFyXzQzOV8zNDUpIi8+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJwYWludDBfbGluZWFyXzQzOV8zNDUiIHgxPSIwIiB5MT0iMCIgeDI9IjIwMCIgeTI9IjcwIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHN0b3Agc3RvcC1jb2xvcj0iIzNiODJmNiIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzhiNWNmNiIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjx0ZXh0IHg9IjIwIiB5PSI0NSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjI0IiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0id2hpdGUiPk1PVUxETUFURTwvdGV4dD48L3N2Zz4=';
-            });
+            if (heroContent) {
+                heroContent.style.transform = `translateY(${scrolled * 0.05}px)`;
+            }
         });
     </script>
 </body>
