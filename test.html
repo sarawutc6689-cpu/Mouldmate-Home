@@ -3,915 +3,506 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TokaiSolidtire System - ระบบบริหารจัดการองค์กร</title>
+    <title>Mouldmate Helpdesk</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&family=Sarabun:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary-blue: #1a73e8;
-            --dark-blue: #0d47a1;
-            --light-blue: #e8f0fe;
-            --gray-bg: #f5f7fa;
-            --text-dark: #202124;
-            --text-light: #5f6368;
-            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            --card-shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.12);
-            --border-radius: 12px;
-            --transition: all 0.3s ease;
-            --notice-urgent: #ff5252;
-            --notice-info: #2196f3;
-            --notice-warning: #ff9800;
-            --notice-success: #4caf50;
-        }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            font-family: 'Sarabun', sans-serif;
-            background-color: var(--gray-bg);
-            color: var(--text-dark);
-            line-height: 1.6;
-        }
-
-        h1, h2, h3, h4 {
-            font-family: 'Kanit', sans-serif;
-            font-weight: 500;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+            color: #f8fafc;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden;
         }
 
         .container {
             max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
+            width: 100%;
+            padding: 40px;
         }
 
-        /* Header */
-        header {
-            background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
-            color: white;
-            padding: 25px 0;
-            border-bottom-left-radius: 20px;
-            border-bottom-right-radius: 20px;
-            box-shadow: 0 4px 12px rgba(13, 71, 161, 0.2);
-            margin-bottom: 40px;
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
         }
 
-        .header-content {
+        .logo {
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
             flex-wrap: wrap;
         }
 
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
         .logo-image {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: white;
+            margin-right: 25px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            padding: 5px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         .logo-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
+            height: 80px;
+            width: auto;
+            filter: drop-shadow(0 5px 15px rgba(59, 130, 246, 0.3));
+            transition: transform 0.3s ease;
         }
 
-        .logo-text h1 {
-            font-size: 1.8rem;
-            margin-bottom: 5px;
+        .logo-image img:hover {
+            transform: scale(1.05);
         }
 
-        .logo-text p {
-            font-size: 0.9rem;
-            opacity: 0.9;
+        .logo-text {
+            font-size: 2.8rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #60a5fa, #c4b5fd);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 10px rgba(96, 165, 250, 0.2);
         }
 
-        /* ส่วนค้นหาและปุ่มลงทะเบียน */
-        .search-and-register-container {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin: 25px auto 0;
-            justify-content: center;
-        }
-
-        .search-container {
-            flex-grow: 1;
-            max-width: 500px;
-            margin: 0;
-            position: relative;
-        }
-
-        .search-bar {
-            width: 100%;
-            padding: 14px 20px;
-            padding-left: 50px;
-            border: none;
-            border-radius: 50px;
-            font-size: 1rem;
-            font-family: 'Sarabun', sans-serif;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            transition: var(--transition);
-        }
-
-        .search-bar:focus {
-            outline: none;
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-light);
+        .tagline {
             font-size: 1.2rem;
-        }
-
-        /* ปุ่มลงทะเบียน */
-        .register-btn {
-            background-color: #34a853;
-            color: white;
-            text-decoration: none;
-            padding: 14px 20px;
-            border-radius: 50px;
-            font-family: 'Kanit', sans-serif;
-            font-weight: 400;
-            font-size: 0.95rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            white-space: nowrap;
-            transition: var(--transition);
-            box-shadow: 0 4px 12px rgba(52, 168, 83, 0.2);
-        }
-
-        .register-btn:hover {
-            background-color: #2d8c47;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(52, 168, 83, 0.3);
-        }
-
-        /* Notice Board Section */
-        .notice-board-container {
-            background: white;
-            border-radius: var(--border-radius);
-            padding: 20px;
-            margin-bottom: 30px;
-            box-shadow: var(--card-shadow);
-            border-top: 5px solid var(--primary-blue);
-        }
-
-        .notice-board-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .notice-board-title {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .notice-board-title h3 {
-            font-size: 1.4rem;
-            color: var(--text-dark);
-        }
-
-        .notice-board-icon {
-            background-color: var(--primary-blue);
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-        }
-
-        .notice-board-controls {
-            display: flex;
-            gap: 10px;
-        }
-
-        .notice-board-btn {
-            background-color: var(--light-blue);
-            color: var(--primary-blue);
-            border: none;
-            padding: 8px 15px;
-            border-radius: 6px;
-            font-family: 'Kanit', sans-serif;
-            font-weight: 400;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .notice-board-btn:hover {
-            background-color: #dce8ff;
-        }
-
-        .notice-board-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-        }
-
-        .notice-card {
-            background: white;
-            border-radius: var(--border-radius);
-            padding: 20px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-            border-left: 4px solid var(--notice-info);
-            transition: var(--transition);
-            border: 1px solid #eee;
-        }
-
-        .notice-card:hover {
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            transform: translateY(-3px);
-        }
-
-        .notice-card.urgent {
-            border-left-color: var(--notice-urgent);
-        }
-
-        .notice-card.warning {
-            border-left-color: var(--notice-warning);
-        }
-
-        .notice-card.success {
-            border-left-color: var(--notice-success);
-        }
-
-        .notice-card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 12px;
-        }
-
-        .notice-card-type {
-            font-size: 0.8rem;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-weight: 500;
-            font-family: 'Kanit', sans-serif;
-        }
-
-        .notice-card-type.info {
-            background-color: rgba(33, 150, 243, 0.1);
-            color: var(--notice-info);
-        }
-
-        .notice-card-type.urgent {
-            background-color: rgba(255, 82, 82, 0.1);
-            color: var(--notice-urgent);
-        }
-
-        .notice-card-type.warning {
-            background-color: rgba(255, 152, 0, 0.1);
-            color: var(--notice-warning);
-        }
-
-        .notice-card-type.success {
-            background-color: rgba(76, 175, 80, 0.1);
-            color: var(--notice-success);
-        }
-
-        .notice-card-content {
-            margin-bottom: 10px;
-            color: var(--text-dark);
-        }
-
-        .notice-card-icon {
-            margin-right: 10px;
-            font-size: 1.1rem;
-        }
-
-        .notice-card-icon.info {
-            color: var(--notice-info);
-        }
-
-        .notice-card-icon.urgent {
-            color: var(--notice-urgent);
-        }
-
-        .notice-card-icon.warning {
-            color: var(--notice-warning);
-        }
-
-        .notice-card-icon.success {
-            color: var(--notice-success);
-        }
-
-        .empty-notices {
-            grid-column: 1 / -1;
-            text-align: center;
-            padding: 40px 20px;
-            color: var(--text-light);
-        }
-
-        .empty-notices i {
-            font-size: 3rem;
-            margin-bottom: 15px;
-            color: #ddd;
-        }
-
-        /* Main Content */
-        .main-title {
-            text-align: center;
-            margin-bottom: 30px;
-            color: var(--text-dark);
-        }
-
-        .main-title h2 {
-            font-size: 2rem;
-            margin-bottom: 10px;
-        }
-
-        .main-title p {
-            color: var(--text-light);
+            color: #cbd5e1;
             max-width: 600px;
             margin: 0 auto;
+            line-height: 1.6;
+            margin-top: 15px;
         }
 
-        /* Department Cards */
-        .departments-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
-            margin-bottom: 50px;
-        }
-
-        .department-card {
-            background: white;
-            border-radius: var(--border-radius);
-            padding: 25px;
-            box-shadow: var(--card-shadow);
-            transition: var(--transition);
-            cursor: pointer;
-            border-left: 5px solid var(--primary-blue);
-            height: 100%;
+        .main-content {
             display: flex;
-            flex-direction: column;
-        }
-
-        .department-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--card-shadow-hover);
-        }
-
-        .card-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .card-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
+            flex-wrap: wrap;
             justify-content: center;
-            margin-right: 15px;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .helpdesk-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 50px 40px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.4s, box-shadow 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .helpdesk-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        .helpdesk-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899);
+        }
+
+        .card-title {
             font-size: 1.8rem;
-            color: white;
-        }
-
-        .card-icon.maintenance {
-            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
-        }
-
-        .card-icon.it {
-            background: linear-gradient(135deg, #4ecdc4, #44a08d);
-        }
-
-        .card-icon.hr {
-            background: linear-gradient(135deg, #ffe66d, #ffd166);
-        }
-
-        .card-icon.vehicle {
-            background: linear-gradient(135deg, #1a936f, #136f63);
-        }
-
-        .card-icon.accounting {
-            background: linear-gradient(135deg, #9d4edd, #6a2c9c);
-        }
-
-        .card-title h3 {
-            font-size: 1.3rem;
-            margin-bottom: 5px;
-        }
-
-        .card-title p {
-            font-size: 0.9rem;
-            color: var(--text-light);
+            margin-bottom: 15px;
+            color: #f1f5f9;
         }
 
         .card-description {
-            margin-bottom: 20px;
-            flex-grow: 1;
-            color: var(--text-light);
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 40px;
         }
 
-        .card-footer {
+        .icon-container {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: auto;
+            justify-content: center;
+            margin-bottom: 40px;
         }
 
-        .visit-btn {
-            background-color: var(--primary-blue);
-            color: white;
-            border: none;
-            padding: 10px 18px;
-            border-radius: 8px;
-            font-family: 'Kanit', sans-serif;
-            font-weight: 400;
+        .helpdesk-icon {
+            width: 140px;
+            height: 140px;
+            background: linear-gradient(135deg, #1e40af, #7c3aed);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 15px 30px rgba(59, 130, 246, 0.4);
+            transition: all 0.4s;
             cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 8px;
         }
 
-        .visit-btn:hover {
-            background-color: var(--dark-blue);
+        .helpdesk-icon:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.6);
         }
 
-        .external-link {
-            color: var(--primary-blue);
-            font-size: 1.2rem;
+        .helpdesk-icon i {
+            font-size: 60px;
+            color: white;
         }
 
-        /* Footer */
-        footer {
-            background-color: white;
-            padding: 25px 0;
-            margin-top: 30px;
-            border-top: 1px solid #e0e0e0;
-            text-align: center;
-            color: var(--text-light);
-        }
-
-        .footer-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .footer-logo {
-            font-weight: 600;
-            color: var(--primary-blue);
-            font-size: 1.2rem;
-        }
-
-        /* Footer Logo */
-        .footer-logo-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-
-        .footer-logo-img {
-            width: 40px;
-            height: 40px;
-        }
-
-        .footer-logo-img img {
+        .icon-glow {
+            position: absolute;
             width: 100%;
             height: 100%;
-            object-fit: contain;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            filter: blur(15px);
+            opacity: 0.5;
+            z-index: -1;
+            animation: pulse 3s infinite alternate;
         }
 
-        /* No Results */
-        .no-results {
+        @keyframes pulse {
+            0% {
+                transform: scale(0.95);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(1.1);
+                opacity: 0.8;
+            }
+        }
+
+        .helpdesk-btn {
+            display: block;
+            width: 100%;
+            background: linear-gradient(45deg, #3b82f6, #8b5cf6);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            padding: 20px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .helpdesk-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(59, 130, 246, 0.5);
+            background: linear-gradient(45deg, #2563eb, #7c3aed);
+        }
+
+        .helpdesk-btn:active {
+            transform: translateY(0);
+        }
+
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .feature {
+            background: rgba(30, 41, 59, 0.6);
+            border-radius: 18px;
+            padding: 25px;
+            width: 100%;
+            max-width: 350px;
             text-align: center;
-            padding: 40px;
-            grid-column: 1 / -1;
-            color: var(--text-light);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: transform 0.3s;
         }
 
-        .no-results i {
-            font-size: 3rem;
-            margin-bottom: 15px;
-            color: #ccc;
+        .feature:hover {
+            transform: translateY(-8px);
+            background: rgba(30, 41, 59, 0.8);
         }
 
-        /* Responsive */
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(45deg, #10b981, #06b6d4);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+
+        .feature-icon i {
+            font-size: 28px;
+            color: white;
+        }
+
+        .feature-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #f1f5f9;
+        }
+
+        .feature-desc {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 60px;
+            color: #64748b;
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 30px;
+            width: 100%;
+        }
+
+        .notification {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: linear-gradient(45deg, #059669, #0d9488);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            display: none;
+            align-items: center;
+            gap: 15px;
+            z-index: 1000;
+            transform: translateX(150%);
+            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .notification.show {
+            transform: translateX(0);
+            display: flex;
+        }
+
         @media (max-width: 768px) {
-            .header-content {
+            .container {
+                padding: 20px;
+            }
+            
+            .logo {
                 flex-direction: column;
                 text-align: center;
-                gap: 20px;
             }
             
-            .logo-container {
+            .logo-image {
+                margin-right: 0;
+                margin-bottom: 15px;
                 justify-content: center;
             }
             
-            .search-and-register-container {
+            .logo-image img {
+                height: 60px;
+            }
+            
+            .logo-text {
+                font-size: 2.2rem;
+            }
+            
+            .helpdesk-card {
+                padding: 30px 25px;
+            }
+            
+            .helpdesk-icon {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .helpdesk-icon i {
+                font-size: 50px;
+            }
+            
+            .features {
                 flex-direction: column;
-                gap: 15px;
-                align-items: stretch;
+                align-items: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo-text {
+                font-size: 1.8rem;
             }
             
-            .search-container {
-                max-width: 100%;
+            .logo-image img {
+                height: 50px;
             }
             
-            .register-btn {
-                justify-content: center;
-            }
-            
-            .notice-board-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .departments-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-            
-            .main-title h2 {
-                font-size: 1.6rem;
-            }
-            
-            .notice-board-header {
-                flex-direction: column;
-                gap: 15px;
-                align-items: flex-start;
-            }
-            
-            .notice-board-controls {
-                width: 100%;
-                justify-content: space-between;
+            .tagline {
+                font-size: 1rem;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <div class="container header-content">
-            <div class="logo-container">
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <!-- ใส่โลโก้ Mouldmate จากลิงก์ของคุณ -->
                 <div class="logo-image">
-                    <img src="https://sarawutc6689-cpu.github.io/Mouldmate-Home/logotokai.png" alt="TokaiSolidTire Logo" onerror="this.onerror=null; this.src='https://via.placeholder.com/60/1a73e8/FFFFFF?text=T';">
+                    <img src="https://sarawutc6689-cpu.github.io/Mouldmate-Home/logotokai.png" alt="Mouldmate Logo">
                 </div>
-                <div class="logo-text">
-                    <h1>TokaiSolidTire System</h1>
-                    <p>ระบบบริหารจัดการองค์กร</p>
-                </div>
+                <div class="logo-text">Mouldmate Helpdesk</div>
             </div>
-            
-            <!-- แก้ไขตรงนี้: เพิ่มปุ่มลงทะเบียน -->
-            <div class="search-and-register-container">
-                <div class="search-container">
-                    <i class="fas fa-search search-icon"></i>
-                    <input type="text" class="search-bar" id="searchInput" placeholder="ค้นหาแผนก...">
-                </div>
-                <a href="https://forms.gle/HjvH2MzbzYzxrJu58" target="_blank" class="register-btn">
-                    <i class="fas fa-user-plus"></i> ลงทะเบียนขอเข้าระบบ
-                </a>
-            </div>
+            <p class="tagline">ระบบช่วยเหลือและสนับสนุนลูกค้าแบบครบวงจร พร้อมให้บริการคุณด้วยความรวดเร็วและมีประสิทธิภาพสูงสุด</p>
         </div>
-    </header>
 
-    <!-- Main Content -->
-    <main class="container">
-        <!-- Notice Board Section -->
-        <div class="notice-board-container">
-            <div class="notice-board-header">
-                <div class="notice-board-title">
-                    <div class="notice-board-icon">
-                        <i class="fas fa-bullhorn"></i>
+        <div class="main-content">
+            <div class="helpdesk-card">
+                <h2 class="card-title">ศูนย์ช่วยเหลือ Mouldmate</h2>
+                <p class="card-description">เข้าสู่ระบบช่วยเหลือของเราเพื่อรับการสนับสนุนด้านเทคนิค คำแนะนำการใช้งาน และแก้ไขปัญหาต่างๆ โดยทีมงานผู้เชี่ยวชาญของเรา</p>
+                
+                <div class="icon-container">
+                    <div class="helpdesk-icon" id="helpdeskIcon">
+                        <i class="fas fa-headset"></i>
+                        <div class="icon-glow"></div>
                     </div>
-                    <h3>กระดานประกาศองค์กร</h3>
-                    <span id="noticeCount" style="background-color: var(--primary-blue); color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.9rem; margin-left: 10px;">5</span>
                 </div>
-                <div class="notice-board-controls">
-                    <button class="notice-board-btn" id="toggleNoticesBtn">
-                        <i class="fas fa-chevron-down"></i> ซ่อนประกาศ
-                    </button>
+                
+                <button class="helpdesk-btn" id="helpdeskBtn">
+                    <i class="fas fa-sign-in-alt"></i>
+                    เข้าสู่ Mouldmate Helpdesk
+                </button>
+            </div>
+        </div>
+
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">
+                    <i class="fas fa-clock"></i>
                 </div>
+                <h3 class="feature-title">บริการ 24/7</h3>
+                <p class="feature-desc">ให้บริการตลอด 24 ชั่วโมง ทุกวัน ไม่มีวันหยุด</p>
             </div>
             
-            <div class="notice-board-grid" id="noticeBoard">
-                <!-- Notice cards will be generated by JavaScript -->
-            </div>
-        </div>
-
-        <div class="main-title">
-            <h2>แผนกในระบบ TokaiSolidTire</h2>
-            <p>เข้าถึงระบบงานของแผนกต่างๆ ได้จากลิงก์ด้านล่างนี้</p>
-        </div>
-
-        <!-- Departments Grid -->
-        <div class="departments-grid" id="departmentsGrid">
-            <!-- Cards will be dynamically generated by JavaScript -->
-        </div>
-    </main>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container footer-content">
-            <div class="footer-logo-container">
-                <div class="footer-logo-img">
-                    <img src="https://sarawutc6689-cpu.github.io/Mouldmate-HR/logotokai.png" alt="TokaiSolidTire Logo" onerror="this.onerror=null; this.src='https://via.placeholder.com/40/1a73e8/FFFFFF?text=T';">
+            <div class="feature">
+                <div class="feature-icon">
+                    <i class="fas fa-users"></i>
                 </div>
-                <div class="footer-logo">TokaiSolidTire System</div>
+                <h3 class="feature-title">ทีมงานมืออาชีพ</h3>
+                <p class="feature-desc">ทีมงานผู้เชี่ยวชาญพร้อมให้คำแนะนำและแก้ไขปัญหา</p>
             </div>
-            <p>© 2026 ระบบบริหารจัดการองค์กรครบวงจร | ออกแบบเพื่อความสะดวกและประสิทธิภาพ</p>
-            <span>พัฒนาระบบโดย Sarawut.C</span>
+            
+            <div class="feature">
+                <div class="feature-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3 class="feature-title">รักษาความปลอดภัย</h3>
+                <p class="feature-desc">ระบบรักษาความปลอดภัยมาตรฐานสูง ข้อมูลของคุณจะปลอดภัย</p>
+            </div>
         </div>
-    </footer>
+    </div>
+
+    <div class="footer">
+        <p>© 2023 Mouldmate Helpdesk. All rights reserved.</p>
+        <p>ติดต่อ: support@mouldmate.com | โทร: 02-123-4567</p>
+    </div>
+
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle fa-2x"></i>
+        <div>
+            <h4>กำลังเข้าสู่ระบบ Helpdesk</h4>
+            <p>คุณกำลังถูกนำไปยังหน้า Mouldmate Helpdesk</p>
+        </div>
+    </div>
 
     <script>
-        // ข้อมูลแผนก
-        const departments = [
-            {
-                id: 1,
-                name: "แผนกซ่อมบำรุงและไฟฟ้า",
-                description: "ดูแลการซ่อมบำรุงอุปกรณ์ เครื่องจักร และระบบไฟฟ้าทั้งภายในและภายนอกองค์กร",
-                url: "https://sites.google.com/view/mouldmatema",
-                icon: "fas fa-tools",
-                iconClass: "maintenance",
-                color: "#ff6b6b"
-            },
-            {
-                id: 2,
-                name: "แผนกเทคโนโลยีสารสนเทศ",
-                description: "จัดการระบบไอที ดูแลเครือข่าย พัฒนาซอฟต์แวร์ และให้การสนับสนุนด้านเทคโนโลยี",
-                url: "https://sarawutc6689-cpu.github.io/Mouldmate-Login/Index_IT.html",
-                icon: "fas fa-laptop-code",
-                iconClass: "it",
-                color: "#4ecdc4"
-            },
-            {
-                id: 3,
-                name: "ฝ่ายทรัพยากรบุคคลและธุรการ",
-                description: "บริหารงานบุคคล ดูแลสวัสดิการ พัฒนาบุคลากร และงานธุรการทั่วไป",
-                url: "https://sarawutc6689-cpu.github.io/Mouldmate-HR/hrsaf.html",
-                icon: "fas fa-users",
-                iconClass: "hr",
-                color: "#ffe66d"
-            },
-            {
-                id: 4,
-                name: "แผนกบริการยานยนต์",
-                description: "ให้บริการด้านยานยนต์ ซ่อมบำรุงรถยนต์ และจัดการระบบขนส่งองค์กร",
-                url: "https://sarawutc6689-cpu.github.io/Mouldmate-Login/Index_AMS.html",
-                icon: "fas fa-car",
-                iconClass: "vehicle",
-                color: "#1a936f"
-            },
-            {
-                id: 5,
-                name: "แผนกบัญชีและการเงิน",
-                description: "จัดการด้านบัญชี การเงิน งบประมาณ ภาษี และรายงานทางการเงินขององค์กร",
-                url: "https://sites.google.com/view/mouldmate-acc/home",
-                icon: "fas fa-calculator",
-                iconClass: "accounting",
-                color: "#9d4edd"
-            }
-        ];
-
-        // ข้อมูลประกาศสำหรับกระดานประกาศ
-        const announcements = [
-            {
-                id: 1,
-                title: "ระบบอัปเดตล่าสุด",
-                content: "เพิ่มความเร็วในการเข้าถึงข้อมูล 30% และเพิ่มฟังก์ชันการทำงานใหม่",
-                type: "info",
-                icon: "fas fa-rocket"
-            },
-            {
-                id: 2,
-                title: "นโยบายความปลอดภัยใหม่",
-                content: "โปรดเปลี่ยนรหัสผ่านทุก 90 วันเพื่อความปลอดภัยของข้อมูลองค์กร",
-                type: "warning",
-                icon: "fas fa-shield-alt"
-            },
-            {
-                id: 3,
-                title: "ระบบแจ้งปัญหาผ่านช่องทางใหม่",
-                content: "แจ้งปัญหาได้ตลอด 24 ชม. ผ่านระบบออนไลน์และแอปพลิเคชันมือถือ",
-                type: "success",
-                icon: "fas fa-robot"
-            },
-            {
-                id: 4,
-                title: "ซ่อมบำรุงระบบ Helpdesk ประจำเดือน",
-                content: "วันที่ 25 ของทุกเดือน เวลา 20:00-00:00 น. ระบบอาจหยุดให้บริการชั่วคราว",
-                type: "warning",
-                icon: "fas fa-tools"
-            },
-            {
-                id: 5,
-                title: "รายงานประสิทธิภาพองค์กร",
-                content: "ประสิทธิภาพองค์กรเพิ่มขึ้น 10% ในเดือนที่ผ่านมา",
-                type: "success",
-                icon: "fas fa-chart-line"
-            },
-            {
-                id: 6,
-                title: "ประกาศด่วน! ระบบ Helpdesk สำรองข้อมูล",
-                content: "จะมีทดสอบระบบการสำรองข้อมูลทั้งหมดในวันที่ 31 มกราคม 2026 เวลา 21:00 น. อาจส่งผลกระทบต่อการใช้งาน",
-                type: "urgent",
-                icon: "fas fa-exclamation-triangle"
-            }
-        ];
-
-        // ฟังก์ชันสร้างการ์ดประกาศ
-        function createNoticeCard(notice) {
-            return `
-                <div class="notice-card ${notice.type}" data-notice-id="${notice.id}">
-                    <div class="notice-card-header">
-                        <span class="notice-card-type ${notice.type}">
-                            ${getTypeLabel(notice.type)}
-                        </span>
-                    </div>
-                    <div class="notice-card-content">
-                        <div style="display: flex; align-items: flex-start; margin-bottom: 10px;">
-                            <i class="${notice.icon} notice-card-icon ${notice.type}"></i>
-                            <h4 style="margin: 0; font-size: 1.1rem;">${notice.title}</h4>
+        document.addEventListener('DOMContentLoaded', function() {
+            const helpdeskBtn = document.getElementById('helpdeskBtn');
+            const helpdeskIcon = document.getElementById('helpdeskIcon');
+            const notification = document.getElementById('notification');
+            
+            // เพิ่มเอฟเฟกต์เมื่อคลิกปุ่ม
+            helpdeskBtn.addEventListener('click', function() {
+                // แสดง notification
+                notification.classList.add('show');
+                
+                // เพิ่มเอฟเฟกต์ animation บนปุ่ม
+                this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> กำลังเข้าสู่ระบบ...';
+                this.style.background = 'linear-gradient(45deg, #059669, #0d9488)';
+                
+                // จำลองการโหลดและเปลี่ยนหน้า
+                setTimeout(() => {
+                    // ในความเป็นจริงจะเปลี่ยนไปยังลิงก์จริง
+                    // window.location.href = 'https://helpdesk.mouldmate.com';
+                    
+                    // แสดงข้อความสำเร็จ
+                    notification.innerHTML = `
+                        <i class="fas fa-check-circle fa-2x"></i>
+                        <div>
+                            <h4>เข้าสู่ระบบสำเร็จ!</h4>
+                            <p>คุณกำลังถูกนำไปยังหน้า Mouldmate Helpdesk</p>
                         </div>
-                        <p style="margin-left: 30px;">${notice.content}</p>
-                    </div>
-                </div>
-            `;
-        }
-
-        // ฟังก์ชันแสดงประกาศทั้งหมด
-        function renderNotices(noticeArray) {
-            const noticeBoard = document.getElementById('noticeBoard');
-            const noticeCount = document.getElementById('noticeCount');
-            
-            // แสดงจำนวนประกาศทั้งหมด
-            noticeCount.textContent = noticeArray.length;
-            
-            if (noticeArray.length === 0) {
-                noticeBoard.innerHTML = `
-                    <div class="empty-notices">
-                        <i class="far fa-bell-slash"></i>
-                        <h3>ไม่มีประกาศในขณะนี้</h3>
-                        <p>เมื่อมีประกาศใหม่จะปรากฏที่นี่</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            // เรียงลำดับประกาศ: ด่วนมาก่อน > เตือน > ข้อมูล > สำเร็จ
-            const sortedNotices = [...noticeArray].sort((a, b) => {
-                const typeOrder = { urgent: 0, warning: 1, info: 2, success: 3 };
-                return typeOrder[a.type] - typeOrder[b.type];
+                    `;
+                    
+                    // รีเซ็ตปุ่มหลังจาก 2 วินาที
+                    setTimeout(() => {
+                        helpdeskBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> เข้าสู่ Mouldmate Helpdesk';
+                        helpdeskBtn.style.background = 'linear-gradient(45deg, #3b82f6, #8b5cf6)';
+                        notification.classList.remove('show');
+                        
+                        // จำลองการเปลี่ยนหน้า (ในเว็บจริงจะใช้การ redirect)
+                        alert('ในเว็บไซต์จริง คุณจะถูกนำไปยังหน้า Mouldmate Helpdesk');
+                    }, 2000);
+                }, 1500);
             });
             
-            noticeBoard.innerHTML = sortedNotices.map(notice => createNoticeCard(notice)).join('');
-        }
-
-        // ฟังก์ชันสร้างการ์ดแผนก
-        function createDepartmentCard(dept) {
-            return `
-                <div class="department-card" data-dept-id="${dept.id}">
-                    <div class="card-header">
-                        <div class="card-icon ${dept.iconClass}">
-                            <i class="${dept.icon}"></i>
-                        </div>
-                        <div class="card-title">
-                            <h3>${dept.name}</h3>
-                            <p>${dept.description}</p>
-                        </div>
-                    </div>
-                    <div class="card-description">
-                        เข้าสู่ระบบงานของแผนกเพื่อบริหารจัดการงานด้าน${dept.name.split(' ')[0]}
-                    </div>
-                    <div class="card-footer">
-                        <button class="visit-btn" onclick="window.open('${dept.url}', '_blank')">
-                            <i class="fas fa-external-link-alt"></i> เข้าสู่ระบบ
-                        </button>
-                        <a href="${dept.url}" target="_blank" class="external-link">
-                            <i class="fas fa-external-link-alt"></i>
-                        </a>
-                    </div>
-                </div>
-            `;
-        }
-
-        // ฟังก์ชันแสดงแผนกทั้งหมด
-        function renderDepartments(deptArray) {
-            const grid = document.getElementById('departmentsGrid');
-            
-            if (deptArray.length === 0) {
-                grid.innerHTML = `
-                    <div class="no-results">
-                        <i class="fas fa-search"></i>
-                        <h3>ไม่พบแผนกที่คุณค้นหา</h3>
-                        <p>ลองค้นหาด้วยคำอื่นหรือดูแผนกทั้งหมด</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            grid.innerHTML = deptArray.map(dept => createDepartmentCard(dept)).join('');
-        }
-
-        // ฟังก์ชันค้นหาแผนก
-        function searchDepartments() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            
-            if (!searchTerm) {
-                renderDepartments(departments);
-                return;
-            }
-            
-            const filteredDepts = departments.filter(dept => 
-                dept.name.toLowerCase().includes(searchTerm) || 
-                dept.description.toLowerCase().includes(searchTerm)
-            );
-            
-            renderDepartments(filteredDepts);
-        }
-
-        // ฟังก์ชันย่อยช่วยเหลือ
-        function getTypeLabel(type) {
-            const labels = {
-                'info': 'ข้อมูล',
-                'urgent': 'ด่วน',
-                'warning': 'เตือน',
-                'success': 'สำเร็จ'
-            };
-            return labels[type] || type;
-        }
-        
-        function toggleNoticesVisibility() {
-            const noticeBoard = document.getElementById('noticeBoard');
-            const toggleBtn = document.getElementById('toggleNoticesBtn');
-            const icon = toggleBtn.querySelector('i');
-            
-            if (noticeBoard.style.display === 'none') {
-                noticeBoard.style.display = 'grid';
-                icon.className = 'fas fa-chevron-down';
-                toggleBtn.innerHTML = '<i class="fas fa-chevron-down"></i> ซ่อนประกาศ';
-            } else {
-                noticeBoard.style.display = 'none';
-                icon.className = 'fas fa-chevron-up';
-                toggleBtn.innerHTML = '<i class="fas fa-chevron-up"></i> แสดงประกาศ';
-            }
-        }
-
-        // ฟังก์ชันเริ่มต้น
-        function init() {
-            // แสดงประกาศทั้งหมด
-            renderNotices(announcements);
-            
-            // แสดงแผนกทั้งหมดเมื่อโหลดหน้า
-            renderDepartments(departments);
-            
-            // เพิ่ม event listener สำหรับการค้นหา
-            document.getElementById('searchInput').addEventListener('input', searchDepartments);
-            
-            // เพิ่ม event listener สำหรับการกด Enter ในช่องค้นหา
-            document.getElementById('searchInput').addEventListener('keyup', function(event) {
-                if (event.key === 'Enter') {
-                    searchDepartments();
-                }
+            // เพิ่มเอฟเฟกต์เมื่อคลิกที่ไอคอน
+            helpdeskIcon.addEventListener('click', function() {
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1.05)';
+                }, 150);
+                
+                // เรียกใช้การคลิกปุ่ม
+                helpdeskBtn.click();
             });
             
-            // เพิ่ม event listener สำหรับปุ่มซ่อน/แสดงประกาศ
-            document.getElementById('toggleNoticesBtn').addEventListener('click', toggleNoticesVisibility);
-        }
-
-        // เริ่มต้นแอปเมื่อหน้าเว็บโหลดเสร็จ
-        document.addEventListener('DOMContentLoaded', init);
+            // เพิ่มเอฟเฟกต์ hover บนการ์ดและฟีเจอร์
+            const cards = document.querySelectorAll('.helpdesk-card, .feature');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.zIndex = '10';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.zIndex = '1';
+                });
+            });
+            
+            // เพิ่มเอฟเฟกต์เมื่อโลโก้โหลดสำเร็จ
+            const logoImage = document.querySelector('.logo-image img');
+            logoImage.addEventListener('load', function() {
+                console.log('โลโก้ Mouldmate โหลดสำเร็จแล้ว!');
+            });
+            
+            logoImage.addEventListener('error', function() {
+                console.error('ไม่สามารถโหลดโลโก้ได้');
+                // แสดงโลโก้สำรองหากจำเป็น
+                this.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjcwIiB2aWV3Qm94PSIwIDAgMjAwIDcwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iNzAiIHJ4PSIxMCIgZmlsbD0idXJsKCNwYWludDBfbGluZWFyXzQzOV8zNDUpIi8+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJwYWludDBfbGluZWFyXzQzOV8zNDUiIHgxPSIwIiB5MT0iMCIgeDI9IjIwMCIgeTI9IjcwIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHN0b3Agc3RvcC1jb2xvcj0iIzNiODJmNiIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzhiNWNmNiIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjx0ZXh0IHg9IjIwIiB5PSI0NSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjI0IiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0id2hpdGUiPk1PVUxETUFURTwvdGV4dD48L3N2Zz4=';
+            });
+        });
     </script>
 </body>
 </html>
