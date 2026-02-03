@@ -3,26 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mouldmate Helpdesk</title>
+    <title>TokaiSolidtire System - ระบบบริหารจัดการองค์กร</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&family=Noto+Sans+Thai:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&family=Sarabun:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary-red: #c00000;
+            --dark-red: #8b0000;
+            --light-red: #ff3333;
+            --bg-dark: #0a0a0a;
+            --bg-darker: #050505;
+            --bg-card: #1a1a1a;
+            --text-light: #f0f0f0;
+            --text-gray: #aaaaaa;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            --card-shadow-hover: 0 8px 24px rgba(192, 0, 0, 0.2);
+            --border-radius: 12px;
+            --transition: all 0.3s ease;
+            --notice-urgent: #ff5252;
+            --notice-info: #2196f3;
+            --notice-warning: #ff9800;
+            --notice-success: #4caf50;
+            --gradient-bg: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 50%, #0a0a0a 100%);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
-            font-family: 'Kanit', 'Noto Sans Thai', sans-serif;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0c0c0c 100%);
-            color: #f0f0f0;
+            font-family: 'Sarabun', sans-serif;
+            background: var(--gradient-bg);
+            color: var(--text-light);
+            line-height: 1.6;
             min-height: 100vh;
-            overflow-x: hidden;
-            position: relative;
         }
-        
-        body::before {
+
+        h1, h2, h3, h4 {
+            font-family: 'Kanit', sans-serif;
+            font-weight: 500;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--bg-darker), var(--bg-card));
+            color: white;
+            padding: 25px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
             content: '';
             position: absolute;
             top: 0;
@@ -30,503 +71,896 @@
             width: 100%;
             height: 100%;
             background: 
-                radial-gradient(circle at 20% 30%, rgba(200, 0, 0, 0.05) 0%, transparent 40%),
-                radial-gradient(circle at 80% 70%, rgba(200, 0, 0, 0.05) 0%, transparent 40%);
-            z-index: -1;
+                radial-gradient(circle at 20% 30%, rgba(192, 0, 0, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(192, 0, 0, 0.05) 0%, transparent 40%);
+            z-index: 0;
         }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        /* Header Styles */
-        header {
+
+        .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 30px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        
-        .logo {
-            display: flex;
-            align-items: center;
-        }
-        
-        .logo img {
-            height: 45px;
-            filter: drop-shadow(0 0 10px rgba(200, 0, 0, 0.3));
-            transition: all 0.3s ease;
-        }
-        
-        .logo img:hover {
-            filter: drop-shadow(0 0 15px rgba(200, 0, 0, 0.5));
-        }
-        
-        .logo-text {
-            margin-left: 15px;
-            font-size: 1.8rem;
-            font-weight: 600;
-            background: linear-gradient(to right, #ffffff, #e0e0e0);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        }
-        
-        .nav-links {
-            display: flex;
-            gap: 30px;
-        }
-        
-        .nav-link {
-            color: #ccc;
-            text-decoration: none;
-            font-weight: 400;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            position: relative;
-            padding: 5px 0;
-        }
-        
-        .nav-link:hover {
-            color: #fff;
-        }
-        
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background-color: #c00000;
-            transition: width 0.3s ease;
-        }
-        
-        .nav-link:hover::after {
-            width: 100%;
-        }
-        
-        /* Hero Section */
-        .hero {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 80px 0;
             flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
         }
-        
-        .hero-content {
-            flex: 1;
-            min-width: 300px;
-            padding-right: 40px;
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
-        
-        .hero-title {
-            font-size: 3.5rem;
-            font-weight: 600;
-            line-height: 1.1;
-            margin-bottom: 20px;
-            background: linear-gradient(to right, #ffffff, #c00000);
+
+        .logo-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            padding: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .logo-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 0 5px rgba(192, 0, 0, 0.5));
+        }
+
+        .logo-text h1 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+            background: linear-gradient(to right, #ffffff, var(--light-red));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        
-        .hero-subtitle {
-            font-size: 1.2rem;
-            color: #aaa;
-            margin-bottom: 30px;
-            line-height: 1.6;
-            max-width: 500px;
+
+        .logo-text p {
+            font-size: 0.9rem;
+            color: var(--text-gray);
         }
-        
-        .highlight {
-            color: #c00000;
-            font-weight: 500;
-        }
-        
-        /* Helpdesk Button */
-        .helpdesk-section {
-            flex: 1;
-            min-width: 300px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .helpdesk-card {
-            background: linear-gradient(145deg, rgba(40, 40, 40, 0.9), rgba(20, 20, 20, 0.9));
-            border-radius: 20px;
-            padding: 40px 30px;
+
+        /* Search Bar */
+        .search-container {
             width: 100%;
-            max-width: 400px;
-            box-shadow: 
-                0 10px 30px rgba(0, 0, 0, 0.5),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            max-width: 500px;
+            margin: 25px auto 0;
+            position: relative;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 14px 20px;
+            padding-left: 50px;
+            background: rgba(30, 30, 30, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            border-radius: 50px;
+            font-size: 1rem;
+            font-family: 'Sarabun', sans-serif;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transition: var(--transition);
+        }
+
+        .search-bar:focus {
+            outline: none;
+            box-shadow: 0 6px 16px rgba(192, 0, 0, 0.2);
+            border-color: rgba(192, 0, 0, 0.3);
+        }
+
+        .search-bar::placeholder {
+            color: #888;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-gray);
+            font-size: 1.2rem;
+        }
+
+        /* Notice Board Section */
+        .notice-board-container {
+            background: var(--bg-card);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: var(--card-shadow);
             border: 1px solid rgba(255, 255, 255, 0.05);
             position: relative;
             overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        
-        .helpdesk-card::before {
+
+        .notice-board-container::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 5px;
-            background: linear-gradient(to right, #c00000, #ff3333);
+            background: linear-gradient(to right, var(--primary-red), var(--light-red));
         }
-        
-        .helpdesk-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 
-                0 15px 40px rgba(192, 0, 0, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-        }
-        
-        .helpdesk-icon {
-            font-size: 4.5rem;
-            color: #c00000;
-            text-align: center;
+
+        .notice-board-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 20px;
-            text-shadow: 0 0 15px rgba(192, 0, 0, 0.3);
-            transition: all 0.3s ease;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
-        
-        .helpdesk-card:hover .helpdesk-icon {
-            transform: scale(1.05);
-            text-shadow: 0 0 20px rgba(192, 0, 0, 0.5);
+
+        .notice-board-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-        
-        .helpdesk-title {
-            font-size: 1.8rem;
-            text-align: center;
-            margin-bottom: 10px;
-            font-weight: 500;
+
+        .notice-board-title h3 {
+            font-size: 1.4rem;
+            color: var(--text-light);
         }
-        
-        .helpdesk-description {
-            color: #aaa;
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: 0.95rem;
-            line-height: 1.5;
-        }
-        
-        .helpdesk-button {
-            display: block;
-            background: linear-gradient(to right, #c00000, #ff3333);
+
+        .notice-board-icon {
+            background: linear-gradient(135deg, var(--primary-red), var(--light-red));
             color: white;
-            text-decoration: none;
-            text-align: center;
-            padding: 18px;
-            border-radius: 12px;
-            font-size: 1.1rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(192, 0, 0, 0.3);
-            letter-spacing: 0.5px;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 8px rgba(192, 0, 0, 0.3);
+        }
+
+        .notice-board-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .notice-board-btn {
+            background: rgba(192, 0, 0, 0.1);
+            color: var(--light-red);
+            border: 1px solid rgba(192, 0, 0, 0.2);
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-family: 'Kanit', sans-serif;
+            font-weight: 400;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .notice-board-btn:hover {
+            background: rgba(192, 0, 0, 0.2);
+            box-shadow: 0 0 10px rgba(192, 0, 0, 0.2);
+        }
+
+        .notice-board-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .notice-card {
+            background: rgba(30, 30, 30, 0.7);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            border-left: 4px solid var(--notice-info);
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.05);
             position: relative;
             overflow: hidden;
-            z-index: 1;
         }
-        
-        .helpdesk-button::before {
+
+        .notice-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transform: translateY(-3px);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .notice-card.urgent {
+            border-left-color: var(--notice-urgent);
+        }
+
+        .notice-card.warning {
+            border-left-color: var(--notice-warning);
+        }
+
+        .notice-card.success {
+            border-left-color: var(--notice-success);
+        }
+
+        .notice-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .notice-card-type {
+            font-size: 0.8rem;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 500;
+            font-family: 'Kanit', sans-serif;
+        }
+
+        .notice-card-type.info {
+            background-color: rgba(33, 150, 243, 0.1);
+            color: var(--notice-info);
+            border: 1px solid rgba(33, 150, 243, 0.2);
+        }
+
+        .notice-card-type.urgent {
+            background-color: rgba(255, 82, 82, 0.1);
+            color: var(--notice-urgent);
+            border: 1px solid rgba(255, 82, 82, 0.2);
+        }
+
+        .notice-card-type.warning {
+            background-color: rgba(255, 152, 0, 0.1);
+            color: var(--notice-warning);
+            border: 1px solid rgba(255, 152, 0, 0.2);
+        }
+
+        .notice-card-type.success {
+            background-color: rgba(76, 175, 80, 0.1);
+            color: var(--notice-success);
+            border: 1px solid rgba(76, 175, 80, 0.2);
+        }
+
+        .notice-card-content {
+            margin-bottom: 10px;
+            color: var(--text-light);
+        }
+
+        .notice-card-icon {
+            margin-right: 10px;
+            font-size: 1.1rem;
+        }
+
+        .notice-card-icon.info {
+            color: var(--notice-info);
+        }
+
+        .notice-card-icon.urgent {
+            color: var(--notice-urgent);
+        }
+
+        .notice-card-icon.warning {
+            color: var(--notice-warning);
+        }
+
+        .notice-card-icon.success {
+            color: var(--notice-success);
+        }
+
+        .empty-notices {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-gray);
+        }
+
+        .empty-notices i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #444;
+        }
+
+        /* Main Content */
+        .main-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .main-title h2 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #ffffff, var(--light-red));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .main-title p {
+            color: var(--text-gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Department Cards */
+        .departments-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        .department-card {
+            background: var(--bg-card);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            cursor: pointer;
+            border-left: 5px solid var(--primary-red);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .department-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--card-shadow-hover);
+            border-color: rgba(192, 0, 0, 0.3);
+        }
+
+        .department-card::before {
             content: '';
             position: absolute;
             top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to right, #ff3333, #c00000);
-            transition: left 0.5s ease;
-            z-index: -1;
-        }
-        
-        .helpdesk-button:hover::before {
-            left: 0;
-        }
-        
-        .helpdesk-button:hover {
-            box-shadow: 0 8px 20px rgba(192, 0, 0, 0.4);
-            transform: translateY(-2px);
-        }
-        
-        .helpdesk-button i {
-            margin-left: 8px;
-            transition: transform 0.3s ease;
-        }
-        
-        .helpdesk-button:hover i {
-            transform: translateX(5px);
-        }
-        
-        /* Features Section */
-        .features {
-            padding: 80px 0;
-        }
-        
-        .section-title {
-            text-align: center;
-            font-size: 2.2rem;
-            margin-bottom: 50px;
-            font-weight: 500;
-            position: relative;
-            display: inline-block;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-        
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
             left: 0;
             width: 100%;
             height: 3px;
-            background: linear-gradient(to right, transparent, #c00000, transparent);
+            background: linear-gradient(to right, var(--primary-red), transparent);
         }
-        
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-        }
-        
-        .feature-card {
-            background: rgba(30, 30, 30, 0.7);
-            border-radius: 15px;
-            padding: 30px;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        
-        .feature-card:hover {
-            background: rgba(40, 40, 40, 0.8);
-            transform: translateY(-5px);
-            border-color: rgba(192, 0, 0, 0.2);
-        }
-        
-        .feature-icon {
-            font-size: 2.5rem;
-            color: #c00000;
+
+        .card-header {
+            display: flex;
+            align-items: center;
             margin-bottom: 20px;
         }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 1.8rem;
+            color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-icon.maintenance {
+            background: linear-gradient(135deg, #8b0000, #c00000);
+        }
+
+        .card-icon.it {
+            background: linear-gradient(135deg, #004d40, #00796b);
+        }
+
+        .card-icon.hr {
+            background: linear-gradient(135deg, #ff6f00, #ff8f00);
+        }
+
+        .card-icon.vehicle {
+            background: linear-gradient(135deg, #1b5e20, #2e7d32);
+        }
+
+        .card-icon.accounting {
+            background: linear-gradient(135deg, #4a148c, #6a1b9a);
+        }
         
-        .feature-title {
+        .card-icon.store {
+            background: linear-gradient(135deg, #e65100, #ef6c00);
+        }
+
+        .card-title h3 {
             font-size: 1.3rem;
-            margin-bottom: 15px;
-            font-weight: 500;
+            margin-bottom: 5px;
+            color: var(--text-light);
         }
-        
-        .feature-desc {
-            color: #aaa;
-            line-height: 1.6;
+
+        .card-title p {
+            font-size: 0.9rem;
+            color: var(--text-gray);
         }
-        
+
+        .card-description {
+            margin-bottom: 20px;
+            flex-grow: 1;
+            color: var(--text-gray);
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+
+        .visit-btn {
+            background: linear-gradient(to right, var(--primary-red), var(--light-red));
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-family: 'Kanit', sans-serif;
+            font-weight: 400;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 8px rgba(192, 0, 0, 0.3);
+        }
+
+        .visit-btn:hover {
+            background: linear-gradient(to right, var(--dark-red), var(--primary-red));
+            box-shadow: 0 6px 12px rgba(192, 0, 0, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .external-link {
+            color: var(--light-red);
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .external-link:hover {
+            color: white;
+            transform: scale(1.1);
+        }
+
         /* Footer */
         footer {
+            background: var(--bg-darker);
+            padding: 25px 0;
+            margin-top: 30px;
             border-top: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 40px 0;
             text-align: center;
-            color: #888;
-            font-size: 0.9rem;
+            color: var(--text-gray);
         }
-        
-        .footer-links {
+
+        .footer-content {
             display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-top: 20px;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
         }
-        
-        .footer-link {
-            color: #aaa;
-            text-decoration: none;
-            transition: color 0.3s ease;
+
+        .footer-logo {
+            font-weight: 600;
+            color: var(--light-red);
+            font-size: 1.2rem;
         }
-        
-        .footer-link:hover {
-            color: #c00000;
+
+        .footer-logo-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
         }
-        
-        /* Responsive Design */
-        @media (max-width: 992px) {
-            .hero {
+
+        .footer-logo-img {
+            width: 40px;
+            height: 40px;
+        }
+
+        .footer-logo-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 0 3px rgba(192, 0, 0, 0.5));
+        }
+
+        /* No Results */
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            grid-column: 1 / -1;
+            color: var(--text-gray);
+        }
+
+        .no-results i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #444;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
                 flex-direction: column;
                 text-align: center;
-            }
-            
-            .hero-content {
-                padding-right: 0;
-                margin-bottom: 50px;
-            }
-            
-            .hero-title {
-                font-size: 2.8rem;
-            }
-            
-            .hero-subtitle {
-                margin: 0 auto 30px;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            header {
-                flex-direction: column;
                 gap: 20px;
             }
             
-            .nav-links {
-                gap: 20px;
-            }
-            
-            .hero-title {
-                font-size: 2.2rem;
-            }
-            
-            .helpdesk-card {
-                padding: 30px 20px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .nav-links {
-                flex-wrap: wrap;
+            .logo-container {
                 justify-content: center;
             }
             
-            .hero-title {
-                font-size: 1.8rem;
-            }
-            
-            .features-grid {
+            .notice-board-grid {
                 grid-template-columns: 1fr;
             }
             
-            .footer-links {
+            .departments-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .main-title h2 {
+                font-size: 1.6rem;
+            }
+            
+            .notice-board-header {
                 flex-direction: column;
                 gap: 15px;
+                align-items: flex-start;
+            }
+            
+            .notice-board-controls {
+                width: 100%;
+                justify-content: space-between;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Header -->
-        <header>
-            <div class="logo">
-                <img src="https://sarawutc6689-cpu.github.io/Mouldmate-Home/logotokai.png" alt="Mouldmate Logo">
-                <div class="logo-text">Mouldmate</div>
-            </div>
-            <nav class="nav-links">
-                <a href="#" class="nav-link">หน้าแรก</a>
-                <a href="#" class="nav-link">บริการ</a>
-                <a href="#" class="nav-link">เกี่ยวกับเรา</a>
-                <a href="#" class="nav-link">ติดต่อ</a>
-            </nav>
-        </header>
-        
-        <!-- Hero Section -->
-        <section class="hero">
-            <div class="hero-content">
-                <h1 class="hero-title">Mouldmate Helpdesk</h1>
-                <p class="hero-subtitle">ระบบช่วยเหลือและสนับสนุนลูกค้าที่ครบวงจร พร้อมให้บริการคุณตลอด 24 ชั่วโมง ด้วยเทคโนโลยีที่ทันสมัยและทีมงานมืออาชีพ</p>
-                <p class="hero-subtitle">เราให้ความสำคัญกับ<span class="highlight">ความรวดเร็ว</span>และ<span class="highlight">ประสิทธิภาพ</span>ในการแก้ปัญหา เพื่อให้คุณได้ประสบการณ์การใช้งานที่ดีที่สุด</p>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="logo-container">
+                <div class="logo-image">
+                    <img src="https://sarawutc6689-cpu.github.io/Mouldmate-HR/logotokai.png" alt="TokaiSolidTire Logo" onerror="this.onerror=null; this.src='https://via.placeholder.com/60/c00000/FFFFFF?text=T';">
+                </div>
+                <div class="logo-text">
+                    <h1>TokaiSolidTire System</h1>
+                    <p>ระบบบริหารจัดการองค์กร</p>
+                </div>
             </div>
             
-            <!-- Helpdesk Card -->
-            <div class="helpdesk-section">
-                <div class="helpdesk-card">
-                    <div class="helpdesk-icon">
-                        <i class="fas fa-headset"></i>
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-bar" id="searchInput" placeholder="ค้นหาแผนก...">
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Notice Board Section -->
+        <div class="notice-board-container">
+            <div class="notice-board-header">
+                <div class="notice-board-title">
+                    <div class="notice-board-icon">
+                        <i class="fas fa-bullhorn"></i>
                     </div>
-                    <h2 class="helpdesk-title">Mouldmate Helpdesk</h2>
-                    <p class="helpdesk-description">เข้าสู่ระบบศูนย์ช่วยเหลือของเราเพื่อรับการสนับสนุน แก้ไขปัญหา และบริการต่าง ๆ</p>
-                    <a href="https://sarawutc6689-cpu.github.io/Mouldmate-Home/index.html" class="helpdesk-button">
-                        เข้าสู่ระบบ Helpdesk <i class="fas fa-arrow-right"></i>
-                    </a>
+                    <h3>กระดานประกาศองค์กร</h3>
+                    <span id="noticeCount" style="background: linear-gradient(to right, var(--primary-red), var(--light-red)); color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.9rem; margin-left: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">5</span>
+                </div>
+                <div class="notice-board-controls">
+                    <button class="notice-board-btn" id="toggleNoticesBtn">
+                        <i class="fas fa-chevron-down"></i> ซ่อนประกาศ
+                    </button>
                 </div>
             </div>
-        </section>
-        
-        <!-- Features Section -->
-        <section class="features">
-            <h2 class="section-title">บริการของเรา</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-tools"></i>
-                    </div>
-                    <h3 class="feature-title">สนับสนุนทางเทคนิค</h3>
-                    <p class="feature-desc">ทีมงานผู้เชี่ยวชาญพร้อมให้คำปรึกษาและแก้ไขปัญหาทางเทคนิคทุกประเภท</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-clock"></i>
-                    </div>
-                    <h3 class="feature-title">บริการตลอด 24 ชั่วโมง</h3>
-                    <p class="feature-desc">เราพร้อมให้บริการคุณทุกเวลา ไม่เว้นวันหยุด เพื่อความต่อเนื่องในการดำเนินธุรกิจ</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3 class="feature-title">ระบบรักษาความปลอดภัย</h3>
-                    <p class="feature-desc">ปกป้องข้อมูลของคุณด้วยระบบความปลอดภัยระดับสูงตามมาตรฐานสากล</p>
-                </div>
+            
+            <div class="notice-board-grid" id="noticeBoard">
+                <!-- Notice cards will be generated by JavaScript -->
             </div>
-        </section>
-        
-        <!-- Footer -->
-        <footer>
-            <p>© 2023 Mouldmate Helpdesk. All rights reserved.</p>
-            <div class="footer-links">
-                <a href="#" class="footer-link">นโยบายความเป็นส่วนตัว</a>
-                <a href="#" class="footer-link">ข้อกำหนดการใช้งาน</a>
-                <a href="#" class="footer-link">ติดต่อเรา</a>
+        </div>
+
+        <div class="main-title">
+            <h2>แผนกในระบบ TokaiSolidTire</h2>
+            <p>เข้าถึงระบบงานของแผนกต่างๆ ได้จากลิงก์ด้านล่างนี้</p>
+        </div>
+
+        <!-- Departments Grid -->
+        <div class="departments-grid" id="departmentsGrid">
+            <!-- Cards will be dynamically generated by JavaScript -->
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-logo-container">
+                <div class="footer-logo-img">
+                    <img src="https://sarawutc6689-cpu.github.io/Mouldmate-HR/logotokai.png" alt="TokaiSolidTire Logo" onerror="this.onerror=null; this.src='https://via.placeholder.com/40/c00000/FFFFFF?text=T';">
+                </div>
+                <div class="footer-logo">TokaiSolidTire System</div>
             </div>
-        </footer>
-    </div>
+            <p>© 2026 ระบบบริหารจัดการองค์กรครบวงจร | ออกแบบเพื่อความสะดวกและประสิทธิภาพ</p>
+            <span>พัฒนาระบบโดย Sarawut.C</span>
+        </div>
+    </footer>
 
     <script>
-        // เพิ่มเอฟเฟกต์ให้กับปุ่ม Helpdesk เมื่อคลิก
-        document.querySelector('.helpdesk-button').addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            // เอฟเฟกต์ปล่อยประกาย
-            const button = this;
-            button.style.boxShadow = '0 0 20px rgba(192, 0, 0, 0.7)';
-            
-            // เปลี่ยนข้อความชั่วคราว
-            const originalText = button.innerHTML;
-            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> กำลังเข้าสู่ระบบ...';
-            
-            // จำลองการโหลด
-            setTimeout(() => {
-                button.innerHTML = originalText;
-                button.style.boxShadow = '0 8px 20px rgba(192, 0, 0, 0.4)';
-                
-                // แสดงข้อความแจ้งเตือน
-                alert('กำลังเข้าสู่ Mouldmate Helpdesk... (นี่คือตัวอย่างเท่านั้น)');
-            }, 1500);
-        });
-        
-        // เพิ่มเอฟเฟกต์เมื่อ scroll
-        window.addEventListener('scroll', function() {
-            const scrolled = window.pageYOffset;
-            const heroContent = document.querySelector('.hero-content');
-            
-            if (heroContent) {
-                heroContent.style.transform = `translateY(${scrolled * 0.05}px)`;
+        // ข้อมูลแผนก
+        const departments = [
+            {
+                id: 1,
+                name: "แผนกซ่อมบำรุงและไฟฟ้า",
+                description: "ดูแลการซ่อมบำรุงอุปกรณ์ เครื่องจักร และระบบไฟฟ้าทั้งภายในและภายนอกองค์กร",
+                url: "https://sites.google.com/view/mouldmatema",
+                icon: "fas fa-tools",
+                iconClass: "maintenance",
+                color: "#ff6b6b"
+            },
+            {
+                id: 2,
+                name: "แผนกเทคโนโลยีสารสนเทศ",
+                description: "จัดการระบบไอที ดูแลเครือข่าย พัฒนาซอฟต์แวร์ และให้การสนับสนุนด้านเทคโนโลยี",
+                url: "https://sarawutc6689-cpu.github.io/Mouldmate-Login/Index_IT.html",
+                icon: "fas fa-laptop-code",
+                iconClass: "it",
+                color: "#4ecdc4"
+            },
+            {
+                id: 3,
+                name: "ฝ่ายทรัพยากรบุคคลและธุรการ",
+                description: "บริหารงานบุคคล ดูแลสวัสดิการ พัฒนาบุคลากร และงานธุรการทั่วไป",
+                url: "https://sarawutc6689-cpu.github.io/Mouldmate-HR/hrsaf.html",
+                icon: "fas fa-users",
+                iconClass: "hr",
+                color: "#ffe66d"
+            },
+            {
+                id: 4,
+                name: "แผนกบริการยานยนต์",
+                description: "ให้บริการด้านยานยนต์ ซ่อมบำรุงรถยนต์ และจัดการระบบขนส่งองค์กร",
+                url: "https://sarawutc6689-cpu.github.io/Mouldmate-Login/Index_AMS.html",
+                icon: "fas fa-car",
+                iconClass: "vehicle",
+                color: "#1a936f"
+            },
+            {
+                id: 5,
+                name: "แผนกบัญชีและการเงิน",
+                description: "จัดการด้านบัญชี การเงิน งบประมาณ ภาษี และรายงานทางการเงินขององค์กร",
+                url: "https://sites.google.com/view/mouldmate-acc/home",
+                icon: "fas fa-calculator",
+                iconClass: "accounting",
+                color: "#9d4edd"
+            },
+            {
+                id: 6,
+                name: "แผนกคลังพัสดุ",
+                description: "ค้นหารหัสเบิกพัสดุต่างๆ ทั้งหมวด SP และ SU",
+                url: "https://sarawutc6689-cpu.github.io/Mouldmate-ST/Home.html",
+                icon: "fas fa-store",
+                iconClass: "store",
+                color: "#ff9a00"
             }
-        });
+        ];
+
+        // ข้อมูลประกาศสำหรับกระดานประกาศ
+        const announcements = [
+            {
+                id: 1,
+                title: "ระบบอัปเดตล่าสุด",
+                content: "เพิ่มความเร็วในการเข้าถึงข้อมูล 30% และเพิ่มฟังก์ชันการทำงานใหม่",
+                type: "info",
+                icon: "fas fa-rocket"
+            },
+            {
+                id: 2,
+                title: "นโยบายความปลอดภัยใหม่",
+                content: "โปรดเปลี่ยนรหัสผ่านทุก 90 วันเพื่อความปลอดภัยของข้อมูลองค์กร",
+                type: "warning",
+                icon: "fas fa-shield-alt"
+            },
+            {
+                id: 3,
+                title: "ระบบแจ้งปัญหาผ่านช่องทางใหม่",
+                content: "แจ้งปัญหาได้ตลอด 24 ชม. ผ่านระบบออนไลน์และแอปพลิเคชันมือถือ",
+                type: "success",
+                icon: "fas fa-robot"
+            },
+            {
+                id: 4,
+                title: "ซ่อมบำรุงระบบ Helpdesk ประจำเดือน",
+                content: "วันที่ 25 ของทุกเดือน เวลา 20:00-00:00 น. ระบบอาจหยุดให้บริการชั่วคราว",
+                type: "warning",
+                icon: "fas fa-tools"
+            },
+            {
+                id: 5,
+                title: "รายงานประสิทธิภาพองค์กร",
+                content: "ประสิทธิภาพองค์กรเพิ่มขึ้น 10% ในเดือนที่ผ่านมา",
+                type: "success",
+                icon: "fas fa-chart-line"
+            },
+            {
+                id: 6,
+                title: "ประกาศด่วน! ระบบ Helpdesk สำรองข้อมูล",
+                content: "จะมีทดสอบระบบการสำรองข้อมูลทั้งหมดในวันที่ 31 มกราคม 2026 เวลา 21:00 น. อาจส่งผลกระทบต่อการใช้งาน",
+                type: "urgent",
+                icon: "fas fa-exclamation-triangle"
+            }
+        ];
+
+        // ฟังก์ชันสร้างการ์ดประกาศ
+        function createNoticeCard(notice) {
+            return `
+                <div class="notice-card ${notice.type}" data-notice-id="${notice.id}">
+                    <div class="notice-card-header">
+                        <span class="notice-card-type ${notice.type}">
+                            ${getTypeLabel(notice.type)}
+                        </span>
+                    </div>
+                    <div class="notice-card-content">
+                        <div style="display: flex; align-items: flex-start; margin-bottom: 10px;">
+                            <i class="${notice.icon} notice-card-icon ${notice.type}"></i>
+                            <h4 style="margin: 0; font-size: 1.1rem; color: var(--text-light);">${notice.title}</h4>
+                        </div>
+                        <p style="margin-left: 30px; color: var(--text-gray);">${notice.content}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // ฟังก์ชันแสดงประกาศทั้งหมด
+        function renderNotices(noticeArray) {
+            const noticeBoard = document.getElementById('noticeBoard');
+            const noticeCount = document.getElementById('noticeCount');
+            
+            // แสดงจำนวนประกาศทั้งหมด
+            noticeCount.textContent = noticeArray.length;
+            
+            if (noticeArray.length === 0) {
+                noticeBoard.innerHTML = `
+                    <div class="empty-notices">
+                        <i class="far fa-bell-slash"></i>
+                        <h3>ไม่มีประกาศในขณะนี้</h3>
+                        <p>เมื่อมีประกาศใหม่จะปรากฏที่นี่</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // เรียงลำดับประกาศ: ด่วนมาก่อน > เตือน > ข้อมูล > สำเร็จ
+            const sortedNotices = [...noticeArray].sort((a, b) => {
+                const typeOrder = { urgent: 0, warning: 1, info: 2, success: 3 };
+                return typeOrder[a.type] - typeOrder[b.type];
+            });
+            
+            noticeBoard.innerHTML = sortedNotices.map(notice => createNoticeCard(notice)).join('');
+        }
+
+        // ฟังก์ชันสร้างการ์ดแผนก
+        function createDepartmentCard(dept) {
+            return `
+                <div class="department-card" data-dept-id="${dept.id}">
+                    <div class="card-header">
+                        <div class="card-icon ${dept.iconClass}">
+                            <i class="${dept.icon}"></i>
+                        </div>
+                        <div class="card-title">
+                            <h3>${dept.name}</h3>
+                            <p>${dept.description}</p>
+                        </div>
+                    </div>
+                    <div class="card-description">
+                        เข้าสู่ระบบงานของแผนกเพื่อบริหารจัดการงานด้าน${dept.name.split(' ')[0]}
+                    </div>
+                    <div class="card-footer">
+                        <button class="visit-btn" onclick="window.open('${dept.url}', '_blank')">
+                            <i class="fas fa-external-link-alt"></i> เข้าสู่ระบบ
+                        </button>
+                        <a href="${dept.url}" target="_blank" class="external-link">
+                            <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+                </div>
+            `;
+        }
+
+        // ฟังก์ชันแสดงแผนกทั้งหมด
+        function renderDepartments(deptArray) {
+            const grid = document.getElementById('departmentsGrid');
+            
+            if (deptArray.length === 0) {
+                grid.innerHTML = `
+                    <div class="no-results">
+                        <i class="fas fa-search"></i>
+                        <h3>ไม่พบแผนกที่คุณค้นหา</h3>
+                        <p>ลองค้นหาด้วยคำอื่นหรือดูแผนกทั้งหมด</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            grid.innerHTML = deptArray.map(dept => createDepartmentCard(dept)).join('');
+        }
+
+        // ฟังก์ชันค้นหาแผนก
+        function searchDepartments() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            
+            if (!searchTerm) {
+                renderDepartments(departments);
+                return;
+            }
+            
+            const filteredDepts = departments.filter(dept => 
+                dept.name.toLowerCase().includes(searchTerm) || 
+                dept.description.toLowerCase().includes(searchTerm)
+            );
+            
+            renderDepartments(filteredDepts);
+        }
+
+        // ฟังก์ชันย่อยช่วยเหลือ
+        function getTypeLabel(type) {
+            const labels = {
+                'info': 'ข้อมูล',
+                'urgent': 'ด่วน',
+                'warning': 'เตือน',
+                'success': 'สำเร็จ'
+            };
+            return labels[type] || type;
+        }
+        
+        function toggleNoticesVisibility() {
+            const noticeBoard = document.getElementById('noticeBoard');
+            const toggleBtn = document.getElementById('toggleNoticesBtn');
+            const icon = toggleBtn.querySelector('i');
+            
+            if (noticeBoard.style.display === 'none') {
+                noticeBoard.style.display = 'grid';
+                icon.className = 'fas fa-chevron-down';
+                toggleBtn.innerHTML = '<i class="fas fa-chevron-down"></i> ซ่อนประกาศ';
+            } else {
+                noticeBoard.style.display = 'none';
+                icon.className = 'fas fa-chevron-up';
+                toggleBtn.innerHTML = '<i class="fas fa-chevron-up"></i> แสดงประกาศ';
+            }
+        }
+
+        // ฟังก์ชันเริ่มต้น
+        function init() {
+            // แสดงประกาศทั้งหมด
+            renderNotices(announcements);
+            
+            // แสดงแผนกทั้งหมดเมื่อโหลดหน้า
+            renderDepartments(departments);
+            
+            // เพิ่ม event listener สำหรับการค้นหา
+            document.getElementById('searchInput').addEventListener('input', searchDepartments);
+            
+            // เพิ่ม event listener สำหรับการกด Enter ในช่องค้นหา
+            document.getElementById('searchInput').addEventListener('keyup', function(event) {
+                if (event.key === 'Enter') {
+                    searchDepartments();
+                }
+            });
+            
+            // เพิ่ม event listener สำหรับปุ่มซ่อน/แสดงประกาศ
+            document.getElementById('toggleNoticesBtn').addEventListener('click', toggleNoticesVisibility);
+            
+            // เพิ่มเอฟเฟกต์เมื่อโหลดหน้า
+            document.addEventListener('DOMContentLoaded', function() {
+                setTimeout(() => {
+                    document.querySelectorAll('.department-card').forEach((card, index) => {
+                        card.style.animationDelay = `${index * 0.1}s`;
+                        card.classList.add('fade-in');
+                    });
+                }, 300);
+            });
+        }
+
+        // เริ่มต้นแอปเมื่อหน้าเว็บโหลดเสร็จ
+        document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>
