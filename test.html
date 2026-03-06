@@ -3,158 +3,194 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TokaiSolidtire System - ระบบบริหารจัดการองค์กร</title>
+    <title>TokaiSolidtire System - Enterprise Management System</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&family=Sarabun:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary-red: #c00000;
-            --dark-red: #8b0000;
-            --light-red: #ff3333;
-            --bg-dark: #0a0a0a;
-            --bg-darker: #050505;
-            --bg-card: #1a1a1a;
-            --text-light: #f0f0f0;
-            --text-gray: #aaaaaa;
-            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            --card-shadow-hover: 0 8px 24px rgba(192, 0, 0, 0.2);
-            --border-radius: 12px;
-            --transition: all 0.3s ease;
-            --notice-urgent: #ff5252;
-            --notice-info: #2196f3;
-            --notice-warning: #ff9800;
-            --notice-success: #4caf50;
-            --gradient-bg: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 50%, #0a0a0a 100%);
-        }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        :root {
+            --primary-900: #0a2647;
+            --primary-800: #144272;
+            --primary-700: #205295;
+            --primary-600: #2c74b3;
+            --primary-500: #3b82f6;
+            --primary-400: #60a5fa;
+            
+            --neutral-900: #1e293b;
+            --neutral-800: #334155;
+            --neutral-700: #475569;
+            --neutral-600: #64748b;
+            --neutral-500: #94a3b8;
+            --neutral-400: #cbd5e1;
+            --neutral-300: #e2e8f0;
+            --neutral-200: #f1f5f9;
+            --neutral-100: #f8fafc;
+            
+            --success: #059669;
+            --warning: #d97706;
+            --error: #dc2626;
+            --info: #2563eb;
+            
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+            
+            --border-radius-sm: 6px;
+            --border-radius-md: 10px;
+            --border-radius-lg: 16px;
+            --border-radius-xl: 24px;
+            
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-thai: 'Prompt', 'Inter', sans-serif;
+        }
+
         body {
-            font-family: 'Sarabun', sans-serif;
-            background: var(--gradient-bg);
-            color: var(--text-light);
+            font-family: var(--font-sans);
+            background: linear-gradient(135deg, #f6f9fc 0%, #edf2f9 100%);
+            color: var(--neutral-900);
             line-height: 1.6;
             min-height: 100vh;
         }
 
-        h1, h2, h3, h4 {
-            font-family: 'Kanit', sans-serif;
-            font-weight: 500;
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 24px 32px;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-thai);
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, var(--primary-700), var(--primary-500));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         /* Header */
-        header {
-            background: linear-gradient(135deg, var(--bg-darker), var(--bg-card));
-            color: white;
-            padding: 25px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 20% 30%, rgba(192, 0, 0, 0.05) 0%, transparent 40%),
-                radial-gradient(circle at 80% 70%, rgba(192, 0, 0, 0.05) 0%, transparent 40%);
-            z-index: 0;
+        .header {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius-xl);
+            padding: 20px 32px;
+            margin-bottom: 32px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            position: sticky;
+            top: 24px;
+            z-index: 50;
         }
 
         .header-content {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            position: relative;
-            z-index: 1;
+            justify-content: space-between;
+            gap: 32px;
         }
 
-        .logo-container {
+        .logo-section {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 16px;
         }
 
-        .logo-image {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: var(--bg-card);
+        .logo-mark {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary-700), var(--primary-500));
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
-            padding: 5px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: var(--shadow-md);
         }
 
-        .logo-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            filter: drop-shadow(0 0 5px rgba(192, 0, 0, 0.5));
+        .logo-mark i {
+            font-size: 28px;
+            color: white;
         }
 
         .logo-text h1 {
-            font-size: 1.8rem;
-            margin-bottom: 5px;
-            background: linear-gradient(to right, #ffffff, var(--light-red));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--neutral-900);
+            margin-bottom: 4px;
         }
 
         .logo-text p {
-            font-size: 0.9rem;
-            color: var(--text-gray);
+            font-size: 0.85rem;
+            color: var(--neutral-600);
+            letter-spacing: 0.5px;
+        }
+
+        /* Navigation */
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-item {
+            padding: 10px 20px;
+            border-radius: 40px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--neutral-700);
+            transition: all 0.2s ease;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-item:hover {
+            background: var(--neutral-200);
+            color: var(--primary-600);
+        }
+
+        .nav-item.active {
+            background: var(--primary-600);
+            color: white;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .nav-item i {
+            font-size: 1.1rem;
         }
 
         /* Search Bar */
-        .search-container {
-            width: 100%;
-            max-width: 500px;
-            margin: 25px auto 0;
+        .search-wrapper {
             position: relative;
+            min-width: 320px;
         }
 
         .search-bar {
             width: 100%;
-            padding: 14px 20px;
-            padding-left: 50px;
-            background: rgba(30, 30, 30, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--text-light);
-            border-radius: 50px;
-            font-size: 1rem;
-            font-family: 'Sarabun', sans-serif;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            transition: var(--transition);
+            padding: 12px 20px;
+            padding-left: 48px;
+            border: 2px solid var(--neutral-200);
+            border-radius: 40px;
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+            background: white;
         }
 
         .search-bar:focus {
             outline: none;
-            box-shadow: 0 6px 16px rgba(192, 0, 0, 0.2);
-            border-color: rgba(192, 0, 0, 0.3);
-        }
-
-        .search-bar::placeholder {
-            color: #888;
+            border-color: var(--primary-400);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
         }
 
         .search-icon {
@@ -162,527 +198,1263 @@
             left: 20px;
             top: 50%;
             transform: translateY(-50%);
-            color: var(--text-gray);
-            font-size: 1.2rem;
+            color: var(--neutral-500);
+            font-size: 1rem;
+            pointer-events: none;
         }
 
-        /* Notice Board Section */
-        .notice-board-container {
-            background: var(--bg-card);
-            border-radius: var(--border-radius);
-            padding: 20px;
-            margin-bottom: 30px;
-            box-shadow: var(--card-shadow);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .notice-board-container::before {
-            content: '';
+        .search-shortcut {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: linear-gradient(to right, var(--primary-red), var(--light-red));
-        }
-
-        .notice-board-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .notice-board-title {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .notice-board-title h3 {
-            font-size: 1.4rem;
-            color: var(--text-light);
-        }
-
-        .notice-board-icon {
-            background: linear-gradient(135deg, var(--primary-red), var(--light-red));
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            box-shadow: 0 4px 8px rgba(192, 0, 0, 0.3);
-        }
-
-        .notice-board-controls {
-            display: flex;
-            gap: 10px;
-        }
-
-        .notice-board-btn {
-            background: rgba(192, 0, 0, 0.1);
-            color: var(--light-red);
-            border: 1px solid rgba(192, 0, 0, 0.2);
-            padding: 8px 15px;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--neutral-200);
+            padding: 4px 8px;
             border-radius: 6px;
-            font-family: 'Kanit', sans-serif;
-            font-weight: 400;
-            cursor: pointer;
-            transition: var(--transition);
+            font-size: 0.75rem;
+            color: var(--neutral-700);
+            font-weight: 500;
+        }
+
+        /* User Menu */
+        .user-menu {
             display: flex;
             align-items: center;
-            gap: 5px;
-        }
-
-        .notice-board-btn:hover {
-            background: rgba(192, 0, 0, 0.2);
-            box-shadow: 0 0 10px rgba(192, 0, 0, 0.2);
-        }
-
-        .notice-board-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 20px;
         }
 
-        .notice-card {
-            background: rgba(30, 30, 30, 0.7);
-            border-radius: var(--border-radius);
-            padding: 20px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-            border-left: 4px solid var(--notice-info);
-            transition: var(--transition);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+        .notification-badge {
             position: relative;
-            overflow: hidden;
+            cursor: pointer;
         }
 
-        .notice-card:hover {
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            transform: translateY(-3px);
-            border-color: rgba(255, 255, 255, 0.1);
+        .notification-badge i {
+            font-size: 1.3rem;
+            color: var(--neutral-700);
         }
 
-        .notice-card.urgent {
-            border-left-color: var(--notice-urgent);
-        }
-
-        .notice-card.warning {
-            border-left-color: var(--notice-warning);
-        }
-
-        .notice-card.success {
-            border-left-color: var(--notice-success);
-        }
-
-        .notice-card-header {
+        .badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--error);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
             display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 12px;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid white;
         }
 
-        .notice-card-type {
-            font-size: 0.8rem;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-weight: 500;
-            font-family: 'Kanit', sans-serif;
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            padding: 6px 12px;
+            border-radius: 40px;
+            transition: all 0.2s ease;
         }
 
-        .notice-card-type.info {
-            background-color: rgba(33, 150, 243, 0.1);
-            color: var(--notice-info);
-            border: 1px solid rgba(33, 150, 243, 0.2);
+        .user-profile:hover {
+            background: var(--neutral-200);
         }
 
-        .notice-card-type.urgent {
-            background-color: rgba(255, 82, 82, 0.1);
-            color: var(--notice-urgent);
-            border: 1px solid rgba(255, 82, 82, 0.2);
-        }
-
-        .notice-card-type.warning {
-            background-color: rgba(255, 152, 0, 0.1);
-            color: var(--notice-warning);
-            border: 1px solid rgba(255, 152, 0, 0.2);
-        }
-
-        .notice-card-type.success {
-            background-color: rgba(76, 175, 80, 0.1);
-            color: var(--notice-success);
-            border: 1px solid rgba(76, 175, 80, 0.2);
-        }
-
-        .notice-card-content {
-            margin-bottom: 10px;
-            color: var(--text-light);
-        }
-
-        .notice-card-icon {
-            margin-right: 10px;
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary-600), var(--primary-400));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
             font-size: 1.1rem;
         }
 
-        .notice-card-icon.info {
-            color: var(--notice-info);
-        }
-
-        .notice-card-icon.urgent {
-            color: var(--notice-urgent);
-        }
-
-        .notice-card-icon.warning {
-            color: var(--notice-warning);
-        }
-
-        .notice-card-icon.success {
-            color: var(--notice-success);
-        }
-
-        .empty-notices {
-            grid-column: 1 / -1;
-            text-align: center;
-            padding: 40px 20px;
-            color: var(--text-gray);
-        }
-
-        .empty-notices i {
-            font-size: 3rem;
-            margin-bottom: 15px;
-            color: #444;
-        }
-
-        /* Main Content */
-        .main-title {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .main-title h2 {
-            font-size: 2rem;
-            margin-bottom: 10px;
-            background: linear-gradient(to right, #ffffff, var(--light-red));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .main-title p {
-            color: var(--text-gray);
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        /* Department Cards */
-        .departments-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
-            margin-bottom: 50px;
-        }
-
-        .department-card {
-            background: var(--bg-card);
-            border-radius: var(--border-radius);
-            padding: 25px;
-            box-shadow: var(--card-shadow);
-            transition: var(--transition);
-            cursor: pointer;
-            border-left: 5px solid var(--primary-red);
-            height: 100%;
+        .user-info {
             display: flex;
             flex-direction: column;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            position: relative;
-            overflow: hidden;
         }
 
-        .department-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--card-shadow-hover);
-            border-color: rgba(192, 0, 0, 0.3);
+        .user-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--neutral-900);
         }
 
-        .department-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(to right, var(--primary-red), transparent);
+        .user-role {
+            font-size: 0.75rem;
+            color: var(--neutral-600);
         }
 
-        .card-header {
+        /* Dashboard Header */
+        .dashboard-header {
             display: flex;
             align-items: center;
-            margin-bottom: 20px;
+            justify-content: space-between;
+            margin-bottom: 32px;
         }
 
-        .card-icon {
-            width: 60px;
-            height: 60px;
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--neutral-600);
+            font-size: 0.95rem;
+        }
+
+        .breadcrumb a {
+            color: var(--neutral-700);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--primary-600);
+        }
+
+        .breadcrumb i {
+            font-size: 0.8rem;
+        }
+
+        .date-display {
+            background: white;
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            color: var(--neutral-700);
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .date-display i {
+            color: var(--primary-500);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: var(--border-radius-lg);
+            padding: 24px;
+            box-shadow: var(--shadow-md);
+            transition: all 0.2s ease;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .stat-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .stat-title {
+            color: var(--neutral-600);
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary-100), var(--primary-200));
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 15px;
-            font-size: 1.8rem;
-            color: white;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            color: var(--primary-700);
+            font-size: 1.5rem;
         }
 
-        .card-icon.maintenance {
-            background: linear-gradient(135deg, #8b0000, #c00000);
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--neutral-900);
+            margin-bottom: 8px;
+            line-height: 1.2;
         }
 
-        .card-icon.it {
-            background: linear-gradient(135deg, #004d40, #00796b);
-        }
-
-        .card-icon.hr {
-            background: linear-gradient(135deg, #ff6f00, #ff8f00);
-        }
-
-        .card-icon.vehicle {
-            background: linear-gradient(135deg, #1b5e20, #2e7d32);
-        }
-
-        .card-icon.accounting {
-            background: linear-gradient(135deg, #4a148c, #6a1b9a);
-        }
-        
-        .card-icon.store {
-            background: linear-gradient(135deg, #e65100, #ef6c00);
-        }
-
-        .card-title h3 {
-            font-size: 1.3rem;
-            margin-bottom: 5px;
-            color: var(--text-light);
-        }
-
-        .card-title p {
-            font-size: 0.9rem;
-            color: var(--text-gray);
-        }
-
-        .card-description {
-            margin-bottom: 20px;
-            flex-grow: 1;
-            color: var(--text-gray);
-        }
-
-        .card-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: auto;
-        }
-
-        .visit-btn {
-            background: linear-gradient(to right, var(--primary-red), var(--light-red));
-            color: white;
-            border: none;
-            padding: 10px 18px;
-            border-radius: 8px;
-            font-family: 'Kanit', sans-serif;
-            font-weight: 400;
-            cursor: pointer;
-            transition: var(--transition);
+        .stat-change {
             display: flex;
             align-items: center;
             gap: 8px;
-            box-shadow: 0 4px 8px rgba(192, 0, 0, 0.3);
+            font-size: 0.85rem;
         }
 
-        .visit-btn:hover {
-            background: linear-gradient(to right, var(--dark-red), var(--primary-red));
-            box-shadow: 0 6px 12px rgba(192, 0, 0, 0.4);
-            transform: translateY(-2px);
+        .change-positive {
+            color: var(--success);
+            background: rgba(5, 150, 105, 0.1);
+            padding: 4px 8px;
+            border-radius: 20px;
         }
 
-        .external-link {
-            color: var(--light-red);
-            font-size: 1.2rem;
-            transition: var(--transition);
+        .change-negative {
+            color: var(--error);
+            background: rgba(220, 38, 38, 0.1);
+            padding: 4px 8px;
+            border-radius: 20px;
         }
 
-        .external-link:hover {
+        /* Quick Actions */
+        .quick-actions {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .action-btn {
+            background: white;
+            border: 1px solid var(--neutral-200);
+            border-radius: 12px;
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            flex: 1;
+        }
+
+        .action-btn:hover {
+            background: var(--primary-600);
+            border-color: var(--primary-600);
             color: white;
-            transform: scale(1.1);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .action-btn:hover .action-icon {
+            background: rgba(255,255,255,0.2);
+            color: white;
+        }
+
+        .action-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--neutral-200);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--primary-600);
+            transition: all 0.2s ease;
+        }
+
+        .action-content {
+            flex: 1;
+        }
+
+        .action-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .action-desc {
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+
+        /* Notice Board */
+        .notice-section {
+            background: white;
+            border-radius: var(--border-radius-xl);
+            padding: 28px;
+            margin-bottom: 32px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--primary-100), var(--primary-200));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-700);
+            font-size: 1.3rem;
+        }
+
+        .section-title h2 {
+            font-size: 1.3rem;
+            color: var(--neutral-900);
+        }
+
+        .badge-count {
+            background: var(--neutral-200);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--neutral-700);
+            margin-left: 8px;
+        }
+
+        .view-all {
+            color: var(--primary-600);
+            font-weight: 500;
+            font-size: 0.9rem;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .view-all:hover {
+            color: var(--primary-700);
+            gap: 12px;
+        }
+
+        .notice-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .notice-card {
+            background: var(--neutral-100);
+            border-radius: var(--border-radius-lg);
+            padding: 20px;
+            border-left: 4px solid;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .notice-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, transparent 50%, rgba(255,255,255,0.8) 50%);
+            opacity: 0.5;
+        }
+
+        .notice-card:hover {
+            transform: translateX(4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .notice-card.urgent { border-left-color: var(--error); }
+        .notice-card.info { border-left-color: var(--info); }
+        .notice-card.warning { border-left-color: var(--warning); }
+        .notice-card.success { border-left-color: var(--success); }
+
+        .notice-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .notice-type {
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .notice-type.urgent { background: rgba(220, 38, 38, 0.1); color: var(--error); }
+        .notice-type.info { background: rgba(37, 99, 235, 0.1); color: var(--info); }
+        .notice-type.warning { background: rgba(217, 119, 6, 0.1); color: var(--warning); }
+        .notice-type.success { background: rgba(5, 150, 105, 0.1); color: var(--success); }
+
+        .notice-time {
+            font-size: 0.75rem;
+            color: var(--neutral-600);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .notice-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--neutral-900);
+        }
+
+        .notice-content {
+            font-size: 0.9rem;
+            color: var(--neutral-700);
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+
+        .notice-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .notice-author {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .author-avatar {
+            width: 24px;
+            height: 24px;
+            background: var(--primary-200);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--primary-700);
+        }
+
+        .author-name {
+            font-size: 0.8rem;
+            color: var(--neutral-600);
+        }
+
+        .notice-attachment {
+            color: var(--neutral-500);
+            font-size: 0.8rem;
+        }
+
+        /* Departments Grid */
+        .departments-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+
+        .departments-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .dept-card {
+            background: white;
+            border-radius: var(--border-radius-lg);
+            padding: 24px;
+            box-shadow: var(--shadow-md);
+            transition: all 0.2s ease;
+            border: 1px solid rgba(0,0,0,0.05);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dept-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-500), var(--primary-700));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .dept-card:hover::after {
+            transform: scaleX(1);
+        }
+
+        .dept-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .dept-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .dept-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+
+        .dept-icon.maintenance { background: linear-gradient(135deg, #2563eb, #1e40af); }
+        .dept-icon.it { background: linear-gradient(135deg, #7c3aed, #5b21b6); }
+        .dept-icon.hr { background: linear-gradient(135deg, #db2777, #9d174d); }
+        .dept-icon.vehicle { background: linear-gradient(135deg, #059669, #047857); }
+        .dept-icon.accounting { background: linear-gradient(135deg, #d97706, #b45309); }
+        .dept-icon.store { background: linear-gradient(135deg, #6b7280, #374151); }
+
+        .dept-info {
+            flex: 1;
+        }
+
+        .dept-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+            color: var(--neutral-900);
+        }
+
+        .dept-stats {
+            font-size: 0.8rem;
+            color: var(--neutral-600);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .dept-stats span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .dept-desc {
+            color: var(--neutral-700);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .dept-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .dept-link {
+            color: var(--primary-600);
+            font-weight: 500;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .dept-status {
+            font-size: 0.8rem;
+            padding: 4px 12px;
+            border-radius: 20px;
+            background: var(--neutral-200);
+            color: var(--neutral-700);
+        }
+
+        .dept-status.online {
+            background: rgba(5, 150, 105, 0.1);
+            color: var(--success);
+        }
+
+        /* AI Assistant Panel */
+        .assistant-panel {
+            background: white;
+            border-radius: var(--border-radius-xl);
+            padding: 28px;
+            margin-bottom: 32px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(0,0,0,0.05);
+            background: linear-gradient(135deg, white, var(--neutral-100));
+        }
+
+        .assistant-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .assistant-avatar {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--primary-600), var(--primary-400));
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .assistant-title h3 {
+            font-size: 1.2rem;
+            margin-bottom: 4px;
+            color: var(--neutral-900);
+        }
+
+        .assistant-title p {
+            font-size: 0.85rem;
+            color: var(--neutral-600);
+        }
+
+        .assistant-content {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .quick-questions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            flex: 1;
+        }
+
+        .question-chip {
+            background: white;
+            border: 1px solid var(--neutral-200);
+            border-radius: 40px;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            color: var(--neutral-700);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .question-chip:hover {
+            background: var(--primary-600);
+            border-color: var(--primary-600);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .assistant-input {
+            flex: 1;
+            position: relative;
+            min-width: 300px;
+        }
+
+        .assistant-input input {
+            width: 100%;
+            padding: 14px 20px;
+            padding-right: 120px;
+            border: 2px solid var(--neutral-200);
+            border-radius: 40px;
+            font-family: var(--font-sans);
+            transition: all 0.2s ease;
+        }
+
+        .assistant-input input:focus {
+            outline: none;
+            border-color: var(--primary-400);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+        }
+
+        .assistant-input button {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--primary-600);
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 40px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .assistant-input button:hover {
+            background: var(--primary-700);
+            padding-right: 28px;
         }
 
         /* Footer */
-        footer {
-            background: var(--bg-darker);
-            padding: 25px 0;
-            margin-top: 30px;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            text-align: center;
-            color: var(--text-gray);
+        .footer {
+            background: white;
+            border-radius: var(--border-radius-xl);
+            padding: 32px;
+            margin-top: 48px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(0,0,0,0.05);
         }
 
         .footer-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+        }
+
+        .footer-col:first-child {
+            max-width: 300px;
         }
 
         .footer-logo {
-            font-weight: 600;
-            color: var(--light-red);
-            font-size: 1.2rem;
-        }
-
-        .footer-logo-container {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
+            gap: 12px;
+            margin-bottom: 16px;
         }
 
-        .footer-logo-img {
-            width: 40px;
-            height: 40px;
+        .footer-logo i {
+            font-size: 2rem;
+            color: var(--primary-600);
         }
 
-        .footer-logo-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            filter: drop-shadow(0 0 3px rgba(192, 0, 0, 0.5));
+        .footer-logo span {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--neutral-900);
         }
 
-        /* No Results */
-        .no-results {
-            text-align: center;
-            padding: 40px;
-            grid-column: 1 / -1;
-            color: var(--text-gray);
+        .footer-about {
+            color: var(--neutral-600);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            line-height: 1.6;
         }
 
-        .no-results i {
-            font-size: 3rem;
-            margin-bottom: 15px;
-            color: #444;
+        .footer-title {
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--neutral-900);
+            font-size: 1rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: var(--neutral-600);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-600);
+            transform: translateX(4px);
+        }
+
+        .footer-bottom {
+            margin-top: 40px;
+            padding-top: 24px;
+            border-top: 1px solid var(--neutral-200);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: var(--neutral-600);
+            font-size: 0.85rem;
+        }
+
+        .footer-bottom-links {
+            display: flex;
+            gap: 24px;
+        }
+
+        .footer-bottom-links a {
+            color: var(--neutral-600);
+            text-decoration: none;
+        }
+
+        .footer-bottom-links a:hover {
+            color: var(--primary-600);
+        }
+
+        /* Loading Skeleton */
+        .skeleton {
+            background: linear-gradient(90deg, var(--neutral-200) 25%, var(--neutral-300) 50%, var(--neutral-200) 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
         }
 
         /* Responsive */
-        @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                text-align: center;
-                gap: 20px;
-            }
-            
-            .logo-container {
-                justify-content: center;
-            }
-            
-            .notice-board-grid {
-                grid-template-columns: 1fr;
+        @media (max-width: 1280px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
             
             .departments-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
+                grid-template-columns: repeat(2, 1fr);
             }
             
-            .main-title h2 {
-                font-size: 1.6rem;
+            .notice-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
             
-            .notice-board-header {
-                flex-direction: column;
-                gap: 15px;
-                align-items: flex-start;
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .header-content {
+                flex-wrap: wrap;
             }
             
-            .notice-board-controls {
+            .nav-menu {
+                order: 3;
                 width: 100%;
-                justify-content: space-between;
+                justify-content: center;
             }
+            
+            .search-wrapper {
+                min-width: 250px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 16px;
+            }
+            
+            .stats-grid,
+            .departments-grid,
+            .notice-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .quick-actions {
+                flex-direction: column;
+            }
+            
+            .assistant-content {
+                flex-direction: column;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--neutral-200);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--neutral-500);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--neutral-700);
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <div class="container header-content">
-            <div class="logo-container">
-                <div class="logo-image">
-                    <img src="https://sarawutc6689-cpu.github.io/Mouldmate-HR/logotokai.png" alt="TokaiSolidTire Logo" onerror="this.onerror=null; this.src='https://via.placeholder.com/60/c00000/FFFFFF?text=T';">
+    <div class="container">
+        <!-- Header -->
+        <header class="header fade-in">
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="logo-mark">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h1>TokaiSolidTire</h1>
+                        <p>ENTERPRISE MANAGEMENT SYSTEM</p>
+                    </div>
                 </div>
-                <div class="logo-text">
-                    <h1>TokaiSolidTire System</h1>
-                    <p>ระบบบริหารจัดการองค์กร</p>
+
+                <nav class="nav-menu">
+                    <div class="nav-item active">
+                        <i class="fas fa-home"></i>
+                        หน้าหลัก
+                    </div>
+                    <div class="nav-item">
+                        <i class="fas fa-chart-pie"></i>
+                        แดชบอร์ด
+                    </div>
+                    <div class="nav-item">
+                        <i class="fas fa-calendar"></i>
+                        ปฏิทิน
+                    </div>
+                    <div class="nav-item">
+                        <i class="fas fa-file-alt"></i>
+                        รายงาน
+                    </div>
+                </nav>
+
+                <div class="search-wrapper">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" class="search-bar" placeholder="ค้นหาแผนก พนักงาน หรือเอกสาร...">
+                    <span class="search-shortcut">⌘ K</span>
+                </div>
+
+                <div class="user-menu">
+                    <div class="notification-badge">
+                        <i class="far fa-bell"></i>
+                        <span class="badge">3</span>
+                    </div>
+                    <div class="user-profile">
+                        <div class="user-avatar">SC</div>
+                        <div class="user-info">
+                            <span class="user-name">Sarawut C.</span>
+                            <span class="user-role">Administrator</span>
+                        </div>
+                        <i class="fas fa-chevron-down" style="font-size: 0.8rem; color: var(--neutral-500);"></i>
+                    </div>
                 </div>
             </div>
-            
-            <div class="search-container">
-                <i class="fas fa-search search-icon"></i>
-                <input type="text" class="search-bar" id="searchInput" placeholder="ค้นหาแผนก...">
+        </header>
+
+        <!-- Dashboard Header -->
+        <div class="dashboard-header fade-in">
+            <div class="breadcrumb">
+                <a href="#">หน้าหลัก</a>
+                <i class="fas fa-chevron-right"></i>
+                <span>ภาพรวมระบบ</span>
+            </div>
+            <div class="date-display">
+                <i class="far fa-calendar-alt"></i>
+                <span id="currentDate"></span>
             </div>
         </div>
-    </header>
 
-    <!-- Main Content -->
-    <main class="container">
+        <!-- Stats Grid -->
+        <div class="stats-grid fade-in">
+            <div class="stat-card">
+                <div class="stat-header">
+                    <span class="stat-title">พนักงานทั้งหมด</span>
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                </div>
+                <div class="stat-value">156</div>
+                <div class="stat-change">
+                    <span class="change-positive">
+                        <i class="fas fa-arrow-up"></i> +12
+                    </span>
+                    <span>จากเดือนที่แล้ว</span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <span class="stat-title">แผนกที่ใช้งาน</span>
+                    <div class="stat-icon">
+                        <i class="fas fa-building"></i>
+                    </div>
+                </div>
+                <div class="stat-value">6</div>
+                <div class="stat-change">
+                    <span class="change-positive">
+                        <i class="fas fa-check-circle"></i> 100%
+                    </span>
+                    <span>พร้อมใช้งาน</span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <span class="stat-title">งานที่กำลังดำเนินการ</span>
+                    <div class="stat-icon">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                </div>
+                <div class="stat-value">24</div>
+                <div class="stat-change">
+                    <span class="change-positive">
+                        <i class="fas fa-clock"></i> 8 งานใหม่
+                    </span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <span class="stat-title">ความพึงพอใจ</span>
+                    <div class="stat-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+                <div class="stat-value">94.5%</div>
+                <div class="stat-change">
+                    <span class="change-positive">
+                        <i class="fas fa-arrow-up"></i> +2.3%
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions fade-in">
+            <div class="action-btn">
+                <div class="action-icon">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+                <div class="action-content">
+                    <div class="action-title">เพิ่มพนักงานใหม่</div>
+                    <div class="action-desc">ลงทะเบียนพนักงานเข้าสู่ระบบ</div>
+                </div>
+            </div>
+
+            <div class="action-btn">
+                <div class="action-icon">
+                    <i class="fas fa-file-export"></i>
+                </div>
+                <div class="action-content">
+                    <div class="action-title">ออกรายงาน</div>
+                    <div class="action-desc">สรุปข้อมูลการดำเนินงาน</div>
+                </div>
+            </div>
+
+            <div class="action-btn">
+                <div class="action-icon">
+                    <i class="fas fa-calendar-plus"></i>
+                </div>
+                <div class="action-content">
+                    <div class="action-title">จัดตารางงาน</div>
+                    <div class="action-desc">วางแผนการทำงานล่วงหน้า</div>
+                </div>
+            </div>
+
+            <div class="action-btn">
+                <div class="action-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="action-content">
+                    <div class="action-title">วิเคราะห์ข้อมูล</div>
+                    <div class="action-desc">ดูแนวโน้มและสถิติ</div>
+                </div>
+            </div>
+        </div>
+
         <!-- Notice Board Section -->
-        <div class="notice-board-container">
-            <div class="notice-board-header">
-                <div class="notice-board-title">
-                    <div class="notice-board-icon">
+        <section class="notice-section fade-in">
+            <div class="section-header">
+                <div class="section-title">
+                    <div class="section-icon">
                         <i class="fas fa-bullhorn"></i>
                     </div>
-                    <h3>กระดานประกาศองค์กร</h3>
-                    <span id="noticeCount" style="background: linear-gradient(to right, var(--primary-red), var(--light-red)); color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.9rem; margin-left: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">5</span>
+                    <h2>ประกาศองค์กร <span class="badge-count">6</span></h2>
                 </div>
-                <div class="notice-board-controls">
-                    <button class="notice-board-btn" id="toggleNoticesBtn">
-                        <i class="fas fa-chevron-down"></i> ซ่อนประกาศ
+                <a href="#" class="view-all">
+                    ดูทั้งหมด <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <div class="notice-grid" id="noticeBoard">
+                <!-- Notices will be dynamically generated -->
+            </div>
+        </section>
+
+        <!-- Departments Section -->
+        <div class="departments-header">
+            <div class="section-title">
+                <div class="section-icon">
+                    <i class="fas fa-sitemap"></i>
+                </div>
+                <h2>แผนกในองค์กร</h2>
+            </div>
+            <div class="view-all">
+                จัดการแผนก <i class="fas fa-arrow-right"></i>
+            </div>
+        </div>
+
+        <div class="departments-grid" id="departmentsGrid">
+            <!-- Departments will be dynamically generated -->
+        </div>
+
+        <!-- AI Assistant Panel -->
+        <section class="assistant-panel fade-in">
+            <div class="assistant-header">
+                <div class="assistant-avatar">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="assistant-title">
+                    <h3>ผู้ช่วยอัจฉริยะ TokaiAI</h3>
+                    <p>พร้อมให้คำแนะนำและตอบข้อสงสัยตลอด 24 ชั่วโมง</p>
+                </div>
+            </div>
+
+            <div class="assistant-content">
+                <div class="quick-questions">
+                    <div class="question-chip" onclick="askAI('เอกสารการเบิกพัสดุ')">
+                        <i class="fas fa-box"></i> เอกสารการเบิกพัสดุ
+                    </div>
+                    <div class="question-chip" onclick="askAI('ขั้นตอนการลา')">
+                        <i class="fas fa-calendar-check"></i> ขั้นตอนการลา
+                    </div>
+                    <div class="question-chip" onclick="askAI('นโยบายความปลอดภัย')">
+                        <i class="fas fa-shield-alt"></i> นโยบายความปลอดภัย
+                    </div>
+                    <div class="question-chip" onclick="askAI('ติดต่อแผนกไอที')">
+                        <i class="fas fa-headset"></i> ติดต่อแผนกไอที
+                    </div>
+                </div>
+                
+                <div class="assistant-input">
+                    <input type="text" id="aiQuestion" placeholder="พิมพ์คำถามที่ต้องการ...">
+                    <button onclick="askAICustom()">
+                        สอบถาม <i class="fas fa-paper-plane"></i>
                     </button>
                 </div>
             </div>
-            
-            <div class="notice-board-grid" id="noticeBoard">
-                <!-- Notice cards will be generated by JavaScript -->
-            </div>
-        </div>
+        </section>
 
-        <div class="main-title">
-            <h2>แผนกในระบบ TokaiSolidTire</h2>
-            <p>เข้าถึงระบบงานของแผนกต่างๆ ได้จากลิงก์ด้านล่างนี้</p>
-        </div>
-
-        <!-- Departments Grid -->
-        <div class="departments-grid" id="departmentsGrid">
-            <!-- Cards will be dynamically generated by JavaScript -->
-        </div>
-    </main>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container footer-content">
-            <div class="footer-logo-container">
-                <div class="footer-logo-img">
-                    <img src="https://sarawutc6689-cpu.github.io/Mouldmate-HR/logotokai.png" alt="TokaiSolidTire Logo" onerror="this.onerror=null; this.src='https://via.placeholder.com/40/c00000/FFFFFF?text=T';">
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <div class="footer-logo">
+                        <i class="fas fa-cogs"></i>
+                        <span>TokaiSolidTire</span>
+                    </div>
+                    <p class="footer-about">
+                        ระบบบริหารจัดการองค์กรครบวงจร เพื่อเพิ่มประสิทธิภาพการทำงานและความสะดวกสบายในการเข้าถึงข้อมูลของพนักงานทุกคน
+                    </p>
+                    <div style="display: flex; gap: 16px;">
+                        <a href="#" style="color: var(--neutral-600);"><i class="fab fa-facebook"></i></a>
+                        <a href="#" style="color: var(--neutral-600);"><i class="fab fa-line"></i></a>
+                        <a href="#" style="color: var(--neutral-600);"><i class="fab fa-youtube"></i></a>
+                    </div>
                 </div>
-                <div class="footer-logo">TokaiSolidTire System</div>
+
+                <div class="footer-col">
+                    <h4 class="footer-title">เกี่ยวกับองค์กร</h4>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> ข้อมูลบริษัท</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> วิสัยทัศน์ พันธกิจ</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> โครงสร้างองค์กร</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> ข่าวสารและกิจกรรม</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4 class="footer-title">ระบบงาน</h4>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> ระบบสารบรรณ</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> ระบบการเงิน</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> ระบบบริหารงานบุคคล</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> ระบบคลังพัสดุ</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4 class="footer-title">ช่วยเหลือ</h4>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> คู่มือการใช้งาน</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> FAQ</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> แจ้งปัญหา</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> ติดต่อผู้ดูแล</a></li>
+                    </ul>
+                </div>
             </div>
-            <p>© 2026 ระบบบริหารจัดการองค์กรครบวงจร | ออกแบบเพื่อความสะดวกและประสิทธิภาพ</p>
-            <span>พัฒนาระบบโดย Sarawut.C</span>
+
+            <div class="footer-bottom">
+                <div>© 2026 TokaiSolidTire Co., Ltd. สงวนลิขสิทธิ์</div>
+                <div class="footer-bottom-links">
+                    <a href="#">นโยบายความเป็นส่วนตัว</a>
+                    <a href="#">ข้อกำหนดการใช้งาน</a>
+                    <a href="#">แผนผังเว็บไซต์</a>
+                </div>
+                <div>พัฒนาระบบโดย Sarawut.C</div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- AI Chat Modal -->
+    <div id="aiModal" style="display: none; position: fixed; bottom: 30px; right: 30px; width: 400px; background: white; border-radius: 20px; box-shadow: var(--shadow-xl); z-index: 1000;">
+        <div style="background: linear-gradient(135deg, var(--primary-700), var(--primary-500)); color: white; padding: 20px; border-radius: 20px 20px 0 0; display: flex; align-items: center; justify-content: space-between;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <i class="fas fa-robot" style="font-size: 1.8rem;"></i>
+                <div>
+                    <h4 style="margin-bottom: 4px;">TokaiAI Assistant</h4>
+                    <p style="font-size: 0.8rem; opacity: 0.9;">ออนไลน์ • พร้อมตอบคำถาม</p>
+                </div>
+            </div>
+            <i class="fas fa-times" onclick="closeModal()" style="cursor: pointer; font-size: 1.2rem;"></i>
         </div>
-    </footer>
+        <div id="chatMessages" style="height: 300px; padding: 20px; overflow-y: auto; background: var(--neutral-100);">
+            <div style="background: white; padding: 12px; border-radius: 12px; margin-bottom: 12px; max-width: 80%;">
+                สวัสดีครับ ผมคือผู้ช่วย AI ของ TokaiSolidTire มีอะไรให้ผมช่วยเหลือไหมครับ?
+            </div>
+        </div>
+        <div style="padding: 20px; border-top: 1px solid var(--neutral-200; display: flex; gap: 12px;">
+            <input type="text" id="chatInput" style="flex: 1; padding: 12px; border: 1px solid var(--neutral-300); border-radius: 8px;" placeholder="พิมพ์ข้อความ...">
+            <button onclick="sendChat()" style="background: var(--primary-600); color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer;">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
 
     <script>
         // ข้อมูลแผนก
@@ -694,7 +1466,8 @@
                 url: "https://sites.google.com/view/mouldmatema",
                 icon: "fas fa-tools",
                 iconClass: "maintenance",
-                color: "#ff6b6b"
+                members: 28,
+                projects: 12
             },
             {
                 id: 2,
@@ -703,7 +1476,8 @@
                 url: "https://sarawutc6689-cpu.github.io/Mouldmate-Login/Index_IT.html",
                 icon: "fas fa-laptop-code",
                 iconClass: "it",
-                color: "#4ecdc4"
+                members: 15,
+                projects: 8
             },
             {
                 id: 3,
@@ -712,7 +1486,8 @@
                 url: "https://sarawutc6689-cpu.github.io/Mouldmate-HR/hrsaf.html",
                 icon: "fas fa-users",
                 iconClass: "hr",
-                color: "#ffe66d"
+                members: 22,
+                projects: 6
             },
             {
                 id: 4,
@@ -721,7 +1496,8 @@
                 url: "https://sarawutc6689-cpu.github.io/Mouldmate-Login/Index_AMS.html",
                 icon: "fas fa-car",
                 iconClass: "vehicle",
-                color: "#1a936f"
+                members: 31,
+                projects: 15
             },
             {
                 id: 5,
@@ -730,7 +1506,8 @@
                 url: "https://sites.google.com/view/mouldmate-acc/home",
                 icon: "fas fa-calculator",
                 iconClass: "accounting",
-                color: "#9d4edd"
+                members: 18,
+                projects: 4
             },
             {
                 id: 6,
@@ -739,228 +1516,308 @@
                 url: "https://sarawutc6689-cpu.github.io/Mouldmate-ST/Home.html",
                 icon: "fas fa-store",
                 iconClass: "store",
-                color: "#ff9a00"
+                members: 24,
+                projects: 3
             }
         ];
 
-        // ข้อมูลประกาศสำหรับกระดานประกาศ
+        // ข้อมูลประกาศ
         const announcements = [
             {
                 id: 1,
-                title: "ระบบอัปเดตล่าสุด",
-                content: "เพิ่มความเร็วในการเข้าถึงข้อมูล 30% และเพิ่มฟังก์ชันการทำงานใหม่",
+                title: "อัปเดตระบบสารบรรณอิเล็กทรอนิกส์",
+                content: "ระบบสารบรรณเวอร์ชันใหม่พร้อมให้ใช้งานแล้ววันนี้ รองรับการลงนามเอกสารแบบดิจิทัล",
                 type: "info",
-                icon: "fas fa-rocket"
+                time: "09:30 น.",
+                author: "ฝ่ายไอที",
+                authorInitial: "IT",
+                attachments: 2
             },
             {
                 id: 2,
-                title: "นโยบายความปลอดภัยใหม่",
-                content: "โปรดเปลี่ยนรหัสผ่านทุก 90 วันเพื่อความปลอดภัยของข้อมูลองค์กร",
+                title: "ประกาศวันหยุดประจำเดือนกุมภาพันธ์",
+                content: "วันมาฆบูชา วันที่ 12 กุมภาพันธ์ 2569 เป็นวันหยุดชดเชย",
                 type: "warning",
-                icon: "fas fa-shield-alt"
+                time: "เมื่อวาน 16:45 น.",
+                author: "ฝ่ายบุคคล",
+                authorInitial: "HR",
+                attachments: 1
             },
             {
                 id: 3,
-                title: "ระบบแจ้งปัญหาผ่านช่องทางใหม่",
-                content: "แจ้งปัญหาได้ตลอด 24 ชม. ผ่านระบบออนไลน์และแอปพลิเคชันมือถือ",
+                title: "การอบรมพัฒนาบุคลากร",
+                content: "เปิดรับสมัครอบรมหลักสูตร \"การทำงานอย่างมีประสิทธิภาพด้วย AI\" จำนวน 30 ที่นั่ง",
                 type: "success",
-                icon: "fas fa-robot"
+                time: "12 ก.พ. 2569",
+                author: "ฝ่ายพัฒนา",
+                authorInitial: "TD",
+                attachments: 0
             },
             {
                 id: 4,
-                title: "ซ่อมบำรุงระบบ Helpdesk ประจำเดือน",
-                content: "วันที่ 25 ของทุกเดือน เวลา 20:00-00:00 น. ระบบอาจหยุดให้บริการชั่วคราว",
-                type: "warning",
-                icon: "fas fa-tools"
+                title: "แจ้งกำหนดส่งงบประมาณประจำเดือน",
+                content: "กรุณาส่งงบประมาณประจำเดือนกุมภาพันธ์ ภายในวันที่ 25 ของเดือน",
+                type: "urgent",
+                time: "11 ก.พ. 2569",
+                author: "ฝ่ายบัญชี",
+                authorInitial: "ACC",
+                attachments: 3
             },
             {
                 id: 5,
-                title: "รายงานประสิทธิภาพองค์กร",
-                content: "ประสิทธิภาพองค์กรเพิ่มขึ้น 10% ในเดือนที่ผ่านมา",
-                type: "success",
-                icon: "fas fa-chart-line"
+                title: "นโยบายการทำงานจากที่บ้าน (WFH)",
+                content: "ปรับปรุงนโยบายการทำงานจากที่บ้าน มีผลตั้งแต่วันที่ 1 มีนาคม 2569 เป็นต้นไป",
+                type: "info",
+                time: "10 ก.พ. 2569",
+                author: "ฝ่ายบุคคล",
+                authorInitial: "HR",
+                attachments: 2
             },
             {
                 id: 6,
-                title: "ประกาศด่วน! ระบบ Helpdesk สำรองข้อมูล",
-                content: "จะมีทดสอบระบบการสำรองข้อมูลทั้งหมดในวันที่ 31 มกราคม 2026 เวลา 21:00 น. อาจส่งผลกระทบต่อการใช้งาน",
-                type: "urgent",
-                icon: "fas fa-exclamation-triangle"
+                title: "กิจกรรม 5 ส ประจำปี",
+                content: "กิจกรรม 5 ส ประจำปี 2569 จะจัดขึ้นในวันที่ 20 กุมภาพันธ์นี้",
+                type: "success",
+                time: "9 ก.พ. 2569",
+                author: "คณะกรรมการ",
+                authorInitial: "5S",
+                attachments: 1
             }
         ];
 
-        // ฟังก์ชันสร้างการ์ดประกาศ
-        function createNoticeCard(notice) {
-            return `
-                <div class="notice-card ${notice.type}" data-notice-id="${notice.id}">
-                    <div class="notice-card-header">
-                        <span class="notice-card-type ${notice.type}">
-                            ${getTypeLabel(notice.type)}
+        // Render Functions
+        function renderNotices() {
+            const noticeBoard = document.getElementById('noticeBoard');
+            if (!noticeBoard) return;
+
+            noticeBoard.innerHTML = announcements.map(notice => `
+                <div class="notice-card ${notice.type}">
+                    <div class="notice-meta">
+                        <span class="notice-type ${notice.type}">${getTypeLabel(notice.type)}</span>
+                        <span class="notice-time">
+                            <i class="far fa-clock"></i> ${notice.time}
                         </span>
                     </div>
-                    <div class="notice-card-content">
-                        <div style="display: flex; align-items: flex-start; margin-bottom: 10px;">
-                            <i class="${notice.icon} notice-card-icon ${notice.type}"></i>
-                            <h4 style="margin: 0; font-size: 1.1rem; color: var(--text-light);">${notice.title}</h4>
+                    <h4 class="notice-title">${notice.title}</h4>
+                    <p class="notice-content">${notice.content}</p>
+                    <div class="notice-footer">
+                        <div class="notice-author">
+                            <div class="author-avatar">${notice.authorInitial}</div>
+                            <span class="author-name">${notice.author}</span>
                         </div>
-                        <p style="margin-left: 30px; color: var(--text-gray);">${notice.content}</p>
+                        ${notice.attachments > 0 ? `
+                            <div class="notice-attachment">
+                                <i class="fas fa-paperclip"></i> ${notice.attachments}
+                            </div>
+                        ` : ''}
                     </div>
                 </div>
-            `;
+            `).join('');
         }
 
-        // ฟังก์ชันแสดงประกาศทั้งหมด
-        function renderNotices(noticeArray) {
-            const noticeBoard = document.getElementById('noticeBoard');
-            const noticeCount = document.getElementById('noticeCount');
-            
-            // แสดงจำนวนประกาศทั้งหมด
-            noticeCount.textContent = noticeArray.length;
-            
-            if (noticeArray.length === 0) {
-                noticeBoard.innerHTML = `
-                    <div class="empty-notices">
-                        <i class="far fa-bell-slash"></i>
-                        <h3>ไม่มีประกาศในขณะนี้</h3>
-                        <p>เมื่อมีประกาศใหม่จะปรากฏที่นี่</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            // เรียงลำดับประกาศ: ด่วนมาก่อน > เตือน > ข้อมูล > สำเร็จ
-            const sortedNotices = [...noticeArray].sort((a, b) => {
-                const typeOrder = { urgent: 0, warning: 1, info: 2, success: 3 };
-                return typeOrder[a.type] - typeOrder[b.type];
-            });
-            
-            noticeBoard.innerHTML = sortedNotices.map(notice => createNoticeCard(notice)).join('');
-        }
+        function renderDepartments() {
+            const grid = document.getElementById('departmentsGrid');
+            if (!grid) return;
 
-        // ฟังก์ชันสร้างการ์ดแผนก
-        function createDepartmentCard(dept) {
-            return `
-                <div class="department-card" data-dept-id="${dept.id}">
-                    <div class="card-header">
-                        <div class="card-icon ${dept.iconClass}">
+            grid.innerHTML = departments.map(dept => `
+                <div class="dept-card" onclick="window.open('${dept.url}', '_blank')">
+                    <div class="dept-header">
+                        <div class="dept-icon ${dept.iconClass}">
                             <i class="${dept.icon}"></i>
                         </div>
-                        <div class="card-title">
-                            <h3>${dept.name}</h3>
-                            <p>${dept.description}</p>
+                        <div class="dept-info">
+                            <h3 class="dept-name">${dept.name}</h3>
+                            <div class="dept-stats">
+                                <span><i class="fas fa-user"></i> ${dept.members} คน</span>
+                                <span><i class="fas fa-project-diagram"></i> ${dept.projects} โครงการ</span>
+                            </div>
                         </div>
                     </div>
-                    <div class="card-description">
-                        เข้าสู่ระบบงานของแผนกเพื่อบริหารจัดการงานด้าน${dept.name.split(' ')[0]}
-                    </div>
-                    <div class="card-footer">
-                        <button class="visit-btn" onclick="window.open('${dept.url}', '_blank')">
-                            <i class="fas fa-external-link-alt"></i> เข้าสู่ระบบ
-                        </button>
-                        <a href="${dept.url}" target="_blank" class="external-link">
-                            <i class="fas fa-external-link-alt"></i>
-                        </a>
+                    <p class="dept-desc">${dept.description}</p>
+                    <div class="dept-footer">
+                        <span class="dept-link">
+                            เข้าสู่ระบบ <i class="fas fa-arrow-right"></i>
+                        </span>
+                        <span class="dept-status online">
+                            <i class="fas fa-circle"></i> กำลังทำงาน
+                        </span>
                     </div>
                 </div>
-            `;
+            `).join('');
         }
 
-        // ฟังก์ชันแสดงแผนกทั้งหมด
-        function renderDepartments(deptArray) {
-            const grid = document.getElementById('departmentsGrid');
-            
-            if (deptArray.length === 0) {
-                grid.innerHTML = `
-                    <div class="no-results">
-                        <i class="fas fa-search"></i>
-                        <h3>ไม่พบแผนกที่คุณค้นหา</h3>
-                        <p>ลองค้นหาด้วยคำอื่นหรือดูแผนกทั้งหมด</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            grid.innerHTML = deptArray.map(dept => createDepartmentCard(dept)).join('');
-        }
-
-        // ฟังก์ชันค้นหาแผนก
-        function searchDepartments() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            
-            if (!searchTerm) {
-                renderDepartments(departments);
-                return;
-            }
-            
-            const filteredDepts = departments.filter(dept => 
-                dept.name.toLowerCase().includes(searchTerm) || 
-                dept.description.toLowerCase().includes(searchTerm)
-            );
-            
-            renderDepartments(filteredDepts);
-        }
-
-        // ฟังก์ชันย่อยช่วยเหลือ
         function getTypeLabel(type) {
             const labels = {
-                'info': 'ข้อมูล',
                 'urgent': 'ด่วน',
-                'warning': 'เตือน',
-                'success': 'สำเร็จ'
+                'info': 'ประชาสัมพันธ์',
+                'warning': 'ประกาศ',
+                'success': 'ข่าวดี'
             };
             return labels[type] || type;
         }
-        
-        function toggleNoticesVisibility() {
-            const noticeBoard = document.getElementById('noticeBoard');
-            const toggleBtn = document.getElementById('toggleNoticesBtn');
-            const icon = toggleBtn.querySelector('i');
-            
-            if (noticeBoard.style.display === 'none') {
-                noticeBoard.style.display = 'grid';
-                icon.className = 'fas fa-chevron-down';
-                toggleBtn.innerHTML = '<i class="fas fa-chevron-down"></i> ซ่อนประกาศ';
-            } else {
-                noticeBoard.style.display = 'none';
-                icon.className = 'fas fa-chevron-up';
-                toggleBtn.innerHTML = '<i class="fas fa-chevron-up"></i> แสดงประกาศ';
+
+        // Date Display
+        function updateDate() {
+            const dateElement = document.getElementById('currentDate');
+            if (!dateElement) return;
+
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            };
+            const thaiDate = new Date().toLocaleDateString('th-TH', options);
+            dateElement.textContent = thaiDate;
+        }
+
+        // AI Functions
+        function askAI(topic) {
+            document.getElementById('aiQuestion').value = topic;
+            showModal();
+        }
+
+        function askAICustom() {
+            const question = document.getElementById('aiQuestion').value;
+            if (question.trim()) {
+                showModal();
+                setTimeout(() => {
+                    addMessage(question, 'user');
+                    setTimeout(() => {
+                        addMessage(getAIResponse(question), 'bot');
+                    }, 1000);
+                }, 500);
             }
         }
 
-        // ฟังก์ชันเริ่มต้น
-        function init() {
-            // แสดงประกาศทั้งหมด
-            renderNotices(announcements);
-            
-            // แสดงแผนกทั้งหมดเมื่อโหลดหน้า
-            renderDepartments(departments);
-            
-            // เพิ่ม event listener สำหรับการค้นหา
-            document.getElementById('searchInput').addEventListener('input', searchDepartments);
-            
-            // เพิ่ม event listener สำหรับการกด Enter ในช่องค้นหา
-            document.getElementById('searchInput').addEventListener('keyup', function(event) {
-                if (event.key === 'Enter') {
-                    searchDepartments();
-                }
-            });
-            
-            // เพิ่ม event listener สำหรับปุ่มซ่อน/แสดงประกาศ
-            document.getElementById('toggleNoticesBtn').addEventListener('click', toggleNoticesVisibility);
-            
-            // เพิ่มเอฟเฟกต์เมื่อโหลดหน้า
-            document.addEventListener('DOMContentLoaded', function() {
-                setTimeout(() => {
-                    document.querySelectorAll('.department-card').forEach((card, index) => {
-                        card.style.animationDelay = `${index * 0.1}s`;
-                        card.classList.add('fade-in');
-                    });
-                }, 300);
-            });
+        function showModal() {
+            const modal = document.getElementById('aiModal');
+            modal.style.display = 'block';
         }
 
-        // เริ่มต้นแอปเมื่อหน้าเว็บโหลดเสร็จ
-        document.addEventListener('DOMContentLoaded', init);
+        function closeModal() {
+            document.getElementById('aiModal').style.display = 'none';
+        }
+
+        function sendChat() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (message) {
+                addMessage(message, 'user');
+                input.value = '';
+                
+                setTimeout(() => {
+                    addMessage(getAIResponse(message), 'bot');
+                }, 1000);
+            }
+        }
+
+        function addMessage(text, sender) {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            
+            messageDiv.style.cssText = `
+                background: ${sender === 'user' ? 'var(--primary-600)' : 'white'};
+                color: ${sender === 'user' ? 'white' : 'var(--neutral-900)'};
+                padding: 12px 16px;
+                border-radius: 12px;
+                margin-bottom: 12px;
+                max-width: 80%;
+                ${sender === 'user' ? 'margin-left: auto;' : ''}
+                box-shadow: var(--shadow-sm);
+                animation: fadeIn 0.3s ease;
+            `;
+            
+            messageDiv.textContent = text;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function getAIResponse(question) {
+            const q = question.toLowerCase();
+            
+            if (q.includes('เบิก') || q.includes('พัสดุ')) {
+                return "การเบิกพัสดุสามารถทำได้ผ่านระบบคลังพัสดุ โดยเลือกหมวด SP หรือ SU ที่ต้องการ กรุณากรอกรหัสพัสดุและจำนวนที่ต้องการเบิก";
+            } else if (q.includes('ลา')) {
+                return "ขั้นตอนการลา: 1. กรอกแบบฟอร์มใบลา 2. ส่งให้หัวหน้างานอนุมัติ 3. ส่งฝ่ายบุคคลเพื่อบันทึกข้อมูล";
+            } else if (q.includes('ความปลอดภัย')) {
+                return "นโยบายความปลอดภัย: เปลี่ยนรหัสผ่านทุก 90 วัน ห้ามแชร์รหัสผ่านกับผู้อื่น และออกจากระบบทุกครั้งเมื่อเลิกใช้งาน";
+            } else if (q.includes('ติดต่อ') || q.includes('ไอที')) {
+                return "ติดต่อแผนกไอทีได้ที่: โทร. 02-123-4567 ต่อ 1111, อีเมล: it@tokaisolidtire.com หรือผ่านระบบ Helpdesk";
+            } else {
+                return "ขอบคุณสำหรับคำถาม กรุณาติดต่อเจ้าหน้าที่โดยตรงหรือสอบถามรายละเอียดเพิ่มเติมได้ที่แผนกที่เกี่ยวข้องครับ";
+            }
+        }
+
+        // Keyboard Shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.metaKey && e.key === 'k') {
+                e.preventDefault();
+                document.querySelector('.search-bar').focus();
+            }
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            renderNotices();
+            renderDepartments();
+            updateDate();
+        });
+
+        // Search Function
+        document.querySelector('.search-bar').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            
+            // Filter departments
+            const filteredDepts = departments.filter(dept => 
+                dept.name.toLowerCase().includes(searchTerm) ||
+                dept.description.toLowerCase().includes(searchTerm)
+            );
+            
+            // Update UI with filtered results
+            if (searchTerm.length > 0) {
+                const grid = document.getElementById('departmentsGrid');
+                if (filteredDepts.length > 0) {
+                    grid.innerHTML = filteredDepts.map(dept => `
+                        <div class="dept-card" onclick="window.open('${dept.url}', '_blank')">
+                            <!-- Same card structure as above -->
+                            <div class="dept-header">
+                                <div class="dept-icon ${dept.iconClass}">
+                                    <i class="${dept.icon}"></i>
+                                </div>
+                                <div class="dept-info">
+                                    <h3 class="dept-name">${dept.name}</h3>
+                                    <div class="dept-stats">
+                                        <span><i class="fas fa-user"></i> ${dept.members} คน</span>
+                                        <span><i class="fas fa-project-diagram"></i> ${dept.projects} โครงการ</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="dept-desc">${dept.description}</p>
+                            <div class="dept-footer">
+                                <span class="dept-link">
+                                    เข้าสู่ระบบ <i class="fas fa-arrow-right"></i>
+                                </span>
+                                <span class="dept-status online">
+                                    <i class="fas fa-circle"></i> กำลังทำงาน
+                                </span>
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    grid.innerHTML = `
+                        <div style="grid-column: 1/-1; text-align: center; padding: 60px; background: white; border-radius: 16px;">
+                            <i class="fas fa-search" style="font-size: 3rem; color: var(--neutral-400); margin-bottom: 16px;"></i>
+                            <h3 style="color: var(--neutral-700);">ไม่พบผลการค้นหา</h3>
+                            <p style="color: var(--neutral-500);">ลองค้นหาด้วยคำอื่น หรือตรวจสอบการสะกดคำ</p>
+                        </div>
+                    `;
+                }
+            } else {
+                renderDepartments();
+            }
+        });
     </script>
 </body>
 </html>
