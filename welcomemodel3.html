@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mouldmate · TOKAISOLIDTIRE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;300;400;500&family=Noto+Serif+Thai:wght@200;300;400;500&family=Sarabun:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --sakura-deep:  #c8687a;
+      --sakura-mid:   #e8909e;
+      --sakura-soft:  #f2b8c2;
+      --sakura-pale:  #fde8ec;
+      --petal-pink:   #fad4dc;
+      --white-bloom:  #fffaf8;
+      --sky-am:       #e8f4fc;
+      --sky-pink:     #fce8f0;
+      --leaf-fresh:   #6aab5a;
+      --leaf-mid:     #4e8c3e;
+      --bark:         #7a5038;
+      --bark-lt:      #a06848;
+      --ink:          #2a1a20;
+      --ink-mid:      #5a3848;
+      --ink-soft:     #8a6070;
+      --mist:         #c0a8b0;
+      --gold:         #c8924a;
+    }
+
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+
+    body {
+      font-family: 'Sarabun', sans-serif;
+      background: var(--white-bloom);
+      color: var(--ink);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* ── SKY ── */
+    .sky {
+      position: fixed; inset: 0; z-index: 0;
+      background: linear-gradient(
+        175deg,
+        #fce8f4 0%,
+        #f8e4ee 10%,
+        #f0eef8 28%,
+        #e8f4fc 55%,
+        #f0faee 78%,
+        #fdf6f0 100%
+      );
+    }
+
+    /* ── SUN GLOW ── */
+    .sun-glow {
+      position: fixed; top: -100px; left: 50%;
+      transform: translateX(-50%);
+      width: 600px; height: 600px; z-index: 1;
+      border-radius: 50%;
+      background: radial-gradient(circle,
+        rgba(255,240,200,.55) 0%,
+        rgba(252,210,180,.25) 35%,
+        rgba(248,180,200,.12) 60%,
+        transparent 75%
+      );
+      animation: sunPulse 6s ease-in-out infinite;
+      pointer-events: none;
+    }
+    @keyframes sunPulse {
+      0%,100%{ opacity:.8; transform:translateX(-50%) scale(1); }
+      50%    { opacity:1;  transform:translateX(-50%) scale(1.06); }
+    }
+
+    /* ── SAKURA PETALS ── */
+    .petals-layer { position:fixed; inset:0; z-index:2; pointer-events:none; overflow:hidden; }
+
+    .petal {
+      position: absolute; top: -30px; opacity: 0;
+      animation: fall ease-in-out infinite;
+      pointer-events: none;
+      transform-origin: center center;
+    }
+
+    /* SVG petal shapes */
+    .petal svg { display:block; }
+
+    @keyframes fall {
+      0%   { opacity:0; transform: translateY(0)    rotate(0deg)   translateX(0)   scale(.7); }
+      6%   { opacity:.9; }
+      90%  { opacity:.6; }
+      100% { opacity:0; transform: translateY(108vh) rotate(520deg) translateX(70px) scale(1); }
+    }
+    @keyframes fallAlt {
+      0%   { opacity:0; transform: translateY(0)    rotate(0deg)   translateX(0)    scale(.8); }
+      6%   { opacity:.8; }
+      90%  { opacity:.4; }
+      100% { opacity:0; transform: translateY(108vh) rotate(-480deg) translateX(-60px) scale(.9); }
+    }
+
+    /* ── SAKURA TREE ── */
+    .tree-wrap {
+      position: fixed; bottom: 0; left: -60px; z-index: 3;
+      pointer-events: none; width: 460px;
+    }
+    .tree-wrap svg { display: block; }
+
+    /* ── GROUND ── */
+    .ground {
+      position: fixed; bottom: 0; left: 0; width: 100%; height: 70px;
+      z-index: 3; pointer-events: none;
+      background: linear-gradient(0deg,
+        rgba(110,80,60,.25) 0%,
+        rgba(140,100,80,.1) 40%,
+        transparent 100%
+      );
+    }
+
+    /* ── SCATTERED PETALS ON GROUND ── */
+    .ground-petals {
+      position: fixed; bottom: 0; left: 0; width: 100%; height: 50px;
+      z-index: 4; pointer-events: none;
+      display: flex; align-items: flex-end;
+      padding: 0 0 4px 420px;
+      gap: 4px; overflow: hidden;
+    }
+
+    /* ── LAYOUT ── */
+    .page {
+      position: relative; z-index: 10;
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: flex-end;
+      padding: 3rem 5% 3rem 50%;
+    }
+
+    /* ── CONTENT BOX ── */
+    .content-wrap {
+      width: 100%; max-width: 560px;
+    }
+
+    /* ── JAPANESE SEASON TAG ── */
+    .season-tag {
+      display: inline-flex; align-items: center; gap: .6rem;
+      margin-bottom: 2rem;
+      animation: riseIn .7s ease both;
+    }
+    .kanji-badge {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 1.6rem; font-weight: 200;
+      color: var(--sakura-deep); line-height: 1;
+      letter-spacing: .05em;
+    }
+    .season-line { width:1px; height:36px; background: linear-gradient(180deg, transparent, var(--sakura-mid), transparent); }
+    .season-text {
+      display: flex; flex-direction: column; gap: .15rem;
+    }
+    .season-text span:first-child {
+      font-size: .68rem; letter-spacing: .18em; text-transform: uppercase;
+      color: var(--sakura-deep); font-weight: 600;
+    }
+    .season-text span:last-child {
+      font-size: .72rem; color: var(--ink-soft); letter-spacing: .06em;
+    }
+    .live-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: #e05070;
+      margin-left: .4rem;
+      animation: blink 2s ease-in-out infinite;
+    }
+    @keyframes blink {
+      0%,100%{ opacity:1; box-shadow:0 0 0 0 rgba(224,80,112,.5); }
+      50%    { opacity:.7; box-shadow:0 0 0 5px rgba(224,80,112,0); }
+    }
+
+    /* ── HEADING ── */
+    h1 {
+      font-family: 'Noto Serif Thai', serif;
+      font-weight: 200;
+      font-size: 4rem; line-height: 1.2;
+      color: var(--ink);
+      margin-bottom: .5rem;
+      letter-spacing: -.01em;
+      animation: riseIn .7s .1s both;
+    }
+    h1 .jp {
+      display: block;
+      font-family: 'Noto Serif JP', serif;
+      font-weight: 200; font-size: 1.05rem;
+      color: var(--ink-soft); letter-spacing: .35em;
+      margin-bottom: .5rem;
+    }
+    h1 .bloom { color: var(--sakura-deep); font-weight: 400; }
+
+    /* ── HAIKU LINE ── */
+    .haiku {
+      font-family: 'Noto Serif JP', serif;
+      font-weight: 200; font-size: .9rem;
+      color: var(--ink-soft); letter-spacing: .2em;
+      margin-bottom: 2rem;
+      padding-left: 2px;
+      animation: riseIn .7s .15s both;
+      line-height: 2;
+    }
+
+    /* ── DIVIDER ── */
+    .petal-divider {
+      display: flex; align-items: center; gap: .8rem;
+      margin-bottom: 1.6rem;
+      animation: riseIn .7s .18s both;
+    }
+    .petal-divider::before, .petal-divider::after {
+      content: '';
+      flex: 1; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(200,104,122,.3), transparent);
+    }
+    .petal-divider span { font-size: .9rem; }
+
+    /* ── DESC ── */
+    .desc {
+      font-size: 1rem; line-height: 1.9; font-weight: 300;
+      color: var(--ink-mid); max-width: 440px;
+      margin-bottom: 2.5rem;
+      animation: riseIn .7s .22s both;
+    }
+
+    /* ── BUTTONS ── */
+    .btn-row { display:flex; gap:1rem; margin-bottom:3rem; animation: riseIn .7s .28s both; }
+
+    .btn-sakura {
+      display: inline-flex; align-items: center; gap: .7rem;
+      padding: 1rem 2.2rem;
+      background: linear-gradient(135deg, var(--sakura-deep) 0%, #d4788a 100%);
+      color: #fff; border: none; border-radius: 50px;
+      font-family: 'Sarabun', sans-serif;
+      font-size: .95rem; font-weight: 600; letter-spacing: .04em;
+      text-decoration: none;
+      box-shadow: 0 12px 28px -8px rgba(200,104,122,.45);
+      transition: all .35s ease;
+      cursor: pointer; position: relative; overflow: hidden;
+    }
+    .btn-sakura::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,.15) 0%, transparent 60%);
+      border-radius: inherit;
+    }
+    .btn-sakura:hover { transform:translateY(-3px); box-shadow: 0 18px 36px -8px rgba(200,104,122,.55); }
+
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: .7rem;
+      padding: 1rem 2rem;
+      background: rgba(255,255,255,.6);
+      color: var(--ink-mid); font-weight: 400;
+      border: 1px solid rgba(200,104,122,.25);
+      border-radius: 50px;
+      font-family: 'Sarabun', sans-serif;
+      font-size: .95rem;
+      text-decoration: none;
+      backdrop-filter: blur(12px);
+      transition: all .3s ease;
+    }
+    .btn-ghost:hover {
+      background: rgba(255,255,255,.85);
+      border-color: rgba(200,104,122,.4);
+      color: var(--sakura-deep);
+      transform: translateY(-1px);
+    }
+
+    /* ── KPI ROW ── */
+    .kpis {
+      display: flex; align-items: center; gap: 2rem;
+      animation: riseIn .7s .36s both;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(200,104,122,.15);
+    }
+    .kpi { display: flex; flex-direction: column; gap: .2rem; text-align: center; }
+    .kpi-n {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 1.9rem; font-weight: 300; color: var(--sakura-deep); line-height:1;
+    }
+    .kpi-l {
+      font-size: .68rem; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--mist);
+    }
+    .kpi-sep { width:1px; height:36px; background: rgba(200,104,122,.18); flex-shrink:0; }
+
+    /* ── WEATHER CARD ── */
+    .w-card {
+      position: fixed; right: 4%; bottom: 100px; z-index: 20;
+      width: 310px;
+      background: rgba(255,250,252,.82);
+      backdrop-filter: blur(24px);
+      border: 1px solid rgba(200,104,122,.2);
+      border-radius: 20px;
+      padding: 1.6rem;
+      box-shadow:
+        0 20px 60px -15px rgba(200,104,122,.2),
+        0 4px 12px rgba(0,0,0,.06),
+        inset 0 1px 0 rgba(255,255,255,.9);
+      animation: floatIn .9s .5s both;
+    }
+    @keyframes floatIn {
+      from { opacity:0; transform:translateY(30px) scale(.97); }
+      to   { opacity:1; transform:translateY(0)    scale(1); }
+    }
+    .w-card:hover { transform: translateY(-3px); box-shadow: 0 28px 70px -15px rgba(200,104,122,.28); transition: all .4s; }
+
+    .w-top-bar {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 1.2rem; padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(200,104,122,.12);
+    }
+    .w-title {
+      font-family: 'Noto Serif Thai', serif;
+      font-size: 1rem; font-weight: 400; color: var(--ink);
+      display: flex; align-items: center; gap: .5rem;
+    }
+    .live-chip {
+      font-size: .62rem; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--sakura-deep);
+      border: 1px solid rgba(200,104,122,.35);
+      border-radius: 20px; padding: .2rem .6rem;
+      font-weight: 600;
+    }
+
+    .w-main { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.2rem; }
+    .w-emoji { font-size: 3rem; filter: drop-shadow(0 4px 8px rgba(0,0,0,.1)); }
+    .w-temp-num {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 2.6rem; font-weight: 300; color: var(--ink); line-height:1;
+    }
+    .w-cond { font-size: .85rem; color: var(--ink-soft); margin-top:.3rem; text-transform: capitalize; }
+
+    .w-pills { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1rem; }
+    .w-pill {
+      background: rgba(200,104,122,.08);
+      border: 1px solid rgba(200,104,122,.15);
+      border-radius: 20px; padding: .35rem .9rem;
+      font-size: .8rem; color: var(--ink-mid);
+      display: flex; align-items: center; gap: .4rem;
+    }
+
+    .w-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: .75rem; color: var(--mist);
+      padding-top: .8rem; border-top: 1px solid rgba(200,104,122,.1);
+    }
+    .refresh-btn {
+      background: none; border: none; cursor: pointer;
+      color: var(--sakura-deep); font-size: .85rem;
+      padding: .15rem .4rem; border-radius: 6px;
+      transition: all .3s;
+    }
+    .refresh-btn:hover { background: rgba(200,104,122,.1); transform: rotate(180deg); }
+
+    /* Feature list inside card */
+    .feat-list { list-style:none; margin-bottom:1.2rem; }
+    .feat-list li {
+      display: flex; align-items: center; gap: .7rem;
+      padding: .45rem 0; font-size: .84rem; color: var(--ink-mid); font-weight:300;
+      border-bottom: 1px solid rgba(200,104,122,.07);
+    }
+    .feat-list li:last-child { border-bottom: none; }
+    .feat-list li::before { content: '✿'; color: var(--sakura-mid); font-size: .7rem; }
+
+    .load-st { text-align:center; padding:1.5rem; color:var(--sakura-mid); font-size:.85rem; font-style:italic; }
+    .err-st  { text-align:center; padding:1rem;   color:#e05070; font-size:.82rem; }
+
+    .credit { text-align:center; margin-top:1rem; font-size:.68rem; color:var(--mist); letter-spacing:.06em; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes riseIn {
+      from { opacity:0; transform:translateY(18px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:900px){
+      .page { padding:3rem 5% 3rem; justify-content: center; }
+      .tree-wrap { width:280px; left:-40px; }
+      .w-card { position:relative; right:auto; bottom:auto; width:100%; margin-top:2.5rem; }
+      h1 { font-size:3rem; }
+    }
+    @media(max-width:540px){
+      h1 { font-size:2.4rem; }
+      .btn-row { flex-direction:column; }
+      .kpis { gap:1.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Sky -->
+<div class="sky"></div>
+<div class="sun-glow"></div>
+
+<!-- Petals -->
+<div class="petals-layer" id="petalsLayer"></div>
+
+<!-- Sakura Tree SVG -->
+<div class="tree-wrap">
+  <svg viewBox="0 0 460 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Trunk -->
+    <path d="M160 600 Q155 480 148 400 Q142 340 138 280 Q134 220 140 170" stroke="#7a5038" stroke-width="22" stroke-linecap="round" fill="none"/>
+    <!-- Main branch left -->
+    <path d="M143 280 Q110 240 70 200 Q40 165 20 130" stroke="#8a5c40" stroke-width="14" stroke-linecap="round" fill="none"/>
+    <!-- Sub branch left-low -->
+    <path d="M100 240 Q72 215 48 185" stroke="#8a5c40" stroke-width="9" stroke-linecap="round" fill="none"/>
+    <!-- Main branch right -->
+    <path d="M145 250 Q188 205 220 170 Q248 138 268 105" stroke="#8a5c40" stroke-width="13" stroke-linecap="round" fill="none"/>
+    <!-- Sub branch right-mid -->
+    <path d="M195 210 Q220 185 240 155" stroke="#9a6a48" stroke-width="8" stroke-linecap="round" fill="none"/>
+    <!-- Sub branch right-high -->
+    <path d="M225 170 Q252 148 272 120" stroke="#9a6a48" stroke-width="7" stroke-linecap="round" fill="none"/>
+    <!-- Branch top-mid -->
+    <path d="M142 210 Q152 175 158 140 Q162 110 165 80" stroke="#8a5c40" stroke-width="11" stroke-linecap="round" fill="none"/>
+    <!-- Small branch top-left -->
+    <path d="M155 155 Q135 130 115 105" stroke="#9a6a48" stroke-width="7" stroke-linecap="round" fill="none"/>
+
+    <!-- Blossom clusters — layered ellipses -->
+    <!-- Top cluster -->
+    <ellipse cx="162" cy="62"  rx="52" ry="44" fill="#f2b8c8" opacity=".85"/>
+    <ellipse cx="148" cy="55"  rx="38" ry="32" fill="#fad0dc" opacity=".8"/>
+    <ellipse cx="175" cy="68"  rx="36" ry="28" fill="#fac8d8" opacity=".75"/>
+
+    <!-- Left cluster -->
+    <ellipse cx="28"  cy="118" rx="48" ry="42" fill="#f0b0c4" opacity=".85"/>
+    <ellipse cx="15"  cy="108" rx="34" ry="28" fill="#fac8d8" opacity=".75"/>
+    <ellipse cx="45"  cy="128" rx="32" ry="26" fill="#fbd4e0" opacity=".7"/>
+
+    <!-- Left-low cluster -->
+    <ellipse cx="52"  cy="178" rx="36" ry="30" fill="#f2b8cc" opacity=".8"/>
+    <ellipse cx="38"  cy="170" rx="26" ry="22" fill="#fad0dc" opacity=".7"/>
+
+    <!-- Right cluster -->
+    <ellipse cx="266" cy="94"  rx="50" ry="42" fill="#f0b0c4" opacity=".85"/>
+    <ellipse cx="252" cy="85"  rx="36" ry="30" fill="#fbd4e0" opacity=".8"/>
+    <ellipse cx="278" cy="105" rx="34" ry="26" fill="#fac8d8" opacity=".75"/>
+
+    <!-- Right-mid cluster -->
+    <ellipse cx="240" cy="148" rx="38" ry="32" fill="#f2b8c8" opacity=".8"/>
+    <ellipse cx="226" cy="140" rx="28" ry="24" fill="#fbd4e0" opacity=".7"/>
+
+    <!-- Center-top cluster -->
+    <ellipse cx="120" cy="98"  rx="42" ry="36" fill="#f4c0cc" opacity=".8"/>
+    <ellipse cx="108" cy="90"  rx="30" ry="26" fill="#fbd4e0" opacity=".75"/>
+
+    <!-- Fresh leaf accents -->
+    <ellipse cx="85"  cy="195" rx="18" ry="10" fill="#6aab5a" opacity=".7" transform="rotate(-30 85 195)"/>
+    <ellipse cx="210" cy="158" rx="16" ry="9"  fill="#7abc68" opacity=".65" transform="rotate(25 210 158)"/>
+    <ellipse cx="145" cy="78"  rx="14" ry="8"  fill="#6aab5a" opacity=".6"  transform="rotate(-15 145 78)"/>
+  </svg>
+</div>
+
+<!-- Ground -->
+<div class="ground"></div>
+
+<!-- Page -->
+<div class="page">
+  <div class="content-wrap">
+
+    <!-- Season tag -->
+    <div class="season-tag">
+      <span class="kanji-badge">桜</span>
+      <div class="season-line"></div>
+      <div class="season-text">
+        <span>TOKAISOLIDTIRE · LIVE</span>
+        <span>ระบบ Mouldmate · ยินดีต้อนรับ</span>
+      </div>
+      <div class="live-dot"></div>
+    </div>
+
+    <!-- Heading -->
+    <h1>
+      <span class="jp">こんにちは &nbsp;·&nbsp; สวัสดีครับ</span>
+      วันนี้ฟ้า<span class="bloom">ใส</span><br/>
+      ดอกซากุระบาน
+    </h1>
+
+    <!-- Haiku -->
+    <div class="haiku">
+      春の朝 &nbsp;·&nbsp; เช้าฤดูใบไม้ผลิ &nbsp;·&nbsp; ทำงานด้วยใจสดชื่น
+    </div>
+
+    <div class="petal-divider"><span>🌸</span></div>
+
+    <!-- Desc -->
+    <p class="desc">
+      ระบบ Mouldmate พร้อมให้บริการทุกวัน สำหรับพนักงาน TOKAISOLIDTIRE<br/>
+      ติดตามสถานะแม่พิมพ์และข้อมูลการผลิตแบบเรียลไทม์
+      ปลอดภัย แม่นยำ ตลอด 24 ชั่วโมง
+    </p>
+
+    <!-- Buttons -->
+    <div class="btn-row">
+      <a href="https://sarawutc6689-cpu.github.io/Mouldmate-Home/" class="btn-sakura" target="_blank">
+        🔐 เข้าสู่ระบบ &nbsp;→
+      </a>
+      <a href="https://sarawutc6689-cpu.github.io/Mouldmate-Home/" class="btn-ghost" target="_blank">
+        🤝 ขอความช่วยเหลือ
+      </a>
+    </div>
+
+    <!-- KPIs -->
+    <div class="kpis">
+      <div class="kpi">
+        <span class="kpi-n">99.9%</span>
+        <span class="kpi-l">Uptime</span>
+      </div>
+      <div class="kpi-sep"></div>
+      <div class="kpi">
+        <span class="kpi-n">24/7</span>
+        <span class="kpi-l">Support</span>
+      </div>
+      <div class="kpi-sep"></div>
+      <div class="kpi">
+        <span class="kpi-n">Real</span>
+        <span class="kpi-l">Time Data</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Weather Card -->
+<div class="w-card">
+  <div class="w-top-bar">
+    <div class="w-title">🌸 สภาพอากาศวันนี้</div>
+    <span class="live-chip">● LIVE</span>
+  </div>
+
+  <ul class="feat-list">
+    <li>เฉพาะพนักงานที่ลงทะเบียน</li>
+    <li>ระบบความปลอดภัยสูง</li>
+    <li>ติดตามสถานะเรียลไทม์</li>
+  </ul>
+
+  <div id="weatherWidget"><div class="load-st">กำลังโหลด…</div></div>
+  <div class="credit">Developed by Sarawut.C · © 2026</div>
+</div>
+
+<script>
+/* ── PETALS ── */
+(function spawnPetals() {
+  const layer = document.getElementById('petalsLayer');
+
+  // SVG petal paths (5 variations)
+  const shapes = [
+    `<svg width="18" height="20" viewBox="0 0 18 20"><ellipse cx="9" cy="10" rx="7" ry="9" fill="rgba(240,176,196,.85)" transform="rotate(-20 9 10)"/></svg>`,
+    `<svg width="16" height="18" viewBox="0 0 16 18"><ellipse cx="8" cy="9" rx="6" ry="8" fill="rgba(252,196,212,.8)" transform="rotate(15 8 9)"/></svg>`,
+    `<svg width="20" height="22" viewBox="0 0 20 22"><ellipse cx="10" cy="11" rx="8" ry="10" fill="rgba(248,180,204,.75)" transform="rotate(-35 10 11)"/></svg>`,
+    `<svg width="14" height="16" viewBox="0 0 14 16"><ellipse cx="7" cy="8" rx="5.5" ry="7" fill="rgba(255,210,224,.9)" transform="rotate(10 7 8)"/></svg>`,
+    `<svg width="22" height="18" viewBox="0 0 22 18"><ellipse cx="11" cy="9" rx="9" ry="7" fill="rgba(244,168,192,.8)" transform="rotate(-45 11 9)"/></svg>`,
+  ];
+
+  for (let i = 0; i < 55; i++) {
+    const el = document.createElement('div');
+    el.className = 'petal';
+    el.innerHTML = shapes[Math.floor(Math.random() * shapes.length)];
+
+    const left  = (Math.random() * 100).toFixed(1);
+    const dur   = (8 + Math.random() * 14).toFixed(1);
+    const delay = (Math.random() * -22).toFixed(1);
+    const anim  = Math.random() > .5 ? 'fall' : 'fallAlt';
+    const scale = (.6 + Math.random() * .8).toFixed(2);
+
+    el.style.cssText = `
+      left:${left}%;
+      animation-name:${anim};
+      animation-duration:${dur}s;
+      animation-delay:${delay}s;
+      transform:scale(${scale});
+    `;
+    layer.appendChild(el);
+  }
+})();
+
+/* ── WEATHER ── */
+const icons = {
+  Clear:'☀️', Clouds:'🌤️', Rain:'🌧️', Drizzle:'🌦️',
+  Thunderstorm:'⛈️', Snow:'❄️', Mist:'🌫️', Fog:'🌫️', Haze:'🌫️'
+};
+
+async function loadWeather() {
+  const KEY = 'c291051c4f2ea34244969c82a3966c06';
+  const URL = `https://api.openweathermap.org/data/2.5/weather?lat=14.577335348719544&lon=100.79378873642342&units=metric&lang=th&appid=${KEY}`;
+  try {
+    const r = await fetch(URL);
+    if (!r.ok) throw new Error();
+    const d = await r.json();
+    return {
+      main: d.weather[0].main, desc: d.weather[0].description,
+      temp: Math.round(d.main.temp), feels: Math.round(d.main.feels_like),
+      humidity: d.main.humidity, wind: Math.round(d.wind.speed * 3.6),
+      location: d.name,
+    };
+  } catch { return null; }
+}
+
+function render(w) {
+  const box = document.getElementById('weatherWidget');
+  if (!w) {
+    box.innerHTML = `<div class="err-st">❌ โหลดไม่สำเร็จ <button class="refresh-btn" onclick="refresh()">↻ ลองใหม่</button></div>`;
+    return;
+  }
+  const icon = icons[w.main] || '🌸';
+  const now  = new Date().toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'});
+  box.innerHTML = `
+    <div class="w-main">
+      <span class="w-emoji">${icon}</span>
+      <div>
+        <div class="w-temp-num">${w.temp}°C</div>
+        <div class="w-cond">${w.desc}</div>
+      </div>
+    </div>
+    <div class="w-pills">
+      <div class="w-pill">🌡️ รู้สึก ${w.feels}°C</div>
+      <div class="w-pill">💧 ${w.humidity}%</div>
+      <div class="w-pill">🌬️ ${w.wind} km/h</div>
+      <div class="w-pill">🌥️ ${w.main}</div>
+    </div>
+    <div class="w-footer">
+      <span>📍 ${w.location || 'แก่งคอย'}, สระบุรี</span>
+      <span>🕐 ${now} <button class="refresh-btn" onclick="refresh()">↻</button></span>
+    </div>`;
+}
+
+async function refresh() {
+  document.getElementById('weatherWidget').innerHTML = '<div class="load-st">กำลังอัปเดต…</div>';
+  render(await loadWeather());
+}
+
+window.addEventListener('DOMContentLoaded', async () => {
+  render(await loadWeather());
+  setInterval(refresh, 600000);
+});
+</script>
+</body>
+</html>
