@@ -1,1 +1,947 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mouldmate · TOKAISOLIDTIRE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;300;400&family=Noto+Serif+Thai:wght@200;300;400;500&family=Sarabun:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --sky-dawn:     #b8d4e8;
+      --sky-mid:      #c8dff0;
+      --sky-light:    #ddeef8;
+      --cloud-soft:   rgba(255,255,255,0.72);
+      --rain-blue:    #6a9ab8;
+      --mist-green:   #8aab78;
+      --leaf-bright:  #6db860;
+      --leaf-deep:    #3d8040;
+      --leaf-fresh:   #a8d878;
+      --paddy-light:  #b8d890;
+      --paddy-mid:    #88b860;
+      --water-reflect:#b0cce0;
+      --water-deep:   #7aaac8;
+      --mud:          #8a6848;
+      --mud-lt:       #b08860;
+      --ink:          #1a2830;
+      --ink-mid:      #3a5060;
+      --ink-soft:     #6888a0;
+      --mist:         #a0b8c8;
+      --white:        #f4faff;
+      --accent:       #3a8060;
+      --accent-lt:    #5aaa80;
+      --gold-rain:    #c8a840;
+    }
 
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+
+    body {
+      font-family: 'Sarabun', sans-serif;
+      background: var(--sky-dawn);
+      color: var(--ink);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* ── SKY GRADIENT ── */
+    .sky {
+      position: fixed; inset: 0; z-index: 0;
+      background: linear-gradient(
+        180deg,
+        #c0d8ee 0%,
+        #cce4f4 18%,
+        #d8eef8 35%,
+        #e0f0ec 55%,
+        #d0e8d8 72%,
+        #c8dfc8 100%
+      );
+    }
+
+    /* ── CLOUD LAYER ── */
+    .clouds-layer {
+      position: fixed; top: 0; left: 0; width: 200%; height: 45%;
+      z-index: 1; pointer-events: none;
+      animation: driftClouds 60s linear infinite;
+    }
+    @keyframes driftClouds {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .cloud {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.55);
+      filter: blur(18px);
+    }
+
+    /* ── RAIN LAYER ── */
+    .rain-layer {
+      position: fixed; inset: 0; z-index: 2; pointer-events: none; overflow: hidden;
+    }
+    .raindrop {
+      position: absolute; top: -20px;
+      width: 1.5px; border-radius: 2px;
+      background: linear-gradient(180deg, transparent, rgba(140,190,220,0.7));
+      animation: rainFall linear infinite;
+    }
+    @keyframes rainFall {
+      0%   { transform: translateY(0) rotate(12deg); opacity: 0; }
+      5%   { opacity: 1; }
+      95%  { opacity: 0.5; }
+      100% { transform: translateY(110vh) rotate(12deg); opacity: 0; }
+    }
+
+    /* ── MIST ── */
+    .mist-layer {
+      position: fixed; bottom: 28%; left: 0; width: 100%; height: 120px;
+      z-index: 4; pointer-events: none;
+      background: linear-gradient(180deg,
+        transparent 0%,
+        rgba(210,230,220,0.35) 40%,
+        rgba(210,230,220,0.55) 70%,
+        transparent 100%
+      );
+      animation: mistDrift 18s ease-in-out infinite alternate;
+    }
+    @keyframes mistDrift {
+      0%   { transform: translateX(-3%) scaleY(1); opacity:.6; }
+      100% { transform: translateX(3%)  scaleY(1.15); opacity:.85; }
+    }
+
+    /* ── MOUNTAINS / FAR BG ── */
+    .mountains {
+      position: fixed; bottom: 22%; left: 0; width: 100%;
+      z-index: 3; pointer-events: none;
+    }
+    .mountains svg { display: block; width: 100%; }
+
+    /* ── RICE FIELD SCENE ── */
+    .scene {
+      position: fixed; bottom: 0; left: 0; width: 100%;
+      z-index: 5; pointer-events: none;
+    }
+    .scene svg { display: block; width: 100%; }
+
+    /* ── RAIN RIPPLES ON WATER ── */
+    .ripples-layer {
+      position: fixed; bottom: 0; left: 0; width: 100%; height: 22%;
+      z-index: 6; pointer-events: none; overflow: hidden;
+    }
+    .ripple {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(140,190,220,0.4);
+      animation: rippleExpand ease-out infinite;
+      transform: scale(0);
+    }
+    @keyframes rippleExpand {
+      0%   { transform: scale(0) scaleY(0.3); opacity: .7; }
+      100% { transform: scale(1) scaleY(0.3); opacity: 0; }
+    }
+
+    /* ── BIRDS ── */
+    .birds-layer {
+      position: fixed; top: 12%; left: 0; width: 100%;
+      z-index: 3; pointer-events: none;
+    }
+    .bird {
+      position: absolute;
+      animation: birdFly linear infinite;
+    }
+    @keyframes birdFly {
+      0%   { transform: translateX(-80px) translateY(0); }
+      50%  { transform: translateX(50vw) translateY(-20px); }
+      100% { transform: translateX(110vw) translateY(5px); }
+    }
+
+    /* ── LAYOUT ── */
+    .page {
+      position: relative; z-index: 10;
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: flex-end;
+      padding: 3rem 5% 22% 50%;
+    }
+
+    .content-wrap {
+      width: 100%; max-width: 540px;
+    }
+
+    /* ── SEASON TAG ── */
+    .season-tag {
+      display: inline-flex; align-items: center; gap: .7rem;
+      margin-bottom: 1.8rem;
+      animation: riseIn .7s ease both;
+    }
+    .kanji-badge {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 1.5rem; font-weight: 200;
+      color: var(--accent); line-height: 1;
+    }
+    .season-line { width:1px; height:34px; background: linear-gradient(180deg, transparent, var(--accent-lt), transparent); }
+    .season-text { display: flex; flex-direction: column; gap: .15rem; }
+    .season-text span:first-child {
+      font-size: .66rem; letter-spacing: .18em; text-transform: uppercase;
+      color: var(--accent); font-weight: 600;
+    }
+    .season-text span:last-child {
+      font-size: .7rem; color: var(--ink-soft); letter-spacing: .06em;
+    }
+    .live-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--accent);
+      animation: blink 2s ease-in-out infinite;
+    }
+    @keyframes blink {
+      0%,100%{ opacity:1; box-shadow:0 0 0 0 rgba(58,128,96,.5); }
+      50%    { opacity:.7; box-shadow:0 0 0 5px rgba(58,128,96,0); }
+    }
+
+    /* ── HEADING ── */
+    h1 {
+      font-family: 'Noto Serif Thai', serif;
+      font-weight: 200;
+      font-size: 3.8rem; line-height: 1.25;
+      color: var(--ink);
+      margin-bottom: .5rem;
+      letter-spacing: -.01em;
+      animation: riseIn .7s .1s both;
+      text-shadow: 0 2px 20px rgba(255,255,255,0.6);
+    }
+    h1 .jp {
+      display: block;
+      font-family: 'Noto Serif JP', serif;
+      font-weight: 200; font-size: 1rem;
+      color: var(--ink-soft); letter-spacing: .32em;
+      margin-bottom: .4rem;
+    }
+    h1 .green { color: var(--accent); font-weight: 400; }
+    h1 .rain-word { color: var(--rain-blue); font-weight: 400; }
+
+    /* ── HAIKU ── */
+    .haiku {
+      font-family: 'Noto Serif JP', serif;
+      font-weight: 200; font-size: .88rem;
+      color: var(--ink-soft); letter-spacing: .18em;
+      margin-bottom: 1.8rem;
+      padding-left: 2px;
+      animation: riseIn .7s .15s both;
+      line-height: 2.2;
+    }
+
+    /* ── DIVIDER ── */
+    .field-divider {
+      display: flex; align-items: center; gap: .8rem;
+      margin-bottom: 1.5rem;
+      animation: riseIn .7s .18s both;
+    }
+    .field-divider::before, .field-divider::after {
+      content: '';
+      flex: 1; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(58,128,96,.3), transparent);
+    }
+    .field-divider span { font-size: .9rem; }
+
+    /* ── DESC ── */
+    .desc {
+      font-size: .97rem; line-height: 1.95; font-weight: 300;
+      color: var(--ink-mid); max-width: 420px;
+      margin-bottom: 2.4rem;
+      animation: riseIn .7s .22s both;
+      background: rgba(255,255,255,0.35);
+      backdrop-filter: blur(8px);
+      border-radius: 14px;
+      padding: 1.1rem 1.4rem;
+      border: 1px solid rgba(255,255,255,0.5);
+    }
+
+    /* ── BUTTONS ── */
+    .btn-row { display:flex; gap:1rem; margin-bottom:2.8rem; animation: riseIn .7s .28s both; }
+
+    .btn-field {
+      display: inline-flex; align-items: center; gap: .7rem;
+      padding: .95rem 2.1rem;
+      background: linear-gradient(135deg, #3a8060 0%, #5aaa80 100%);
+      color: #fff; border: none; border-radius: 50px;
+      font-family: 'Sarabun', sans-serif;
+      font-size: .93rem; font-weight: 600; letter-spacing: .04em;
+      text-decoration: none;
+      box-shadow: 0 12px 28px -8px rgba(58,128,96,.45);
+      transition: all .35s ease;
+      cursor: pointer; position: relative; overflow: hidden;
+    }
+    .btn-field::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,.18) 0%, transparent 60%);
+      border-radius: inherit;
+    }
+    .btn-field:hover { transform:translateY(-3px); box-shadow: 0 18px 36px -8px rgba(58,128,96,.55); }
+
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: .7rem;
+      padding: .95rem 1.8rem;
+      background: rgba(255,255,255,.5);
+      color: var(--ink-mid); font-weight: 400;
+      border: 1px solid rgba(58,128,96,.3);
+      border-radius: 50px;
+      font-family: 'Sarabun', sans-serif;
+      font-size: .93rem;
+      text-decoration: none;
+      backdrop-filter: blur(14px);
+      transition: all .3s ease;
+    }
+    .btn-ghost:hover {
+      background: rgba(255,255,255,.75);
+      border-color: rgba(58,128,96,.5);
+      color: var(--accent);
+      transform: translateY(-1px);
+    }
+
+    /* ── KPIs ── */
+    .kpis {
+      display: flex; align-items: center; gap: 2rem;
+      animation: riseIn .7s .36s both;
+      padding-top: 1.8rem;
+      border-top: 1px solid rgba(58,128,96,.2);
+    }
+    .kpi { display: flex; flex-direction: column; gap: .2rem; text-align: center; }
+    .kpi-n {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 1.8rem; font-weight: 300; color: var(--accent); line-height:1;
+    }
+    .kpi-l { font-size: .66rem; letter-spacing: .12em; text-transform: uppercase; color: var(--mist); }
+    .kpi-sep { width:1px; height:34px; background: rgba(58,128,96,.2); flex-shrink:0; }
+
+    /* ── WEATHER CARD ── */
+    .w-card {
+      position: fixed; left: 5%; bottom: 26%; z-index: 20;
+      width: 300px;
+      background: rgba(240,250,245,.82);
+      backdrop-filter: blur(24px);
+      border: 1px solid rgba(58,128,96,.2);
+      border-radius: 20px;
+      padding: 1.5rem;
+      box-shadow:
+        0 20px 60px -15px rgba(58,128,96,.2),
+        0 4px 12px rgba(0,0,0,.07),
+        inset 0 1px 0 rgba(255,255,255,.9);
+      animation: floatIn .9s .5s both;
+    }
+    @keyframes floatIn {
+      from { opacity:0; transform:translateY(30px) scale(.97); }
+      to   { opacity:1; transform:translateY(0)    scale(1); }
+    }
+    .w-card:hover { transform: translateY(-3px); box-shadow: 0 28px 70px -15px rgba(58,128,96,.28); transition: all .4s; }
+
+    .w-top-bar {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 1.1rem; padding-bottom: .9rem;
+      border-bottom: 1px solid rgba(58,128,96,.12);
+    }
+    .w-title {
+      font-family: 'Noto Serif Thai', serif;
+      font-size: .95rem; font-weight: 400; color: var(--ink);
+      display: flex; align-items: center; gap: .5rem;
+    }
+    .live-chip {
+      font-size: .6rem; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--accent);
+      border: 1px solid rgba(58,128,96,.35);
+      border-radius: 20px; padding: .2rem .6rem;
+      font-weight: 600;
+    }
+
+    .w-main { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.1rem; }
+    .w-emoji { font-size: 2.8rem; filter: drop-shadow(0 4px 8px rgba(0,0,0,.1)); }
+    .w-temp-num {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 2.4rem; font-weight: 300; color: var(--ink); line-height:1;
+    }
+    .w-cond { font-size: .82rem; color: var(--ink-soft); margin-top:.3rem; text-transform: capitalize; }
+
+    .w-pills { display: flex; flex-wrap: wrap; gap: .45rem; margin-bottom: .9rem; }
+    .w-pill {
+      background: rgba(58,128,96,.08);
+      border: 1px solid rgba(58,128,96,.15);
+      border-radius: 20px; padding: .32rem .85rem;
+      font-size: .78rem; color: var(--ink-mid);
+      display: flex; align-items: center; gap: .4rem;
+    }
+
+    .w-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: .73rem; color: var(--mist);
+      padding-top: .7rem; border-top: 1px solid rgba(58,128,96,.1);
+    }
+    .refresh-btn {
+      background: none; border: none; cursor: pointer;
+      color: var(--accent); font-size: .82rem;
+      padding: .15rem .4rem; border-radius: 6px;
+      transition: all .3s;
+    }
+    .refresh-btn:hover { background: rgba(58,128,96,.1); transform: rotate(180deg); }
+
+    .feat-list { list-style:none; margin-bottom:1.1rem; }
+    .feat-list li {
+      display: flex; align-items: center; gap: .7rem;
+      padding: .4rem 0; font-size: .82rem; color: var(--ink-mid); font-weight:300;
+      border-bottom: 1px solid rgba(58,128,96,.08);
+    }
+    .feat-list li:last-child { border-bottom: none; }
+    .feat-list li::before { content: '🌿'; font-size: .7rem; }
+
+    .load-st { text-align:center; padding:1.4rem; color:var(--accent-lt); font-size:.83rem; font-style:italic; }
+    .err-st  { text-align:center; padding:1rem;   color:#e05070; font-size:.8rem; }
+    .credit  { text-align:center; margin-top:.9rem; font-size:.66rem; color:var(--mist); letter-spacing:.06em; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes riseIn {
+      from { opacity:0; transform:translateY(18px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    @keyframes sway {
+      0%,100% { transform: rotate(-2deg) translateX(0); }
+      50%     { transform: rotate(2deg)  translateX(2px); }
+    }
+    @keyframes floatFrog {
+      0%,100% { transform: translateY(0); }
+      50%     { transform: translateY(-4px); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:900px){
+      .page { padding:3rem 5% 28%; justify-content: center; }
+      .w-card { position:relative; left:auto; bottom:auto; width:100%; margin-top:2rem; }
+      h1 { font-size:3rem; }
+    }
+    @media(max-width:540px){
+      h1 { font-size:2.3rem; }
+      .btn-row { flex-direction:column; }
+      .kpis { gap:1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Sky -->
+<div class="sky"></div>
+
+<!-- Clouds -->
+<div class="clouds-layer" id="cloudsLayer"></div>
+
+<!-- Rain -->
+<div class="rain-layer" id="rainLayer"></div>
+
+<!-- Mountains far -->
+<div class="mountains">
+  <svg viewBox="0 0 1440 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="mtnGrad1" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#8ab8a0" stop-opacity="0.45"/>
+        <stop offset="100%" stop-color="#a0c8a8" stop-opacity="0.25"/>
+      </linearGradient>
+      <linearGradient id="mtnGrad2" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#9ac8b0" stop-opacity="0.55"/>
+        <stop offset="100%" stop-color="#b0d8b8" stop-opacity="0.3"/>
+      </linearGradient>
+    </defs>
+    <!-- Far mountains -->
+    <path d="M0,180 Q120,80 280,120 Q380,60 520,100 Q640,40 760,90 Q880,50 1000,85 Q1120,45 1240,80 Q1340,55 1440,75 L1440,200 L0,200Z" fill="url(#mtnGrad1)"/>
+    <!-- Closer hills -->
+    <path d="M0,200 Q100,140 220,160 Q340,130 460,155 Q580,125 700,148 Q820,130 940,150 Q1060,128 1180,145 Q1300,132 1440,150 L1440,200Z" fill="url(#mtnGrad2)"/>
+  </svg>
+</div>
+
+<!-- Mist -->
+<div class="mist-layer"></div>
+
+<!-- Rice field scene -->
+<div class="scene">
+  <svg viewBox="0 0 1440 340" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="waterGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#90c0d8" stop-opacity="0.85"/>
+        <stop offset="100%" stop-color="#70a8c0" stop-opacity="0.9"/>
+      </linearGradient>
+      <linearGradient id="grassGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#78b858"/>
+        <stop offset="100%" stop-color="#5a9840"/>
+      </linearGradient>
+      <linearGradient id="earthGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#a07850"/>
+        <stop offset="100%" stop-color="#806040"/>
+      </linearGradient>
+      <linearGradient id="skyRefGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#a8d0e8" stop-opacity="0.7"/>
+        <stop offset="100%" stop-color="#c8e8f0" stop-opacity="0.5"/>
+      </linearGradient>
+      <filter id="blur2">
+        <feGaussianBlur stdDeviation="2"/>
+      </filter>
+    </defs>
+
+    <!-- Water / flooded paddy — far strip -->
+    <rect x="0" y="0" width="1440" height="80" fill="url(#skyRefGrad)"/>
+    <!-- Bund (earthen ridge) far -->
+    <path d="M0,75 Q360,68 720,72 Q1080,68 1440,72 L1440,88 Q1080,84 720,88 Q360,84 0,88Z" fill="#a07850" opacity="0.5"/>
+
+    <!-- Water paddy 1 -->
+    <rect x="0" y="88" width="1440" height="65" fill="url(#waterGrad)" opacity="0.75"/>
+
+    <!-- Sky reflection streaks on water -->
+    <rect x="60"  y="96"  width="180" height="3" rx="1.5" fill="rgba(255,255,255,0.28)"/>
+    <rect x="320" y="102" width="120" height="2" rx="1"   fill="rgba(255,255,255,0.22)"/>
+    <rect x="600" y="98"  width="200" height="3" rx="1.5" fill="rgba(255,255,255,0.25)"/>
+    <rect x="900" y="104" width="140" height="2" rx="1"   fill="rgba(255,255,255,0.2)"/>
+    <rect x="1150" y="97" width="160" height="3" rx="1.5" fill="rgba(255,255,255,0.26)"/>
+
+    <!-- Bund 2 -->
+    <path d="M0,150 Q360,143 720,147 Q1080,143 1440,147 L1440,164 Q1080,160 720,164 Q360,160 0,164Z" fill="#907040" opacity="0.55"/>
+
+    <!-- Water paddy 2 -->
+    <rect x="0" y="164" width="1440" height="60" fill="url(#waterGrad)" opacity="0.65"/>
+    <rect x="100" y="172" width="220" height="3" rx="1.5" fill="rgba(255,255,255,0.24)"/>
+    <rect x="500" y="175" width="150" height="2" rx="1"   fill="rgba(255,255,255,0.2)"/>
+    <rect x="850" y="171" width="190" height="3" rx="1.5" fill="rgba(255,255,255,0.22)"/>
+    <rect x="1200" y="174" width="130" height="2" rx="1"  fill="rgba(255,255,255,0.18)"/>
+
+    <!-- Bund 3 -->
+    <path d="M0,221 Q360,215 720,218 Q1080,215 1440,218 L1440,236 Q1080,232 720,236 Q360,232 0,236Z" fill="#907040" opacity="0.6"/>
+
+    <!-- Foreground earth -->
+    <path d="M0,236 Q360,228 720,232 Q1080,228 1440,232 L1440,340 L0,340Z" fill="url(#earthGrad)"/>
+
+    <!-- Grass / field bank -->
+    <path d="M0,230 Q180,218 360,224 Q540,218 720,222 Q900,218 1080,222 Q1260,218 1440,222 L1440,242 Q1260,236 1080,240 Q900,236 720,240 Q540,236 360,240 Q180,236 0,240Z" fill="#7aae58" opacity="0.85"/>
+
+    <!-- === RICE SEEDLINGS ROW 1 (far, in water strip 1) === -->
+    <!-- Each seedling: thin stems + drooping leaves -->
+    <g opacity="0.75" style="animation: sway 3s ease-in-out infinite;">
+      <!-- cluster pattern repeated -->
+      <!-- Seedling macro: 3-stalk clump -->
+      <!-- x positions spaced ~40px apart across 1440 -->
+      <!-- Row y ~100-148 -->
+    </g>
+
+    <!-- Rice seedlings manually placed — row 1 (y≈110-140) -->
+    <!-- Using small path groups for stylized rice sprouts -->
+
+    <!-- ROW 1 seedlings (floating in paddy 1) -->
+    <g fill="#5a9838" opacity="0.82">
+      <!-- repeat unit: stalk up, leaf droops left/right -->
+      <!-- clump at x=80 -->
+      <path d="M80,138 Q78,128 76,118 Q74,112 72,108" stroke="#5a9838" stroke-width="1.2" fill="none"/>
+      <path d="M80,138 Q82,127 84,117 Q86,111 88,107" stroke="#5a9838" stroke-width="1.2" fill="none"/>
+      <path d="M80,138 Q80,126 80,115 Q80,109 80,104" stroke="#4a8828" stroke-width="1.4" fill="none"/>
+      <ellipse cx="76" cy="112" rx="7" ry="3" fill="#6aab48" opacity=".7" transform="rotate(-35 76 112)"/>
+      <ellipse cx="84" cy="112" rx="7" ry="3" fill="#6aab48" opacity=".7" transform="rotate(35 84 112)"/>
+      <ellipse cx="80" cy="108" rx="5" ry="2.5" fill="#7abb58" opacity=".65" transform="rotate(-10 80 108)"/>
+    </g>
+    <!-- I'll use a JS-generated approach instead for all seedlings -->
+
+    <!-- PATH: footpath / bund walkway detail -->
+    <path d="M680,164 L760,164 L760,236 L680,236Z" fill="#b09070" opacity="0.5"/>
+    <!-- Footstep marks on bund -->
+    <ellipse cx="715" cy="185" rx="8" ry="4" fill="#907050" opacity="0.4" transform="rotate(-10 715 185)"/>
+    <ellipse cx="718" cy="205" rx="8" ry="4" fill="#907050" opacity="0.4" transform="rotate(10 718 205)"/>
+    <ellipse cx="712" cy="222" rx="8" ry="4" fill="#907050" opacity="0.35" transform="rotate(-8 712 222)"/>
+
+    <!-- Foreground grass tufts -->
+    <g fill="#6aab48">
+      <path d="M50,236 Q48,220 46,208 Q50,215 52,208 Q54,220 56,236Z" opacity=".8"/>
+      <path d="M58,236 Q56,222 54,213 Q58,218 60,213 Q62,222 64,236Z" opacity=".75"/>
+      <path d="M200,236 Q198,218 196,206 Q200,213 202,206 Q204,218 206,236Z" opacity=".8"/>
+      <path d="M208,236 Q206,224 204,215 Q208,220 210,215 Q212,224 214,236Z" opacity=".72"/>
+      <path d="M400,236 Q398,220 396,208 Q400,215 402,208 Q404,220 406,236Z" opacity=".78"/>
+      <path d="M1000,236 Q998,219 996,207 Q1000,214 1002,207 Q1004,219 1006,236Z" opacity=".8"/>
+      <path d="M1200,236 Q1198,221 1196,209 Q1200,216 1202,209 Q1204,221 1206,236Z" opacity=".75"/>
+      <path d="M1380,236 Q1378,220 1376,208 Q1380,215 1382,208 Q1384,220 1386,236Z" opacity=".78"/>
+    </g>
+
+    <!-- Frog on bund (cute detail) -->
+    <g transform="translate(770, 218)" style="animation: floatFrog 2.5s ease-in-out infinite;">
+      <!-- body -->
+      <ellipse cx="0" cy="0" rx="10" ry="7" fill="#5aaa40"/>
+      <!-- head -->
+      <circle cx="0" cy="-9" r="7" fill="#6aba50"/>
+      <!-- eyes -->
+      <circle cx="-4" cy="-12" r="2.5" fill="#fff"/>
+      <circle cx="4"  cy="-12" r="2.5" fill="#fff"/>
+      <circle cx="-4" cy="-12" r="1.2" fill="#1a2830"/>
+      <circle cx="4"  cy="-12" r="1.2" fill="#1a2830"/>
+      <!-- legs -->
+      <path d="M-10,2 Q-16,4 -18,8 Q-16,6 -12,5Z" fill="#5aaa40"/>
+      <path d="M10,2  Q16,4  18,8  Q16,6  12,5Z"  fill="#5aaa40"/>
+    </g>
+
+    <!-- Water buffalo (silhouette, far bund) -->
+    <g transform="translate(980, 60)" opacity="0.45">
+      <ellipse cx="0" cy="0" rx="28" ry="14" fill="#3a3028"/>
+      <circle cx="-18" cy="-10" r="11" fill="#3a3028"/>
+      <!-- horns -->
+      <path d="M-24,-18 Q-32,-28 -28,-34 Q-26,-28 -20,-22Z" fill="#4a4038"/>
+      <path d="M-14,-18 Q-8,-28  -12,-34 Q-10,-28 -16,-22Z" fill="#4a4038"/>
+      <!-- legs -->
+      <rect x="-14" y="12"  width="6" height="16" rx="2" fill="#3a3028"/>
+      <rect x="-4"  y="12"  width="6" height="16" rx="2" fill="#3a3028"/>
+      <rect x="8"   y="12"  width="6" height="16" rx="2" fill="#3a3028"/>
+      <rect x="18"  y="12"  width="6" height="16" rx="2" fill="#3a3028"/>
+      <!-- tail -->
+      <path d="M28,0 Q36,-6 38,-12" stroke="#3a3028" stroke-width="3" fill="none" stroke-linecap="round"/>
+    </g>
+
+    <!-- Farmer silhouette with hat, planting -->
+    <g transform="translate(560, 148)" opacity="0.6">
+      <!-- conical hat -->
+      <path d="M-20,-42 Q0,-60 20,-42 Q10,-38 0,-36 Q-10,-38 -20,-42Z" fill="#c8a040"/>
+      <ellipse cx="0" cy="-41" rx="20" ry="4" fill="#b89030" opacity="0.7"/>
+      <!-- head -->
+      <circle cx="0" cy="-28" r="8" fill="#c09070"/>
+      <!-- body -->
+      <path d="M0,-20 Q-8,0 -6,28 Q0,22 6,28 Q8,0 0,-20Z" fill="#5888a0"/>
+      <!-- arms - bending down -->
+      <path d="M-6,-10 Q-18,2 -22,18" stroke="#5888a0" stroke-width="5" stroke-linecap="round" fill="none"/>
+      <path d="M6,-10  Q14,2  16,18"  stroke="#5888a0" stroke-width="5" stroke-linecap="round" fill="none"/>
+      <!-- legs -->
+      <path d="M-4,28 Q-8,38 -6,50" stroke="#4a5870" stroke-width="6" stroke-linecap="round" fill="none"/>
+      <path d="M4,28  Q8,38  6,50"  stroke="#4a5870" stroke-width="6" stroke-linecap="round" fill="none"/>
+    </g>
+    <!-- Second farmer (further) -->
+    <g transform="translate(820, 90)" opacity="0.38" style="transform: translate(820px,90px) scale(0.72);">
+      <path d="M-18,-38 Q0,-54 18,-38 Q9,-34 0,-32 Q-9,-34 -18,-38Z" fill="#c8a040"/>
+      <circle cx="0" cy="-24" r="7" fill="#c09070"/>
+      <path d="M0,-18 Q-7,0 -5,24 Q0,18 5,24 Q7,0 0,-18Z" fill="#608870"/>
+      <path d="M-5,-8 Q-16,2 -20,16" stroke="#608870" stroke-width="5" stroke-linecap="round" fill="none"/>
+      <path d="M5,-8  Q12,2  16,16"  stroke="#608870" stroke-width="5" stroke-linecap="round" fill="none"/>
+    </g>
+
+    <!-- Egret / white heron bird (detail) -->
+    <g transform="translate(450, 128)" opacity="0.6">
+      <!-- body -->
+      <ellipse cx="0" cy="0" rx="12" ry="7" fill="#f0f4f8"/>
+      <!-- neck + head -->
+      <path d="M8,-6 Q12,-16 10,-24" stroke="#f0f4f8" stroke-width="4" stroke-linecap="round" fill="none"/>
+      <ellipse cx="10" cy="-25" rx="5" ry="4" fill="#f0f4f8"/>
+      <!-- beak -->
+      <path d="M14,-25 Q22,-22 24,-20" stroke="#d4a020" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <!-- legs (in water) -->
+      <path d="M-4,6 L-4,26" stroke="#c0a840" stroke-width="2" stroke-linecap="round"/>
+      <path d="M4,6  L4,26"  stroke="#c0a840" stroke-width="2" stroke-linecap="round"/>
+    </g>
+
+    <!-- Rain impact rings on water (SVG static, JS will add animated) -->
+    <circle cx="200" cy="120" r="8"  fill="none" stroke="rgba(160,200,220,0.4)" stroke-width="1"/>
+    <circle cx="600" cy="105" r="6"  fill="none" stroke="rgba(160,200,220,0.35)" stroke-width="1"/>
+    <circle cx="1100" cy="115" r="7" fill="none" stroke="rgba(160,200,220,0.38)" stroke-width="1"/>
+    <circle cx="350"  cy="180" r="9" fill="none" stroke="rgba(160,200,220,0.35)" stroke-width="1"/>
+    <circle cx="900"  cy="190" r="7" fill="none" stroke="rgba(160,200,220,0.32)" stroke-width="1"/>
+  </svg>
+</div>
+
+<!-- Ripples on water (animated) -->
+<div class="ripples-layer" id="ripplesLayer"></div>
+
+<!-- Birds -->
+<div class="birds-layer" id="birdsLayer"></div>
+
+<!-- Page content -->
+<div class="page">
+  <div class="content-wrap">
+
+    <!-- Season tag -->
+    <div class="season-tag">
+      <span class="kanji-badge">雨</span>
+      <div class="season-line"></div>
+      <div class="season-text">
+        <span>TOKAISOLIDTIRE · LIVE</span>
+        <span>ระบบ Mouldmate · ต้นฤดูฝน 2026</span>
+      </div>
+      <div class="live-dot"></div>
+    </div>
+
+    <!-- Heading -->
+    <h1>
+      <span class="jp">雨の季節 &nbsp;·&nbsp; ฤดูฝนมาเยือน</span>
+      ฝนโปรยลงมา...รักษาสุขภาพกันด้วยนะ
+      
+    </h1>
+
+    <!-- Haiku -->
+    <div class="haiku">
+      雨の朝 · สายฝนพรำ · ต้นกล้าชูใบรับน้ำฟ้า
+    </div>
+
+    <div class="field-divider"><span>🌾</span></div>
+
+    <!-- Desc -->
+    <p class="desc">
+      ระบบ Mouldmate พร้อมให้บริการทุกวัน สำหรับพนักงาน TOKAISOLIDTIRE<br/>
+      ติดตามสถานะแม่พิมพ์และข้อมูลการผลิตแบบเรียลไทม์<br/>
+      ปลอดภัย แม่นยำ ตลอด 24 ชั่วโมง
+    </p>
+
+    <!-- Buttons -->
+    <div class="btn-row">
+      <a href="https://sarawutc6689-cpu.github.io/Mouldmate-Home/" class="btn-field" target="_blank">
+        🔐 เข้าสู่ระบบ &nbsp;→
+      </a>
+      <a href="https://sarawutc6689-cpu.github.io/Mouldmate-Home/" class="btn-ghost" target="_blank">
+        🤝 ขอความช่วยเหลือ
+      </a>
+    </div>
+
+
+  </div>
+</div>
+
+<!-- Weather Card -->
+<div class="w-card">
+  <div class="w-top-bar">
+    <div class="w-title">🌧️ สภาพอากาศวันนี้</div>
+    <span class="live-chip">● LIVE</span>
+  </div>
+
+  <ul class="feat-list">
+    <li>เฉพาะพนักงานที่ลงทะเบียน</li>
+    <li>ระบบความปลอดภัยสูง</li>
+    <li>ติดตามสถานะเรียลไทม์</li>
+  </ul>
+
+  <div id="weatherWidget"><div class="load-st">กำลังโหลด…</div></div>
+  <div class="credit">Developed by Sarawut.C · © 2026</div>
+</div>
+
+<script>
+/* ── CLOUDS ── */
+(function spawnClouds() {
+  const layer = document.getElementById('cloudsLayer');
+  const clouds = [
+    { x:  2, y:  2, w:380, h:90,  op:.5  },
+    { x: 18, y:  6, w:260, h:70,  op:.4  },
+    { x: 35, y:  1, w:420, h:100, op:.48 },
+    { x: 55, y:  4, w:300, h:80,  op:.42 },
+    { x: 68, y:  0, w:350, h:95,  op:.5  },
+    { x: 82, y:  5, w:280, h:75,  op:.38 },
+    // mirror for seamless
+    { x: 102, y:  2, w:380, h:90,  op:.5  },
+    { x: 118, y:  6, w:260, h:70,  op:.4  },
+    { x: 135, y:  1, w:420, h:100, op:.48 },
+    { x: 155, y:  4, w:300, h:80,  op:.42 },
+    { x: 168, y:  0, w:350, h:95,  op:.5  },
+    { x: 182, y:  5, w:280, h:75,  op:.38 },
+  ];
+  clouds.forEach(c => {
+    const d = document.createElement('div');
+    d.className = 'cloud';
+    d.style.cssText = `
+      left:${c.x}%; top:${c.y}%;
+      width:${c.w}px; height:${c.h}px;
+      opacity:${c.op};
+      background: radial-gradient(ellipse, rgba(215,235,245,0.9) 0%, rgba(200,225,240,0.5) 50%, transparent 75%);
+      filter: blur(22px);
+    `;
+    layer.appendChild(d);
+  });
+})();
+
+/* ── RAIN ── */
+(function spawnRain() {
+  const layer = document.getElementById('rainLayer');
+  for (let i = 0; i < 120; i++) {
+    const d = document.createElement('div');
+    d.className = 'raindrop';
+    const left  = (Math.random() * 105 - 5).toFixed(1);
+    const h     = (12 + Math.random() * 22).toFixed(0);
+    const dur   = (.6 + Math.random() * .8).toFixed(2);
+    const delay = (Math.random() * -3).toFixed(2);
+    const op    = (.35 + Math.random() * .45).toFixed(2);
+    d.style.cssText = `
+      left:${left}%;
+      height:${h}px;
+      opacity:${op};
+      animation-duration:${dur}s;
+      animation-delay:${delay}s;
+    `;
+    layer.appendChild(d);
+  }
+})();
+
+/* ── RIPPLES ── */
+(function spawnRipples() {
+  const layer = document.getElementById('ripplesLayer');
+  for (let i = 0; i < 18; i++) {
+    const d = document.createElement('div');
+    d.className = 'ripple';
+    const size  = (20 + Math.random() * 40).toFixed(0);
+    const left  = (Math.random() * 100).toFixed(1);
+    const bot   = (Math.random() * 100).toFixed(1);
+    const dur   = (1.2 + Math.random() * 1.8).toFixed(1);
+    const delay = (Math.random() * -4).toFixed(1);
+    d.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${left}%; bottom:${bot}%;
+      animation-duration:${dur}s;
+      animation-delay:${delay}s;
+    `;
+    layer.appendChild(d);
+  }
+})();
+
+/* ── BIRDS ── */
+(function spawnBirds() {
+  const layer = document.getElementById('birdsLayer');
+  for (let i = 0; i < 4; i++) {
+    const svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
+    svg.setAttribute('viewBox','0 0 40 20');
+    svg.setAttribute('width', (18 + i * 4) + 'px');
+    svg.setAttribute('height','10px');
+    // simple bird: two arcs = wings
+    svg.innerHTML = `
+      <path d="M20,10 Q12,2 4,8" stroke="rgba(60,80,90,0.55)" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+      <path d="M20,10 Q28,2 36,8" stroke="rgba(60,80,90,0.55)" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    `;
+    const wrap = document.createElement('div');
+    wrap.className = 'bird';
+    const dur   = (18 + Math.random() * 20).toFixed(1);
+    const delay = (Math.random() * -30).toFixed(1);
+    const top   = (5 + Math.random() * 25).toFixed(1);
+    wrap.style.cssText = `
+      top:${top}%;
+      animation-duration:${dur}s;
+      animation-delay:${delay}s;
+    `;
+    wrap.appendChild(svg);
+    layer.appendChild(wrap);
+  }
+})();
+
+/* ── RICE SEEDLINGS (canvas-like via JS) ── */
+(function drawSeedlings() {
+  const scene = document.querySelector('.scene svg');
+  const rows = [
+    { y: 130, count: 28, waterY: 140, opacity: 0.78 },
+    { y: 195, count: 24, waterY: 205, opacity: 0.72 },
+  ];
+  rows.forEach(row => {
+    const g = document.createElementNS('http://www.w3.org/2000/svg','g');
+    g.setAttribute('opacity', row.opacity);
+    const step = 1440 / row.count;
+    for (let i = 0; i < row.count; i++) {
+      const cx = step * i + step * 0.5 + (Math.random() - 0.5) * 20;
+      // skip where bund/farmer/buffalo is
+      if (cx > 670 && cx < 770) continue;
+      if (cx > 940 && cx < 1040 && row.y < 140) continue;
+      if (cx > 420 && cx < 490 && row.y < 140) continue;
+      if (cx > 520 && cx < 610 && row.y < 170) continue;
+
+      const stemH = 22 + Math.random() * 14;
+      const leafW = 7 + Math.random() * 4;
+      const green = ['#5aaa38','#68b845','#78c050','#4a9830'][Math.floor(Math.random()*4)];
+      const lGreen = ['#80c858','#90d868','#a0e078'][Math.floor(Math.random()*3)];
+
+      // Stalk left
+      const p1 = document.createElementNS('http://www.w3.org/2000/svg','path');
+      p1.setAttribute('d',`M${cx},${row.y} Q${cx-3},${row.y-stemH*.5} ${cx-5},${row.y-stemH}`);
+      p1.setAttribute('stroke', green); p1.setAttribute('stroke-width','1.3'); p1.setAttribute('fill','none');
+      // Stalk right
+      const p2 = document.createElementNS('http://www.w3.org/2000/svg','path');
+      p2.setAttribute('d',`M${cx},${row.y} Q${cx+3},${row.y-stemH*.5} ${cx+5},${row.y-stemH}`);
+      p2.setAttribute('stroke', green); p2.setAttribute('stroke-width','1.3'); p2.setAttribute('fill','none');
+      // Stalk center
+      const p3 = document.createElementNS('http://www.w3.org/2000/svg','path');
+      p3.setAttribute('d',`M${cx},${row.y} L${cx},${row.y-stemH-4}`);
+      p3.setAttribute('stroke', green); p3.setAttribute('stroke-width','1.6'); p3.setAttribute('fill','none');
+
+      // Leaf left
+      const e1 = document.createElementNS('http://www.w3.org/2000/svg','ellipse');
+      e1.setAttribute('cx', cx-5); e1.setAttribute('cy', row.y - stemH + 2);
+      e1.setAttribute('rx', leafW); e1.setAttribute('ry', 2.5);
+      e1.setAttribute('fill', lGreen); e1.setAttribute('opacity','0.75');
+      e1.setAttribute('transform',`rotate(-38 ${cx-5} ${row.y-stemH+2})`);
+      // Leaf right
+      const e2 = document.createElementNS('http://www.w3.org/2000/svg','ellipse');
+      e2.setAttribute('cx', cx+5); e2.setAttribute('cy', row.y - stemH + 2);
+      e2.setAttribute('rx', leafW); e2.setAttribute('ry', 2.5);
+      e2.setAttribute('fill', lGreen); e2.setAttribute('opacity','0.72');
+      e2.setAttribute('transform',`rotate(38 ${cx+5} ${row.y-stemH+2})`);
+
+      // Water reflection (short blurred line below)
+      const refl = document.createElementNS('http://www.w3.org/2000/svg','line');
+      refl.setAttribute('x1', cx); refl.setAttribute('y1', row.y+2);
+      refl.setAttribute('x2', cx); refl.setAttribute('y2', row.y+8);
+      refl.setAttribute('stroke', green); refl.setAttribute('stroke-width','1'); refl.setAttribute('opacity','0.3');
+
+      [p1,p2,p3,e1,e2,refl].forEach(el => g.appendChild(el));
+    }
+    // Sway animation via style
+    g.style.transformOrigin = 'center bottom';
+    g.style.animation = `sway ${3 + Math.random()*1.5}s ease-in-out infinite`;
+    scene.appendChild(g);
+  });
+})();
+
+/* ── WEATHER ── */
+const icons = {
+  Clear:'☀️', Clouds:'🌤️', Rain:'🌧️', Drizzle:'🌦️',
+  Thunderstorm:'⛈️', Snow:'❄️', Mist:'🌫️', Fog:'🌫️', Haze:'🌫️'
+};
+
+async function loadWeather() {
+  const KEY = 'c291051c4f2ea34244969c82a3966c06';
+  const URL = `https://api.openweathermap.org/data/2.5/weather?lat=14.577335348719544&lon=100.79378873642342&units=metric&lang=th&appid=${KEY}`;
+  try {
+    const r = await fetch(URL);
+    if (!r.ok) throw new Error();
+    const d = await r.json();
+    return {
+      main: d.weather[0].main, desc: d.weather[0].description,
+      temp: Math.round(d.main.temp), feels: Math.round(d.main.feels_like),
+      humidity: d.main.humidity, wind: Math.round(d.wind.speed * 3.6),
+      location: d.name,
+    };
+  } catch { return null; }
+}
+
+function render(w) {
+  const box = document.getElementById('weatherWidget');
+  if (!w) {
+    box.innerHTML = `<div class="err-st">❌ โหลดไม่สำเร็จ <button class="refresh-btn" onclick="refresh()">↻ ลองใหม่</button></div>`;
+    return;
+  }
+  const icon = icons[w.main] || '🌧️';
+  const now  = new Date().toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'});
+  box.innerHTML = `
+    <div class="w-main">
+      <span class="w-emoji">${icon}</span>
+      <div>
+        <div class="w-temp-num">${w.temp}°C</div>
+        <div class="w-cond">${w.desc}</div>
+      </div>
+    </div>
+    <div class="w-pills">
+      <div class="w-pill">🌡️ รู้สึก ${w.feels}°C</div>
+      <div class="w-pill">💧 ${w.humidity}%</div>
+      <div class="w-pill">🌬️ ${w.wind} km/h</div>
+      <div class="w-pill">🌥️ ${w.main}</div>
+    </div>
+    <div class="w-footer">
+      <span>📍 ${w.location || 'แก่งคอย'}, สระบุรี</span>
+      <span>🕐 ${now} <button class="refresh-btn" onclick="refresh()">↻</button></span>
+    </div>`;
+}
+
+async function refresh() {
+  document.getElementById('weatherWidget').innerHTML = '<div class="load-st">กำลังอัปเดต…</div>';
+  render(await loadWeather());
+}
+
+window.addEventListener('DOMContentLoaded', async () => {
+  render(await loadWeather());
+  setInterval(refresh, 600000);
+});
+</script>
+</body>
+</html>
