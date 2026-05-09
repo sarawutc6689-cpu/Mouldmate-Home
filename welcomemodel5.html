@@ -950,12 +950,12 @@ function render(w) {
     </div>
     <div class="w-pills">
       <div class="w-pill">🌡️ รู้สึก ${w.feels}°C</div>
-      <div class="w-pill">💧 ${w.humidity}%</div>
-      <div class="w-pill">🌬️ ${w.wind} km/h</div>
+      <div class="w-pill">💧ความชื้น ${w.humidity}%</div>
+      <div class="w-pill">🌬️ความเร็วลม${w.wind} km/h</div>
       <div class="w-pill">🌥️ ${w.main}</div>
     </div>
     <div class="w-footer">
-      <span>📍 ${w.location || 'แก่งคอย'}, สระบุรี</span>
+      <span>📍 ${w.location || 'เสาไห้'}, สระบุรี</span>
       <span>🕐 ${now} <button class="refresh-btn" onclick="refresh()">↻</button></span>
     </div>`;
 }
