@@ -372,34 +372,9 @@
         const SHEET_ID = '1xadpjbQOM4DlpcAjQNuIgdVzLFdPI32xnGCRDMHZylw';
 
         function loadUserName() {
-            let name = localStorage.getItem('userName') || '';
-            if (name) {
-                document.getElementById('userNameDisplay').textContent = name;
-                return;
-            }
-            const code = localStorage.getItem('username') || '';
-            if (!code) {
-                document.getElementById('userNameDisplay').textContent = 'ไม่พบข้อมูล';
-                return;
-            }
-            const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=DATA`;
-            fetch(url)
-                .then(r => r.text())
-                .then(txt => {
-                    const json = JSON.parse(txt.substring(txt.indexOf('{'), txt.lastIndexOf('}') + 1));
-                    const rows = json.table.rows;
-                    const match = rows.find(row => (row.c[0]?.v ?? '').toString().trim() === code.trim());
-                    const fetchedName = match ? (match.c[4]?.v ?? '').toString().trim() : '';
-                    if (fetchedName) {
-                        localStorage.setItem('userName', fetchedName);
-                        document.getElementById('userNameDisplay').textContent = fetchedName;
-                    } else {
-                        document.getElementById('userNameDisplay').textContent = code;
-                    }
-                })
-                .catch(() => {
-                    document.getElementById('userNameDisplay').textContent = code;
-                });
+            // หน้า login เก็บชื่อไว้ใน localStorage key 'userName' (คอลัมน์ E)
+            const name = localStorage.getItem('userName') || '';
+            document.getElementById('userNameDisplay').textContent = name || 'ไม่พบข้อมูล';
         }
 
         const departments = [
