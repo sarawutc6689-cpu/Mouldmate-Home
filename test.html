@@ -106,9 +106,7 @@
             font-family: 'Kanit', sans-serif;
         }
 
-        .login-field .field-wrap {
-            position: relative;
-        }
+        .login-field .field-wrap { position: relative; }
 
         .login-field .field-icon {
             position: absolute;
@@ -217,10 +215,10 @@
         .user-badge {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             background: rgba(255,255,255,0.15);
             border: 1.5px solid rgba(255,255,255,0.3);
-            padding: 8px 14px;
+            padding: 8px 16px;
             border-radius: 50px;
             backdrop-filter: blur(4px);
             transition: var(--transition);
@@ -228,16 +226,9 @@
 
         .user-badge:hover { background: rgba(255,255,255,0.22); }
 
-        .user-avatar {
-            width: 34px; height: 34px;
-            border-radius: 50%;
-            background: white;
-            display: flex; align-items: center; justify-content: center;
-            color: var(--primary-blue);
-            font-size: 1rem;
-            font-weight: 600;
-            flex-shrink: 0;
-            font-family: 'Kanit', sans-serif;
+        .user-badge-icon {
+            font-size: 0.95rem;
+            opacity: 0.85;
         }
 
         .user-info { line-height: 1.3; }
@@ -529,6 +520,10 @@
                         <img src="https://sarawutc6689-cpu.github.io/Mouldmate-HR/logotokai.png" alt="TokaiSolidTire Logo"
                              onerror="this.onerror=null;this.src='https://via.placeholder.com/60/1a73e8/FFFFFF?text=T';">
                     </div>
+                    <div class="logo-text">
+                        <h1>TokaiSolidTire System</h1>
+                        <p>ระบบบริหารจัดการองค์กร</p>
+                    </div>
                 </div>
 
                 <div class="search-container">
@@ -536,9 +531,10 @@
                     <input type="text" class="search-bar" id="searchInput" placeholder="ค้นหาแผนก...">
                 </div>
 
-                <!-- USER BADGE top-right -->
+                <!-- USER BADGE top-right (no avatar circle) -->
                 <div class="header-right">
                     <div class="user-badge">
+                        <i class="fas fa-user user-badge-icon"></i>
                         <div class="user-info">
                             <span class="user-greeting">ยินดีต้อนรับ</span>
                             <span class="user-name" id="userNameDisplay">กำลังโหลด...</span>
@@ -617,19 +613,18 @@
         ];
 
         // ========== LOGIN ==========
-        let sheetRows = []; // cache all rows after fetch
+        let sheetRows = [];
 
         async function fetchSheetData() {
             const res = await fetch(SHEET_URL);
             const text = await res.text();
-            // Google wraps JSON in /*O_o*/ ... 
             const json = JSON.parse(text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1));
             const rows = json.table.rows;
             return rows.map(row => ({
-                code:     (row.c[0]?.v ?? '').toString().trim(),   // A
-                password: (row.c[1]?.v ?? '').toString().trim(),   // B
-                status:   (row.c[2]?.v ?? '').toString().trim(),   // C
-                name:     (row.c[4]?.v ?? '').toString().trim(),   // E
+                code:     (row.c[0]?.v ?? '').toString().trim(),
+                password: (row.c[1]?.v ?? '').toString().trim(),
+                status:   (row.c[2]?.v ?? '').toString().trim(),
+                name:     (row.c[4]?.v ?? '').toString().trim(),
             }));
         }
 
@@ -655,9 +650,7 @@
                     sheetRows = await fetchSheetData();
                 }
 
-                const user = sheetRows.find(r =>
-                    r.code === code && r.password === pass
-                );
+                const user = sheetRows.find(r => r.code === code && r.password === pass);
 
                 if (!user) {
                     errMsg.textContent = 'รหัสพนักงานหรือรหัสผ่านไม่ถูกต้อง';
@@ -675,7 +668,6 @@
                     return;
                 }
 
-                // SUCCESS — store session & show app
                 sessionStorage.setItem('loggedUser', JSON.stringify({ code: user.code, name: user.name }));
                 showApp(user.name);
 
@@ -691,10 +683,6 @@
         function showApp(name) {
             document.getElementById('loginOverlay').style.display = 'none';
             document.getElementById('mainApp').style.display = 'block';
-
-            // Set name in badge
-            const initials = name.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase() || '?';
-            document.getElementById('userAvatar').textContent = initials;
             document.getElementById('userNameDisplay').textContent = name || 'ไม่ระบุชื่อ';
         }
 
@@ -710,7 +698,6 @@
             btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> เข้าสู่ระบบ';
         }
 
-        // Press Enter to login
         ['loginCode','loginPass'].forEach(id => {
             document.getElementById(id).addEventListener('keyup', e => {
                 if (e.key === 'Enter') doLogin();
@@ -802,7 +789,6 @@
             document.getElementById('searchInput').addEventListener('keyup', e => { if (e.key==='Enter') searchDepartments(); });
             document.getElementById('toggleNoticesBtn').addEventListener('click', toggleNoticesVisibility);
 
-            // Resume session if already logged in
             const saved = sessionStorage.getItem('loggedUser');
             if (saved) {
                 try {
