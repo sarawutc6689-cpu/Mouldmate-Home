@@ -48,15 +48,19 @@
             margin-bottom: 40px;
         }
 
-        .header-top {
+        /* แถวเดียว: logo | search | user badge */
+        .header-row {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
+            gap: 20px;
         }
 
-        .logo-container { display: flex; align-items: center; gap: 15px; }
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-shrink: 0;
+        }
 
         .logo-image {
             width: 56px; height: 56px;
@@ -65,44 +69,17 @@
             display: flex; align-items: center; justify-content: center;
             overflow: hidden; padding: 5px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            flex-shrink: 0;
         }
 
         .logo-image img { width: 100%; height: 100%; object-fit: contain; }
         .logo-text h1 { font-size: 1.6rem; margin-bottom: 3px; }
         .logo-text p { font-size: 0.85rem; opacity: 0.9; }
 
-        /* User Badge */
-        .user-badge {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(255,255,255,0.15);
-            border: 1.5px solid rgba(255,255,255,0.3);
-            padding: 8px 16px;
-            border-radius: 50px;
-            backdrop-filter: blur(4px);
-            transition: var(--transition);
-            white-space: nowrap;
-        }
-
-        .user-badge:hover { background: rgba(255,255,255,0.22); }
-        .user-badge i { font-size: 0.9rem; opacity: 0.85; }
-        .user-badge-info { line-height: 1.3; }
-        .user-greeting { font-size: 0.72rem; opacity: 0.8; display: block; }
-        .user-name { font-size: 0.95rem; font-weight: 500; font-family: 'Kanit', sans-serif; display: block; }
-
-        /* Search Bar */
-        .header-bottom {
-            display: flex;
-            justify-content: center;
-            margin-top: 18px;
-        }
-
+        /* Search ตรงกลาง ยืดเต็มพื้นที่ที่เหลือ */
         .search-container {
-            width: 100%;
-            max-width: 500px;
+            flex: 1;
             position: relative;
+            min-width: 0;
         }
 
         .search-bar {
@@ -125,6 +102,27 @@
             color: var(--text-light);
             font-size: 1.1rem;
         }
+
+        /* User Badge */
+        .user-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.15);
+            border: 1.5px solid rgba(255,255,255,0.3);
+            padding: 8px 16px;
+            border-radius: 50px;
+            backdrop-filter: blur(4px);
+            transition: var(--transition);
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .user-badge:hover { background: rgba(255,255,255,0.22); }
+        .user-badge i { font-size: 0.9rem; opacity: 0.85; }
+        .user-badge-info { line-height: 1.3; }
+        .user-greeting { font-size: 0.72rem; opacity: 0.8; display: block; }
+        .user-name { font-size: 0.95rem; font-weight: 500; font-family: 'Kanit', sans-serif; display: block; }
 
         /* Notice Board */
         .notice-board-container {
@@ -285,39 +283,22 @@
 
         /* Responsive */
         @media (max-width: 768px) {
-            .header-top { flex-direction: column; text-align: center; }
-            .logo-container { justify-content: center; }
+            .header-row { flex-wrap: wrap; }
+            .logo-container { flex: 1 1 100%; justify-content: center; }
+            .search-container { flex: 1 1 100%; order: 3; }
             .user-badge { align-self: center; }
             .notice-board-grid { grid-template-columns: 1fr; }
             .departments-grid { grid-template-columns: 1fr; gap: 20px; }
             .main-title h2 { font-size: 1.6rem; }
             .notice-board-header { flex-direction: column; gap: 15px; align-items: flex-start; }
-            .notice-board-controls { width: 100%; justify-content: space-between; }
         }
-
-        .logout-btn {
-            background: rgba(255,255,255,0.15);
-            border: 1px solid rgba(255,255,255,0.3);
-            color: white;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-family: 'Kanit', sans-serif;
-            font-size: 0.8rem;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .logout-btn:hover { background: rgba(255,82,82,0.4); border-color: rgba(255,82,82,0.5); }
     </style>
 </head>
 <body>
     <header>
         <div class="container">
-            <div class="header-top">
-                <!-- Logo -->
+            <div class="header-row">
+                <!-- Logo ซ้าย -->
                 <div class="logo-container">
                     <div class="logo-image">
                         <img src="https://sarawutc6689-cpu.github.io/Mouldmate-HR/logotokai.png" alt="TokaiSolidTire Logo"
@@ -329,21 +310,19 @@
                     </div>
                 </div>
 
-                <!-- User Badge มุมขวาบน (ไม่มี avatar วงกลม) -->
+                <!-- Search กลาง -->
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" class="search-bar" id="searchInput" placeholder="ค้นหาแผนก...">
+                </div>
+
+                <!-- User Badge ขวา -->
                 <div class="user-badge">
                     <i class="fas fa-user"></i>
                     <div class="user-badge-info">
                         <span class="user-greeting">ยินดีต้อนรับ</span>
                         <span class="user-name" id="userNameDisplay">กำลังโหลด...</span>
                     </div>
-                </div>
-            </div>
-
-            <!-- Search -->
-            <div class="header-bottom">
-                <div class="search-container">
-                    <i class="fas fa-search search-icon"></i>
-                    <input type="text" class="search-bar" id="searchInput" placeholder="ค้นหาแผนก...">
                 </div>
             </div>
         </div>
@@ -390,27 +369,19 @@
     </footer>
 
     <script>
-        // ===== CONFIG =====
-        const SHEET_ID   = '1xadpjbQOM4DlpcAjQNuIgdVzLFdPI32xnGCRDMHZylw';
-        const LOGIN_URL  = 'new-login-home.html';
+        const SHEET_ID = '1xadpjbQOM4DlpcAjQNuIgdVzLFdPI32xnGCRDMHZylw';
 
-        // ===== แสดงชื่อผู้ใช้จาก localStorage =====
         function loadUserName() {
-            // ลองดึงจาก localStorage ที่ Login เก็บไว้
             let name = localStorage.getItem('userName') || '';
-
             if (name) {
                 document.getElementById('userNameDisplay').textContent = name;
                 return;
             }
-
-            // fallback: ถ้าไม่มี name ให้ดึงจาก Sheets โดยใช้ username (code)
             const code = localStorage.getItem('username') || '';
             if (!code) {
                 document.getElementById('userNameDisplay').textContent = 'ไม่พบข้อมูล';
                 return;
             }
-
             const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=DATA`;
             fetch(url)
                 .then(r => r.text())
@@ -420,7 +391,7 @@
                     const match = rows.find(row => (row.c[0]?.v ?? '').toString().trim() === code.trim());
                     const fetchedName = match ? (match.c[4]?.v ?? '').toString().trim() : '';
                     if (fetchedName) {
-                        localStorage.setItem('userName', fetchedName); // cache ไว้
+                        localStorage.setItem('userName', fetchedName);
                         document.getElementById('userNameDisplay').textContent = fetchedName;
                     } else {
                         document.getElementById('userNameDisplay').textContent = code;
@@ -431,25 +402,23 @@
                 });
         }
 
-        // ===== DATA =====
         const departments = [
-            { id:1, name:"แผนกซ่อมบำรุงและไฟฟ้า",        description:"ดูแลการซ่อมบำรุงอุปกรณ์ เครื่องจักร และระบบไฟฟ้าทั้งภายในและภายนอกองค์กร", url:"https://sites.google.com/view/mouldmatema",                              icon:"fas fa-tools",       iconClass:"maintenance" },
-            { id:2, name:"แผนกเทคโนโลยีสารสนเทศ",        description:"จัดการระบบไอที ดูแลเครือข่าย พัฒนาซอฟต์แวร์ และให้การสนับสนุนด้านเทคโนโลยี",  url:"https://sarawutc6689-cpu.github.io/Mouldmate-IT/it-home.html",       icon:"fas fa-laptop-code", iconClass:"it" },
-            { id:3, name:"ฝ่ายทรัพยากรบุคคลและธุรการ",   description:"บริหารงานบุคคล ดูแลสวัสดิการ พัฒนาบุคลากร และงานธุรการทั่วไป",                 url:"https://sarawutc6689-cpu.github.io/Mouldmate-HR/hr-p3.html",        icon:"fas fa-users",       iconClass:"hr" },
-            { id:4, name:"แผนกบริการยานยนต์",             description:"ให้บริการด้านยานยนต์ ซ่อมบำรุงรถยนต์ และจัดการระบบขนส่งองค์กร",               url:"https://sarawutc6689-cpu.github.io/Mouldmate-AMS/Main.html",        icon:"fas fa-car",         iconClass:"vehicle" },
-            { id:5, name:"แผนกคลังพัสดุ",                description:"ค้นหารหัสเบิกพัสดุต่างๆ ทั้งหมวด SP และ SU",                                   url:"https://sarawutc6689-cpu.github.io/Mouldmate-ST/Home.html",         icon:"fas fa-store",       iconClass:"store" }
+            { id:1, name:"แผนกซ่อมบำรุงและไฟฟ้า",       description:"ดูแลการซ่อมบำรุงอุปกรณ์ เครื่องจักร และระบบไฟฟ้าทั้งภายในและภายนอกองค์กร", url:"https://sites.google.com/view/mouldmatema",                             icon:"fas fa-tools",       iconClass:"maintenance" },
+            { id:2, name:"แผนกเทคโนโลยีสารสนเทศ",       description:"จัดการระบบไอที ดูแลเครือข่าย พัฒนาซอฟต์แวร์ และให้การสนับสนุนด้านเทคโนโลยี", url:"https://sarawutc6689-cpu.github.io/Mouldmate-IT/it-home.html",      icon:"fas fa-laptop-code", iconClass:"it" },
+            { id:3, name:"ฝ่ายทรัพยากรบุคคลและธุรการ",  description:"บริหารงานบุคคล ดูแลสวัสดิการ พัฒนาบุคลากร และงานธุรการทั่วไป",                url:"https://sarawutc6689-cpu.github.io/Mouldmate-HR/hr-p3.html",       icon:"fas fa-users",       iconClass:"hr" },
+            { id:4, name:"แผนกบริการยานยนต์",            description:"ให้บริการด้านยานยนต์ ซ่อมบำรุงรถยนต์ และจัดการระบบขนส่งองค์กร",              url:"https://sarawutc6689-cpu.github.io/Mouldmate-AMS/Main.html",       icon:"fas fa-car",         iconClass:"vehicle" },
+            { id:5, name:"แผนกคลังพัสดุ",               description:"ค้นหารหัสเบิกพัสดุต่างๆ ทั้งหมวด SP และ SU",                                  url:"https://sarawutc6689-cpu.github.io/Mouldmate-ST/Home.html",        icon:"fas fa-store",       iconClass:"store" }
         ];
 
         const announcements = [
-            { id:1, title:"ระบบอัปเดตล่าสุด",                    content:"เพิ่มความเร็วในการเข้าถึงข้อมูล 30% และเพิ่มฟังก์ชันการทำงานใหม่",                                                                                    type:"info",    icon:"fas fa-rocket" },
-            { id:2, title:"นโยบายความปลอดภัยใหม่",               content:"โปรดเปลี่ยนรหัสผ่านทุก 90 วันเพื่อความปลอดภัยของข้อมูลองค์กร",                                                                                          type:"warning", icon:"fas fa-shield-alt" },
-            { id:3, title:"ระบบแจ้งปัญหาผ่านช่องทางใหม่",        content:"แจ้งปัญหาได้ตลอด 24 ชม. ผ่านระบบออนไลน์และแอปพลิเคชันมือถือ",                                                                                            type:"success", icon:"fas fa-robot" },
-            { id:4, title:"ซ่อมบำรุงระบบ Helpdesk ประจำเดือน",  content:"วันที่ 25 ของทุกเดือน เวลา 20:00-00:00 น. ระบบอาจหยุดให้บริการชั่วคราว",                                                                                   type:"warning", icon:"fas fa-tools" },
-            { id:5, title:"รายงานประสิทธิภาพองค์กร",             content:"ประสิทธิภาพองค์กรเพิ่มขึ้น 10% ในเดือนที่ผ่านมา",                                                                                                            type:"success", icon:"fas fa-chart-line" },
-            { id:6, title:"ประกาศด่วน! ระบบ Helpdesk สำรองข้อมูล", content:"จะมีทดสอบระบบการสำรองข้อมูลทั้งหมดในวันที่ 31 มกราคม 2026 เวลา 21:00 น. อาจส่งผลกระทบต่อการใช้งาน", type:"urgent",  icon:"fas fa-exclamation-triangle" }
+            { id:1, title:"ระบบอัปเดตล่าสุด",                      content:"เพิ่มความเร็วในการเข้าถึงข้อมูล 30% และเพิ่มฟังก์ชันการทำงานใหม่",                                                                                   type:"info",    icon:"fas fa-rocket" },
+            { id:2, title:"นโยบายความปลอดภัยใหม่",                 content:"โปรดเปลี่ยนรหัสผ่านทุก 90 วันเพื่อความปลอดภัยของข้อมูลองค์กร",                                                                                         type:"warning", icon:"fas fa-shield-alt" },
+            { id:3, title:"ระบบแจ้งปัญหาผ่านช่องทางใหม่",          content:"แจ้งปัญหาได้ตลอด 24 ชม. ผ่านระบบออนไลน์และแอปพลิเคชันมือถือ",                                                                                           type:"success", icon:"fas fa-robot" },
+            { id:4, title:"ซ่อมบำรุงระบบ Helpdesk ประจำเดือน",    content:"วันที่ 25 ของทุกเดือน เวลา 20:00-00:00 น. ระบบอาจหยุดให้บริการชั่วคราว",                                                                                  type:"warning", icon:"fas fa-tools" },
+            { id:5, title:"รายงานประสิทธิภาพองค์กร",               content:"ประสิทธิภาพองค์กรเพิ่มขึ้น 10% ในเดือนที่ผ่านมา",                                                                                                           type:"success", icon:"fas fa-chart-line" },
+            { id:6, title:"ประกาศด่วน! ระบบ Helpdesk สำรองข้อมูล",content:"จะมีทดสอบระบบการสำรองข้อมูลทั้งหมดในวันที่ 31 มกราคม 2026 เวลา 21:00 น. อาจส่งผลกระทบต่อการใช้งาน",                                                         type:"urgent",  icon:"fas fa-exclamation-triangle" }
         ];
 
-        // ===== NOTICES =====
         function getTypeLabel(type) {
             return { info:'ข้อมูล', urgent:'ด่วน', warning:'เตือน', success:'สำเร็จ' }[type] || type;
         }
@@ -481,7 +450,6 @@
             board.innerHTML = [...arr].sort((a,b) => order[a.type] - order[b.type]).map(createNoticeCard).join('');
         }
 
-        // ===== DEPARTMENTS =====
         function createDepartmentCard(dept) {
             return `
                 <div class="department-card" data-dept-id="${dept.id}">
@@ -526,7 +494,6 @@
                 : '<i class="fas fa-chevron-up"></i> แสดงประกาศ';
         }
 
-        // ===== INIT =====
         function init() {
             loadUserName();
             renderNotices(announcements);
