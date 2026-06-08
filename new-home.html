@@ -1,214 +1,525 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ระบบล็อกอินพนักงาน | TOKAI</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif}
-    body{background:#0a0a0a;display:flex;justify-content:center;align-items:center;min-height:100vh;padding:20px;position:relative;overflow:hidden}
-    .bg-effect{position:absolute;top:0;left:0;width:100%;height:100%;background:radial-gradient(circle at 20% 50%,rgba(245,6,2,.15) 0%,transparent 50%),radial-gradient(circle at 80% 20%,rgba(245,6,2,.1) 0%,transparent 50%);z-index:-1}
-    .container{width:100%;max-width:480px;margin:0 auto}
-    .login-card{background:rgba(20,20,20,.95);border-radius:20px;box-shadow:0 10px 40px rgba(245,6,2,.2),0 0 0 1px rgba(255,255,255,.05);overflow:hidden;border:1px solid rgba(255,255,255,.05)}
-    .login-card:hover{transform:translateY(-5px);box-shadow:0 15px 50px rgba(245,6,2,.3)}
-    .card-header{background:linear-gradient(to right,#1a1a1a,#0a0a0a);color:white;padding:25px 20px;text-align:center;border-bottom:2px solid #F50602}
-    .logo-container{margin-bottom:15px;display:flex;justify-content:center}
-    .logo{max-width:180px;height:auto;filter:drop-shadow(0 0 8px rgba(245,6,2,.5))}
-    .card-header h1{font-size:26px;font-weight:700;margin-bottom:8px;background:linear-gradient(to right,#fff,#ff9999);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-    .card-header p{font-size:15px;opacity:.8;color:#ccc}
-    .card-body{padding:35px 30px}
-    .input-group{margin-bottom:25px;position:relative}
-    .input-group label{display:block;margin-bottom:10px;font-weight:600;color:#ddd;font-size:15px}
-    .input-field{width:100%;padding:16px 20px 16px 50px;background:rgba(10,10,10,.7);border:2px solid #333;border-radius:12px;font-size:16px;transition:all .3s;color:#fff}
-    .input-field::placeholder{color:#666}
-    .input-field:focus{outline:none;border-color:#F50602;box-shadow:0 0 0 3px rgba(245,6,2,.2)}
-    .input-icon{position:absolute;left:18px;top:42px;color:#666;font-size:18px}
-    .login-button{width:100%;padding:18px;background:linear-gradient(to right,#F50602,#cc0502);color:white;border:none;border-radius:12px;font-size:18px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;cursor:pointer;transition:all .3s;margin-top:15px;box-shadow:0 6px 20px rgba(245,6,2,.3);display:flex;align-items:center;justify-content:center;gap:10px;position:relative;overflow:hidden}
-    .login-button:hover{background:linear-gradient(to right,#ff1a1a,#dd0502);transform:translateY(-3px)}
-    .login-button:disabled{opacity:.7;cursor:not-allowed;transform:none}
-    .message{padding:15px;border-radius:10px;margin:20px 0;text-align:center;font-weight:600;display:none;border-left:4px solid transparent}
-    .message.error{background:rgba(245,6,2,.1);color:#ff6666;border-left-color:#F50602;display:block}
-    .message.success{background:rgba(0,200,0,.1);color:#66ff66;border-left-color:#00cc00;display:block}
-    .message.loading{background:rgba(0,100,255,.1);color:#66aaff;border-left-color:#0088ff;display:block}
-    .forgot-link{text-align:center;margin-top:25px}
-    .forgot-link a{color:#999;text-decoration:none;font-size:15px;transition:color .3s}
-    .forgot-link a:hover{color:#F50602;text-decoration:underline}
-    .card-footer{background:rgba(15,15,15,.9);padding:20px;text-align:center;border-top:1px solid #222;color:#777;font-size:14px;display:flex;align-items:center;justify-content:center;gap:10px}
-    .card-footer i{color:#F50602}
-    .pulse-animation{animation:pulse 1.5s infinite}
-    @keyframes pulse{0%{border-color:#333}50%{border-color:#F50602}100%{border-color:#333}}
-    .glow-effect{position:absolute;width:200px;height:200px;background:radial-gradient(circle,rgba(245,6,2,.2) 0%,transparent 70%);border-radius:50%;z-index:-1;animation:float 15s infinite ease-in-out}
-    .glow-effect:nth-child(1){top:10%;left:10%}
-    .glow-effect:nth-child(2){bottom:15%;right:10%;animation-delay:-5s}
-    .glow-effect:nth-child(3){top:50%;left:80%;animation-delay:-10s}
-    @keyframes float{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(30px,-30px) scale(1.1)}66%{transform:translate(-20px,20px) scale(.9)}}
-    @media(max-width:480px){.card-body{padding:25px 20px}.logo{max-width:150px}.card-header h1{font-size:22px}}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TokaiSolidtire System - ระบบบริหารจัดการองค์กร</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&family=Sarabun:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #1a73e8;
+            --dark-blue: #0d47a1;
+            --light-blue: #e8f0fe;
+            --gray-bg: #f5f7fa;
+            --text-dark: #202124;
+            --text-light: #5f6368;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --card-shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.12);
+            --border-radius: 12px;
+            --transition: all 0.3s ease;
+            --notice-urgent: #ff5252;
+            --notice-info: #2196f3;
+            --notice-warning: #ff9800;
+            --notice-success: #4caf50;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: var(--gray-bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4 { font-family: 'Kanit', sans-serif; font-weight: 500; }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
+            color: white;
+            padding: 20px 0;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            box-shadow: 0 4px 12px rgba(13, 71, 161, 0.2);
+            margin-bottom: 40px;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo-container { display: flex; align-items: center; gap: 15px; }
+
+        .logo-image {
+            width: 56px; height: 56px;
+            border-radius: 50%;
+            background: white;
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden; padding: 5px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            flex-shrink: 0;
+        }
+
+        .logo-image img { width: 100%; height: 100%; object-fit: contain; }
+        .logo-text h1 { font-size: 1.6rem; margin-bottom: 3px; }
+        .logo-text p { font-size: 0.85rem; opacity: 0.9; }
+
+        /* User Badge */
+        .user-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.15);
+            border: 1.5px solid rgba(255,255,255,0.3);
+            padding: 8px 16px;
+            border-radius: 50px;
+            backdrop-filter: blur(4px);
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        .user-badge:hover { background: rgba(255,255,255,0.22); }
+        .user-badge i { font-size: 0.9rem; opacity: 0.85; }
+        .user-badge-info { line-height: 1.3; }
+        .user-greeting { font-size: 0.72rem; opacity: 0.8; display: block; }
+        .user-name { font-size: 0.95rem; font-weight: 500; font-family: 'Kanit', sans-serif; display: block; }
+
+        /* Search Bar */
+        .header-bottom {
+            display: flex;
+            justify-content: center;
+            margin-top: 18px;
+        }
+
+        .search-container {
+            width: 100%;
+            max-width: 500px;
+            position: relative;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 12px 20px 12px 46px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-family: 'Sarabun', sans-serif;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: var(--transition);
+        }
+
+        .search-bar:focus { outline: none; box-shadow: 0 6px 16px rgba(0,0,0,0.15); }
+
+        .search-icon {
+            position: absolute;
+            left: 18px; top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        /* Notice Board */
+        .notice-board-container {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: var(--card-shadow);
+            border-top: 5px solid var(--primary-blue);
+        }
+
+        .notice-board-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .notice-board-title { display: flex; align-items: center; gap: 10px; }
+        .notice-board-title h3 { font-size: 1.4rem; color: var(--text-dark); }
+
+        .notice-board-icon {
+            background-color: var(--primary-blue);
+            color: white;
+            width: 40px; height: 40px;
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .notice-board-btn {
+            background-color: var(--light-blue);
+            color: var(--primary-blue);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-family: 'Kanit', sans-serif;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex; align-items: center; gap: 5px;
+        }
+
+        .notice-board-btn:hover { background-color: #dce8ff; }
+
+        .notice-board-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .notice-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border-left: 4px solid var(--notice-info);
+            transition: var(--transition);
+            border: 1px solid #eee;
+            border-left-width: 4px;
+        }
+
+        .notice-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); transform: translateY(-3px); }
+        .notice-card.urgent  { border-left-color: var(--notice-urgent); }
+        .notice-card.warning { border-left-color: var(--notice-warning); }
+        .notice-card.success { border-left-color: var(--notice-success); }
+        .notice-card.info    { border-left-color: var(--notice-info); }
+
+        .notice-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+
+        .notice-card-type {
+            font-size: 0.8rem; padding: 4px 10px;
+            border-radius: 20px; font-weight: 500; font-family: 'Kanit', sans-serif;
+        }
+
+        .notice-card-type.info    { background-color: rgba(33,150,243,0.1); color: var(--notice-info); }
+        .notice-card-type.urgent  { background-color: rgba(255,82,82,0.1);  color: var(--notice-urgent); }
+        .notice-card-type.warning { background-color: rgba(255,152,0,0.1);  color: var(--notice-warning); }
+        .notice-card-type.success { background-color: rgba(76,175,80,0.1);  color: var(--notice-success); }
+
+        .notice-card-icon { margin-right: 10px; font-size: 1.1rem; }
+        .notice-card-icon.info    { color: var(--notice-info); }
+        .notice-card-icon.urgent  { color: var(--notice-urgent); }
+        .notice-card-icon.warning { color: var(--notice-warning); }
+        .notice-card-icon.success { color: var(--notice-success); }
+
+        .empty-notices { grid-column: 1 / -1; text-align: center; padding: 40px 20px; color: var(--text-light); }
+        .empty-notices i { font-size: 3rem; margin-bottom: 15px; color: #ddd; }
+
+        /* Main */
+        .main-title { text-align: center; margin-bottom: 30px; color: var(--text-dark); }
+        .main-title h2 { font-size: 2rem; margin-bottom: 10px; }
+        .main-title p { color: var(--text-light); max-width: 600px; margin: 0 auto; }
+
+        .departments-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        .department-card {
+            background: white; border-radius: var(--border-radius);
+            padding: 25px; box-shadow: var(--card-shadow);
+            transition: var(--transition); cursor: pointer;
+            border-left: 5px solid var(--primary-blue);
+            height: 100%; display: flex; flex-direction: column;
+        }
+
+        .department-card:hover { transform: translateY(-5px); box-shadow: var(--card-shadow-hover); }
+
+        .card-header { display: flex; align-items: center; margin-bottom: 20px; }
+
+        .card-icon {
+            width: 60px; height: 60px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            margin-right: 15px; font-size: 1.8rem; color: white; flex-shrink: 0;
+        }
+
+        .card-icon.maintenance { background: linear-gradient(135deg, #ff6b6b, #ee5a52); }
+        .card-icon.it          { background: linear-gradient(135deg, #4ecdc4, #44a08d); }
+        .card-icon.hr          { background: linear-gradient(135deg, #ffe66d, #ffd166); }
+        .card-icon.vehicle     { background: linear-gradient(135deg, #1a936f, #136f63); }
+        .card-icon.accounting  { background: linear-gradient(135deg, #9d4edd, #6a2c9c); }
+        .card-icon.store       { background: linear-gradient(135deg, #ff9a00, #ff6a00); }
+
+        .card-title h3 { font-size: 1.3rem; margin-bottom: 5px; }
+        .card-title p  { font-size: 0.9rem; color: var(--text-light); }
+        .card-description { margin-bottom: 20px; flex-grow: 1; color: var(--text-light); }
+        .card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
+
+        .visit-btn {
+            background-color: var(--primary-blue); color: white; border: none;
+            padding: 10px 18px; border-radius: 8px;
+            font-family: 'Kanit', sans-serif; cursor: pointer;
+            transition: var(--transition); display: flex; align-items: center; gap: 8px;
+        }
+
+        .visit-btn:hover { background-color: var(--dark-blue); }
+        .external-link { color: var(--primary-blue); font-size: 1.2rem; }
+
+        /* Footer */
+        footer {
+            background-color: white; padding: 25px 0;
+            margin-top: 30px; border-top: 1px solid #e0e0e0;
+            text-align: center; color: var(--text-light);
+        }
+
+        .footer-content { display: flex; flex-direction: column; align-items: center; gap: 15px; }
+        .footer-logo-container { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+        .footer-logo { font-weight: 600; color: var(--primary-blue); font-size: 1.2rem; }
+        .footer-logo-img { width: 40px; height: 40px; }
+        .footer-logo-img img { width: 100%; height: 100%; object-fit: contain; }
+
+        .no-results { text-align: center; padding: 40px; grid-column: 1 / -1; color: var(--text-light); }
+        .no-results i { font-size: 3rem; margin-bottom: 15px; color: #ccc; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-top { flex-direction: column; text-align: center; }
+            .logo-container { justify-content: center; }
+            .user-badge { align-self: center; }
+            .notice-board-grid { grid-template-columns: 1fr; }
+            .departments-grid { grid-template-columns: 1fr; gap: 20px; }
+            .main-title h2 { font-size: 1.6rem; }
+            .notice-board-header { flex-direction: column; gap: 15px; align-items: flex-start; }
+            .notice-board-controls { width: 100%; justify-content: space-between; }
+        }
+    </style>
 </head>
 <body>
-  <div class="bg-effect"></div>
-  <div class="glow-effect"></div><div class="glow-effect"></div><div class="glow-effect"></div>
+    <header>
+        <div class="container">
+            <div class="header-top">
+                <!-- Logo -->
+                <div class="logo-container">
+                    <div class="logo-image">
+                        <img src="https://sarawutc6689-cpu.github.io/Mouldmate-HR/logotokai.png" alt="TokaiSolidTire Logo"
+                             onerror="this.onerror=null;this.src='https://via.placeholder.com/60/1a73e8/FFFFFF?text=T';">
+                    </div>
+                    <div class="logo-text">
+                        <h1>TokaiSolidTire System</h1>
+                        <p>ระบบบริหารจัดการองค์กร</p>
+                    </div>
+                </div>
 
-  <div class="container">
-    <div class="login-card">
-      <div class="card-header">
-        <div class="logo-container">
-          <img src="https://sarawutc6689-cpu.github.io/Mouldmate-Login/logotokai.png" alt="TOKAI Logo" class="logo">
+                <!-- User Badge มุมขวาบน (ไม่มี avatar วงกลม) -->
+                <div class="user-badge">
+                    <i class="fas fa-user"></i>
+                    <div class="user-badge-info">
+                        <span class="user-greeting">ยินดีต้อนรับ</span>
+                        <span class="user-name" id="userNameDisplay">กำลังโหลด...</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search -->
+            <div class="header-bottom">
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" class="search-bar" id="searchInput" placeholder="ค้นหาแผนก...">
+                </div>
+            </div>
         </div>
-        <h1>ระบบล็อกอินพนักงาน</h1>
-        <p>เฉพาะพนักงาน TOKAISOLIDTIRE ที่ลงทะเบียนเท่านั้น</p>
-      </div>
+    </header>
 
-      <div class="card-body">
-        <form name="myform" onsubmit="return false;">
-          <div class="input-group">
-            <label><i class="fas fa-id-card"></i> รหัสพนักงาน</label>
-            <div class="input-icon"><i class="fas fa-user"></i></div>
-            <input type="text" name="uname" id="uname" class="input-field" placeholder="กรุณากรอกรหัสพนักงาน" autocomplete="username">
-          </div>
-          <div class="input-group">
-            <label><i class="fas fa-calendar-day"></i> วันที่เริ่มงาน</label>
-            <div class="input-icon"><i class="fas fa-calendar-alt"></i></div>
-            <input type="password" name="pass" id="pass" class="input-field" placeholder="กรุณากรอกวันที่เริ่มงาน" autocomplete="current-password">
-          </div>
-          <div id="msg" class="message"></div>
-          <button type="button" class="login-button" onclick="login()">
-            <i class="fas fa-sign-in-alt"></i> เข้าสู่ระบบ
-          </button>
-          <div class="forgot-link">
-            <a href="#" onclick="showHelp()"><i class="fas fa-question-circle"></i> ขอความช่วยเหลือ</a>
-          </div>
-        </form>
-      </div>
+    <main class="container">
+        <!-- Notice Board -->
+        <div class="notice-board-container">
+            <div class="notice-board-header">
+                <div class="notice-board-title">
+                    <div class="notice-board-icon"><i class="fas fa-bullhorn"></i></div>
+                    <h3>กระดานประกาศองค์กร</h3>
+                    <span id="noticeCount" style="background-color:var(--primary-blue);color:white;padding:2px 8px;border-radius:10px;font-size:.9rem;margin-left:10px;">0</span>
+                </div>
+                <div class="notice-board-controls">
+                    <button class="notice-board-btn" id="toggleNoticesBtn">
+                        <i class="fas fa-chevron-down"></i> ซ่อนประกาศ
+                    </button>
+                </div>
+            </div>
+            <div class="notice-board-grid" id="noticeBoard"></div>
+        </div>
 
-      <div class="card-footer">
-        <i class="fas fa-shield-alt"></i>
-        <p>ระบบรักษาความปลอดภัย © 2026 | พัฒนาโดย Sarawut.C</p>
-        <i class="fas fa-shield-alt"></i>
-      </div>
-    </div>
-  </div>
+        <div class="main-title">
+            <h2>แผนกในระบบ TokaiSolidTire</h2>
+            <p>เข้าถึงระบบงานของแผนกต่างๆ ได้จากลิงก์ด้านล่างนี้</p>
+        </div>
 
-  <script>
-    const SCRIPT_URL    = "https://script.google.com/macros/s/AKfycbzA6M5nQf36WQZyOQHGMrIK_sEf7LhiFDXprJGBPdEXXF9KDy9m0pli4fash7Gv82k/exec";
-    const SHEET_ID      = "1xadpjbQOM4DlpcAjQNuIgdVzLFdPI32xnGCRDMHZylw";
-    const DASHBOARD_URL = "Approve_Home.html";
+        <div class="departments-grid" id="departmentsGrid"></div>
+    </main>
 
-    document.addEventListener('DOMContentLoaded', function() {
-      document.getElementById('uname').addEventListener('keypress', function(e) { if (e.key === 'Enter') login(); });
-      document.getElementById('pass').addEventListener('keypress', function(e) { if (e.key === 'Enter') login(); });
-    });
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-logo-container">
+                <div class="footer-logo-img">
+                    <img src="https://sarawutc6689-cpu.github.io/Mouldmate-HR/logotokai.png" alt="TokaiSolidTire Logo"
+                         onerror="this.onerror=null;this.src='https://via.placeholder.com/40/1a73e8/FFFFFF?text=T';">
+                </div>
+                <div class="footer-logo">TokaiSolidTire System</div>
+            </div>
+            <p>© 2026 ระบบบริหารจัดการองค์กรครบวงจร | ออกแบบเพื่อความสะดวกและประสิทธิภาพ</p>
+            <span>พัฒนาระบบโดย Sarawut.C</span>
+        </div>
+    </footer>
 
-    function showHelp() {
-      const el = document.getElementById("msg");
-      el.className = "message loading";
-      el.innerHTML = "<i class='fas fa-info-circle'></i> รหัสพนักงาน: รหัสที่ได้รับจากบริษัท | วันที่เริ่มงาน: รูปแบบ DDMMYYYY | ลืมรหัสผ่านติดต่อฝ่าย HR";
-      el.style.display = "block";
-      setTimeout(() => { el.style.display = "none"; }, 8000);
-    }
+    <script>
+        // ===== CONFIG =====
+        const SHEET_ID   = '1xadpjbQOM4DlpcAjQNuIgdVzLFdPI32xnGCRDMHZylw';
+        const LOGIN_URL  = 'new-login-home.html';
 
-    // ดึงชื่อจาก Google Sheets โดยใช้ code (คอลัมน์ A → E)
-    async function fetchUserName(code) {
-      try {
-        const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=DATA`;
-        const res = await fetch(url);
-        const text = await res.text();
-        const json = JSON.parse(text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1));
-        const rows = json.table.rows;
-        const match = rows.find(row => (row.c[0]?.v ?? '').toString().trim() === code.trim());
-        return match ? (match.c[4]?.v ?? '').toString().trim() : '';
-      } catch(e) {
-        console.warn('fetchUserName error:', e);
-        return '';
-      }
-    }
+        // ===== แสดงชื่อผู้ใช้จาก localStorage =====
+        function loadUserName() {
+            // ลองดึงจาก localStorage ที่ Login เก็บไว้
+            let name = localStorage.getItem('userName') || '';
 
-    async function login() {
-      const user     = document.forms["myform"]["uname"].value.trim();
-      const pass     = document.forms["myform"]["pass"].value.trim();
-      const msgEl    = document.getElementById("msg");
-      const loginBtn = document.querySelector('.login-button');
+            if (name) {
+                document.getElementById('userNameDisplay').textContent = name;
+                return;
+            }
 
-      msgEl.className = "message";
-      msgEl.style.display = "none";
+            // fallback: ถ้าไม่มี name ให้ดึงจาก Sheets โดยใช้ username (code)
+            const code = localStorage.getItem('username') || '';
+            if (!code) {
+                document.getElementById('userNameDisplay').textContent = 'ไม่พบข้อมูล';
+                return;
+            }
 
-      if (!user || !pass) {
-        msgEl.className = "message error";
-        msgEl.innerHTML = "<i class='fas fa-exclamation-circle'></i> กรุณากรอกข้อมูลให้ครบทุกช่อง";
-        msgEl.style.display = "block";
-        if (!user) { document.getElementById('uname').classList.add('pulse-animation'); setTimeout(()=>document.getElementById('uname').classList.remove('pulse-animation'),1500); }
-        if (!pass) { document.getElementById('pass').classList.add('pulse-animation'); setTimeout(()=>document.getElementById('pass').classList.remove('pulse-animation'),1500); }
-        return;
-      }
-
-      msgEl.className = "message loading";
-      msgEl.innerHTML = "<i class='fas fa-spinner fa-spin'></i> กำลังตรวจสอบข้อมูล กรุณารอสักครู่...";
-      msgEl.style.display = "block";
-      const origBtn = loginBtn.innerHTML;
-      loginBtn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> กำลังตรวจสอบ...";
-      loginBtn.disabled = true;
-
-      try {
-        const params = new URLSearchParams({ action: "login", uname: user, pass: pass });
-        const res  = await fetch(SCRIPT_URL + "?" + params.toString());
-        const txt  = await res.text();
-        console.log("Raw response:", txt);
-
-        let data;
-        try { data = JSON.parse(txt); } catch(e) {
-          msgEl.className = "message error";
-          msgEl.innerHTML = "<i class='fas fa-server'></i> การตอบกลับจากเซิร์ฟเวอร์ไม่ถูกต้อง กรุณาลองใหม่";
-          msgEl.style.display = "block";
-          loginBtn.innerHTML = origBtn; loginBtn.disabled = false; return;
+            const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=DATA`;
+            fetch(url)
+                .then(r => r.text())
+                .then(txt => {
+                    const json = JSON.parse(txt.substring(txt.indexOf('{'), txt.lastIndexOf('}') + 1));
+                    const rows = json.table.rows;
+                    const match = rows.find(row => (row.c[0]?.v ?? '').toString().trim() === code.trim());
+                    const fetchedName = match ? (match.c[4]?.v ?? '').toString().trim() : '';
+                    if (fetchedName) {
+                        localStorage.setItem('userName', fetchedName); // cache ไว้
+                        document.getElementById('userNameDisplay').textContent = fetchedName;
+                    } else {
+                        document.getElementById('userNameDisplay').textContent = code;
+                    }
+                })
+                .catch(() => {
+                    document.getElementById('userNameDisplay').textContent = code;
+                });
         }
-        console.log("Login API response:", data);
 
-        if (data.status === "success") {
-          // ดึงชื่อจาก Sheets ก่อน redirect
-          msgEl.className = "message loading";
-          msgEl.innerHTML = "<i class='fas fa-spinner fa-spin'></i> ล็อกอินสำเร็จ! กำลังโหลดข้อมูลผู้ใช้...";
-          msgEl.style.display = "block";
+        // ===== DATA =====
+        const departments = [
+            { id:1, name:"แผนกซ่อมบำรุงและไฟฟ้า",        description:"ดูแลการซ่อมบำรุงอุปกรณ์ เครื่องจักร และระบบไฟฟ้าทั้งภายในและภายนอกองค์กร", url:"https://sites.google.com/view/mouldmatema",                              icon:"fas fa-tools",       iconClass:"maintenance" },
+            { id:2, name:"แผนกเทคโนโลยีสารสนเทศ",        description:"จัดการระบบไอที ดูแลเครือข่าย พัฒนาซอฟต์แวร์ และให้การสนับสนุนด้านเทคโนโลยี",  url:"https://sarawutc6689-cpu.github.io/Mouldmate-IT/it-home.html",       icon:"fas fa-laptop-code", iconClass:"it" },
+            { id:3, name:"ฝ่ายทรัพยากรบุคคลและธุรการ",   description:"บริหารงานบุคคล ดูแลสวัสดิการ พัฒนาบุคลากร และงานธุรการทั่วไป",                 url:"https://sarawutc6689-cpu.github.io/Mouldmate-HR/hr-p3.html",        icon:"fas fa-users",       iconClass:"hr" },
+            { id:4, name:"แผนกบริการยานยนต์",             description:"ให้บริการด้านยานยนต์ ซ่อมบำรุงรถยนต์ และจัดการระบบขนส่งองค์กร",               url:"https://sarawutc6689-cpu.github.io/Mouldmate-AMS/Main.html",        icon:"fas fa-car",         iconClass:"vehicle" },
+            { id:5, name:"แผนกคลังพัสดุ",                description:"ค้นหารหัสเบิกพัสดุต่างๆ ทั้งหมวด SP และ SU",                                   url:"https://sarawutc6689-cpu.github.io/Mouldmate-ST/Home.html",         icon:"fas fa-store",       iconClass:"store" }
+        ];
 
-          // พยายามดึงชื่อ (ถ้า API ส่ง name มาด้วยให้ใช้เลย ถ้าไม่มีค่อย fetch)
-          const userName = data.name || await fetchUserName(user);
+        const announcements = [
+            { id:1, title:"ระบบอัปเดตล่าสุด",                    content:"เพิ่มความเร็วในการเข้าถึงข้อมูล 30% และเพิ่มฟังก์ชันการทำงานใหม่",                                                                                    type:"info",    icon:"fas fa-rocket" },
+            { id:2, title:"นโยบายความปลอดภัยใหม่",               content:"โปรดเปลี่ยนรหัสผ่านทุก 90 วันเพื่อความปลอดภัยของข้อมูลองค์กร",                                                                                          type:"warning", icon:"fas fa-shield-alt" },
+            { id:3, title:"ระบบแจ้งปัญหาผ่านช่องทางใหม่",        content:"แจ้งปัญหาได้ตลอด 24 ชม. ผ่านระบบออนไลน์และแอปพลิเคชันมือถือ",                                                                                            type:"success", icon:"fas fa-robot" },
+            { id:4, title:"ซ่อมบำรุงระบบ Helpdesk ประจำเดือน",  content:"วันที่ 25 ของทุกเดือน เวลา 20:00-00:00 น. ระบบอาจหยุดให้บริการชั่วคราว",                                                                                   type:"warning", icon:"fas fa-tools" },
+            { id:5, title:"รายงานประสิทธิภาพองค์กร",             content:"ประสิทธิภาพองค์กรเพิ่มขึ้น 10% ในเดือนที่ผ่านมา",                                                                                                            type:"success", icon:"fas fa-chart-line" },
+            { id:6, title:"ประกาศด่วน! ระบบ Helpdesk สำรองข้อมูล", content:"จะมีทดสอบระบบการสำรองข้อมูลทั้งหมดในวันที่ 31 มกราคม 2026 เวลา 21:00 น. อาจส่งผลกระทบต่อการใช้งาน", type:"urgent",  icon:"fas fa-exclamation-triangle" }
+        ];
 
-          msgEl.className = "message success";
-          msgEl.innerHTML = "<i class='fas fa-check-circle'></i> ล็อกอินสำเร็จ! กำลังนำท่านเข้าสู่ระบบ...";
-          msgEl.style.display = "block";
-          loginBtn.innerHTML = "<i class='fas fa-check'></i> สำเร็จ!";
-          loginBtn.style.background = "linear-gradient(to right,#00cc00,#009900)";
-
-          // เก็บทั้ง username (code) และ name
-          localStorage.setItem("username",  user);
-          localStorage.setItem("authToken", user);
-          localStorage.setItem("userName",  userName);   // ← ชื่อจริงจาก col E
-          localStorage.setItem("expireTime", Date.now() + 1000*60*30);
-
-          setTimeout(() => { window.open(DASHBOARD_URL, "_self"); }, 1500);
-
-        } else if (data.status === "denied") {
-          msgEl.className = "message error";
-          msgEl.innerHTML = "<i class='fas fa-ban'></i> " + (data.message || "บัญชีนี้ถูกระงับการใช้งาน");
-          msgEl.style.display = "block";
-          loginBtn.innerHTML = origBtn; loginBtn.disabled = false;
-        } else {
-          msgEl.className = "message error";
-          msgEl.innerHTML = "<i class='fas fa-exclamation-circle'></i> รหัสพนักงาน หรือวันที่เริ่มงานไม่ถูกต้อง";
-          msgEl.style.display = "block";
-          loginBtn.innerHTML = origBtn; loginBtn.disabled = false;
-          document.getElementById('uname').classList.add('pulse-animation');
-          document.getElementById('pass').classList.add('pulse-animation');
-          setTimeout(()=>{document.getElementById('uname').classList.remove('pulse-animation');document.getElementById('pass').classList.remove('pulse-animation');},1500);
+        // ===== NOTICES =====
+        function getTypeLabel(type) {
+            return { info:'ข้อมูล', urgent:'ด่วน', warning:'เตือน', success:'สำเร็จ' }[type] || type;
         }
-      } catch(err) {
-        console.error("Login error:", err);
-        msgEl.className = "message error";
-        msgEl.innerHTML = "<i class='fas fa-exclamation-triangle'></i> เกิดข้อผิดพลาดในการเชื่อมต่อ กรุณาลองใหม่";
-        msgEl.style.display = "block";
-        loginBtn.innerHTML = origBtn; loginBtn.disabled = false;
-      }
-    }
-  </script>
+
+        function createNoticeCard(n) {
+            return `
+                <div class="notice-card ${n.type}">
+                    <div class="notice-card-header">
+                        <span class="notice-card-type ${n.type}">${getTypeLabel(n.type)}</span>
+                    </div>
+                    <div class="notice-card-content">
+                        <div style="display:flex;align-items:flex-start;margin-bottom:10px;">
+                            <i class="${n.icon} notice-card-icon ${n.type}"></i>
+                            <h4 style="margin:0;font-size:1.1rem;">${n.title}</h4>
+                        </div>
+                        <p style="margin-left:30px;">${n.content}</p>
+                    </div>
+                </div>`;
+        }
+
+        function renderNotices(arr) {
+            document.getElementById('noticeCount').textContent = arr.length;
+            const board = document.getElementById('noticeBoard');
+            if (!arr.length) {
+                board.innerHTML = `<div class="empty-notices"><i class="far fa-bell-slash"></i><h3>ไม่มีประกาศในขณะนี้</h3><p>เมื่อมีประกาศใหม่จะปรากฏที่นี่</p></div>`;
+                return;
+            }
+            const order = { urgent:0, warning:1, info:2, success:3 };
+            board.innerHTML = [...arr].sort((a,b) => order[a.type] - order[b.type]).map(createNoticeCard).join('');
+        }
+
+        // ===== DEPARTMENTS =====
+        function createDepartmentCard(dept) {
+            return `
+                <div class="department-card" data-dept-id="${dept.id}">
+                    <div class="card-header">
+                        <div class="card-icon ${dept.iconClass}"><i class="${dept.icon}"></i></div>
+                        <div class="card-title">
+                            <h3>${dept.name}</h3>
+                            <p>${dept.description}</p>
+                        </div>
+                    </div>
+                    <div class="card-description">เข้าสู่ระบบงานของแผนกเพื่อบริหารจัดการงานด้าน${dept.name.split(' ')[0]}</div>
+                    <div class="card-footer">
+                        <button class="visit-btn" onclick="window.open('${dept.url}','_blank')">
+                            <i class="fas fa-external-link-alt"></i> เข้าสู่ระบบ
+                        </button>
+                        <a href="${dept.url}" target="_blank" class="external-link"><i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </div>`;
+        }
+
+        function renderDepartments(arr) {
+            const grid = document.getElementById('departmentsGrid');
+            if (!arr.length) {
+                grid.innerHTML = `<div class="no-results"><i class="fas fa-search"></i><h3>ไม่พบแผนกที่คุณค้นหา</h3><p>ลองค้นหาด้วยคำอื่นหรือดูแผนกทั้งหมด</p></div>`;
+                return;
+            }
+            grid.innerHTML = arr.map(createDepartmentCard).join('');
+        }
+
+        function searchDepartments() {
+            const q = document.getElementById('searchInput').value.toLowerCase();
+            renderDepartments(q ? departments.filter(d => d.name.toLowerCase().includes(q) || d.description.toLowerCase().includes(q)) : departments);
+        }
+
+        function toggleNoticesVisibility() {
+            const board = document.getElementById('noticeBoard');
+            const btn   = document.getElementById('toggleNoticesBtn');
+            const hidden = board.style.display === 'none';
+            board.style.display = hidden ? 'grid' : 'none';
+            btn.innerHTML = hidden
+                ? '<i class="fas fa-chevron-down"></i> ซ่อนประกาศ'
+                : '<i class="fas fa-chevron-up"></i> แสดงประกาศ';
+        }
+
+        // ===== INIT =====
+        function init() {
+            loadUserName();
+            renderNotices(announcements);
+            renderDepartments(departments);
+            document.getElementById('searchInput').addEventListener('input', searchDepartments);
+            document.getElementById('searchInput').addEventListener('keyup', e => { if (e.key === 'Enter') searchDepartments(); });
+            document.getElementById('toggleNoticesBtn').addEventListener('click', toggleNoticesVisibility);
+        }
+
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
 </body>
 </html>
