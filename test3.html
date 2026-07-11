@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>TOKAI TIRE &amp; TRACK · Mouldmate</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+  :root{
+    --void:      #0a0908;
+    --panel:     #131110;
+    --panel-hi:  #1b1817;
+    --line:      rgba(216,60,50,0.16);
+    --steel:     #8b8580;
+    --steel-lo:  #5b5652;
+    --off-white: #f3efe9;
+    --red-core:  #d2222f;
+    --red-glow:  #ff4a3c;
+    --red-deep:  #6e0f16;
+    --red-dim:   rgba(210,34,47,0.14);
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    background:var(--void);
+    color:var(--off-white);
+    font-family:'Chakra Petch', sans-serif;
+    overflow-x:hidden;
+    position:relative;
+    min-height:100vh;
+  }
+  ::selection{ background:var(--red-core); color:var(--off-white); }
+  .num{ font-family:'Space Grotesk', sans-serif; font-variant-numeric: tabular-nums; }
+
+  a{ color:inherit; }
+  button{ font-family:inherit; }
+
+  :focus-visible{ outline:2px solid var(--red-glow); outline-offset:3px; }
+
+  /* ───────── background layers ───────── */
+  .bg-void{ position:fixed; inset:0; z-index:0; background:
+      radial-gradient(120% 90% at 78% 8%, rgba(210,34,47,0.16) 0%, transparent 55%),
+      radial-gradient(90% 70% at 8% 100%, rgba(210,34,47,0.10) 0%, transparent 60%),
+      var(--void);
+  }
+  .bg-tread{
+    position:fixed; inset:0; z-index:0; opacity:.05; pointer-events:none;
+    background-image: repeating-linear-gradient(115deg,
+      var(--off-white) 0px, var(--off-white) 2px,
+      transparent 2px, transparent 46px);
+  }
+  .bg-sweep{
+    position:fixed; top:-20%; left:-30%; width:70%; height:150%; z-index:0; pointer-events:none;
+    background:linear-gradient(100deg, transparent 40%, rgba(255,74,60,0.06) 48%, rgba(255,74,60,0.10) 50%, rgba(255,74,60,0.06) 52%, transparent 60%);
+    animation: sweep 9s ease-in-out infinite;
+  }
+  @keyframes sweep{
+    0%,100%{ transform:translateX(0); }
+    50%{ transform:translateX(140%); }
+  }
+  .bg-grid{
+    position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.5;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(70% 60% at 70% 20%, black 0%, transparent 75%);
+  }
+
+  /* ───────── nav ───────── */
+  header{
+    position:relative; z-index:20;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:1.3rem 5%;
+    border-bottom:1px solid rgba(255,255,255,0.08);
+    backdrop-filter: blur(10px);
+    background:linear-gradient(180deg, rgba(10,9,8,0.6), rgba(10,9,8,0.15));
+  }
+  .brand{ display:flex; align-items:center; gap:.85rem; }
+  .brand img{ height:38px; width:auto; display:block; filter: drop-shadow(0 2px 10px rgba(210,34,47,0.35)); }
+  .brand-text{ display:flex; flex-direction:column; line-height:1.05; }
+  .brand-text .b1{ font-weight:700; font-size:.98rem; letter-spacing:.06em; }
+  .brand-text .b2{ font-weight:400; font-size:.62rem; letter-spacing:.22em; color:var(--steel); text-transform:uppercase; }
+
+  .nav-tag{ display:flex; align-items:center; gap:.6rem; }
+  .nav-tag .dot{ width:6px; height:6px; border-radius:50%; background:var(--red-glow); animation:blink 2.2s ease-in-out infinite; }
+  @keyframes blink{ 0%,100%{opacity:1; box-shadow:0 0 0 0 rgba(255,74,60,.55);} 50%{opacity:.55; box-shadow:0 0 0 6px rgba(255,74,60,0);} }
+  .nav-tag span{ font-size:.66rem; letter-spacing:.2em; color:var(--steel); text-transform:uppercase; font-weight:500; }
+  .nav-clock{ font-family:'Space Grotesk',sans-serif; font-size:.66rem; letter-spacing:.1em; color:var(--off-white); }
+
+  /* ───────── hero ───────── */
+  .hero{
+    position:relative; z-index:10;
+    display:grid; grid-template-columns: 1.15fr .85fr;
+    align-items:center; gap:2rem;
+    min-height:calc(100vh - 74px);
+    padding:3.5rem 5% 2.5rem;
+  }
+
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:.6rem;
+    padding:.4rem .9rem .4rem .7rem;
+    background:var(--red-dim);
+    border:1px solid rgba(210,34,47,0.35);
+    clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%);
+    margin-bottom:1.9rem;
+    animation: rise .7s ease both;
+  }
+  .eyebrow .chev{ color:var(--red-glow); font-size:.7rem; }
+  .eyebrow span{ font-size:.68rem; letter-spacing:.16em; text-transform:uppercase; color:var(--off-white); font-weight:500; }
+
+  h1{
+    font-weight:600; font-size:3.4rem; line-height:1.14;
+    letter-spacing:-.01em; margin-bottom:1.1rem;
+    animation: rise .7s .08s both;
+  }
+  h1 .accent{ color:var(--red-glow); }
+
+  .lede{
+    max-width:480px; font-weight:300; font-size:.98rem; line-height:1.85;
+    color:var(--steel); margin-bottom:2.2rem;
+    animation: rise .7s .14s both;
+  }
+
+  .cta-row{ display:flex; gap:1rem; flex-wrap:wrap; margin-bottom:2.3rem; animation: rise .7s .2s both; }
+  .btn{
+    position:relative; display:inline-flex; align-items:center; gap:.65rem;
+    padding:1rem 1.9rem 1rem 2.3rem;
+    font-size:.86rem; font-weight:600; letter-spacing:.03em;
+    text-decoration:none; cursor:pointer; border:none;
+    clip-path: polygon(18px 0, 100% 0, calc(100% - 18px) 100%, 0 100%);
+    transition: transform .3s ease, box-shadow .3s ease, filter .3s ease;
+  }
+  .btn-primary{
+    background:linear-gradient(120deg, var(--red-deep), var(--red-core) 55%, var(--red-glow));
+    color:var(--off-white);
+    box-shadow: 0 14px 30px -12px rgba(210,34,47,.65);
+  }
+  .btn-primary:hover{ transform:translateY(-2px); filter:brightness(1.08); box-shadow:0 18px 40px -12px rgba(210,34,47,.8); }
+  .btn-ghost{
+    background:rgba(255,255,255,0.03);
+    border:1px solid rgba(255,255,255,0.16);
+    color:var(--off-white);
+  }
+  .btn-ghost:hover{ background:rgba(255,255,255,0.07); border-color:rgba(255,74,60,.5); transform:translateY(-2px); }
+
+  .badges{ display:flex; flex-wrap:wrap; gap:0 1.4rem; margin-bottom:2.6rem; animation: rise .7s .26s both; }
+  .badges .item{ display:flex; align-items:center; gap:.5rem; font-size:.76rem; color:var(--steel); font-weight:300; padding:.35rem 0; }
+  .badges .item::before{ content:''; width:6px; height:6px; background:var(--red-core); clip-path:polygon(30% 0,100% 0,70% 100%,0 100%); flex-shrink:0; }
+
+  .kpis{ display:flex; gap:2.2rem; padding-top:1.6rem; border-top:1px solid rgba(255,255,255,0.09); animation: rise .7s .32s both; }
+  .kpi{ display:flex; flex-direction:column; gap:.15rem; }
+  .kpi .n{ font-size:1.8rem; font-weight:700; color:var(--off-white); }
+  .kpi .n .u{ font-size:1rem; color:var(--red-glow); }
+  .kpi .l{ font-size:.62rem; letter-spacing:.1em; text-transform:uppercase; color:var(--steel-lo); }
+  .kpi-sep{ width:1px; background:rgba(255,255,255,0.1); }
+
+  @keyframes rise{ from{ opacity:0; transform:translateY(16px);} to{opacity:1; transform:translateY(0);} }
+
+  /* ───────── gauge panel ───────── */
+  .panel{
+    position:relative;
+    background:linear-gradient(165deg, var(--panel-hi), var(--panel));
+    border:1px solid rgba(255,255,255,0.08);
+    padding:2rem 1.8rem 1.6rem;
+    animation: panelIn .9s .3s both;
+    box-shadow: 0 30px 70px -25px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.04);
+  }
+  @keyframes panelIn{ from{opacity:0; transform:translateY(24px) scale(.98);} to{opacity:1; transform:translateY(0) scale(1);} }
+
+  .panel-top{ display:flex; align-items:center; justify-content:space-between; margin-bottom:1.2rem; }
+  .panel-title{ font-size:.78rem; letter-spacing:.08em; font-weight:500; display:flex; align-items:center; gap:.5rem; }
+  .panel-chip{ font-size:.58rem; letter-spacing:.1em; text-transform:uppercase; color:var(--red-glow); border:1px solid rgba(255,74,60,.4); padding:.2rem .55rem; clip-path: polygon(6px 0,100% 0,100% 100%,0 100%); }
+
+  .gauge-wrap{ display:flex; flex-direction:column; align-items:center; margin-bottom:1rem; }
+  .gauge-caption{ text-align:center; margin-top:.3rem; }
+  .gauge-caption .val{ font-family:'Space Grotesk',sans-serif; font-size:2.1rem; font-weight:700; color:var(--off-white); line-height:1; }
+  .gauge-caption .val span{ font-size:1.1rem; color:var(--red-glow); }
+  .gauge-caption .label{ font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; color:var(--steel); margin-top:.35rem; }
+
+  .readouts{ display:flex; flex-direction:column; gap:0; margin-top:1.3rem; }
+  .readout{ display:flex; align-items:center; justify-content:space-between; padding:.6rem 0; border-top:1px solid rgba(255,255,255,0.07); font-size:.78rem; }
+  .readout .k{ color:var(--steel); font-weight:300; }
+  .readout .v{ font-family:'Space Grotesk',sans-serif; color:var(--off-white); font-weight:600; }
+
+  /* ───────── ticker ───────── */
+  .ticker{
+    position:relative; z-index:10;
+    border-top:1px solid rgba(255,255,255,0.08);
+    border-bottom:1px solid rgba(255,255,255,0.08);
+    background:linear-gradient(90deg, var(--red-deep), var(--panel) 30%, var(--panel) 70%, var(--red-deep));
+    overflow:hidden; padding:.7rem 0;
+  }
+  .ticker-track{ display:flex; white-space:nowrap; animation:scroll 26s linear infinite; }
+  .ticker-track span{ font-size:.72rem; letter-spacing:.16em; text-transform:uppercase; color:var(--steel); padding:0 1.6rem; font-weight:500; }
+  .ticker-track span.hl{ color:var(--red-glow); }
+  @keyframes scroll{ from{ transform:translateX(0);} to{ transform:translateX(-50%);} }
+
+  footer{
+    position:relative; z-index:10; text-align:center;
+    padding:1.1rem 5%; font-size:.64rem; letter-spacing:.08em; color:var(--steel-lo);
+    text-transform:uppercase;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }
+  }
+
+  @media(max-width:980px){
+    .hero{ grid-template-columns:1fr; padding-top:2.5rem; }
+    h1{ font-size:2.5rem; }
+    .panel{ max-width:420px; }
+  }
+  @media(max-width:560px){
+    header{ padding:1rem 6%; }
+    .brand-text .b1{ font-size:.82rem; }
+    h1{ font-size:2rem; }
+    .kpis{ flex-wrap:wrap; row-gap:1rem; }
+    .cta-row{ flex-direction:column; }
+    .btn{ justify-content:center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-void"></div>
+<div class="bg-tread"></div>
+<div class="bg-sweep"></div>
+<div class="bg-grid"></div>
+
+<header>
+  <div class="brand">
+    <img src="logo-tokai.png" alt="TOKAI TIRE & TRACK"/>
+    <div class="brand-text">
+      <span class="b1">TOKAI TIRE &amp; TRACK</span>
+      <span class="b2">Mouldmate System</span>
+    </div>
+  </div>
+  <div class="nav-tag">
+    <span class="nav-clock" id="clock">--:--:--</span>
+    <div class="dot"></div>
+    <span>ระบบเฉพาะพนักงาน</span>
+  </div>
+</header>
+
+<main class="hero">
+  <div class="hero-content">
+    <div class="eyebrow">
+      <span class="chev">▸▸</span>
+      <span>Tokai Mouldmate · Internal Platform</span>
+    </div>
+
+    <h1>ประเมินแม่พิมพ์ยาง<br/>แม่นยำทุก<span class="accent">มิลลิเมตร</span></h1>
+
+    <p class="lede">
+      แพลตฟอร์มสำรวจและประเมินแม่พิมพ์สำหรับทีมช่างโรงงาน TOKAI เชื่อมข้อมูลจากหน้างานเข้าสู่ระบบกลางแบบทันที ลดความคลาดเคลื่อน เพิ่มความเร็วในการตัดสินใจ
+    </p>
+
+    <div class="cta-row">
+      <a href="https://sarawutc6689-cpu.github.io/Mouldmate-Login/Login_Home.html" class="btn btn-primary" target="_blank">
+        เข้าสู่ระบบ →
+      </a>
+      <a href="https://sarawutc6689-cpu.github.io/Mouldmate-Estimate/Model1.html" class="btn btn-ghost" target="_blank">
+        แบบสำรวจและประเมิน
+      </a>
+    </div>
+
+    <div class="badges">
+      <div class="item">เฉพาะพนักงานที่ลงทะเบียน</div>
+      <div class="item">ระบบความปลอดภัยสูง</div>
+      <div class="item">ติดตามสถานะเรียลไทม์</div>
+    </div>
+
+    <div class="kpis">
+      <div class="kpi">
+        <div class="n num">99<span class="u">.2%</span></div>
+        <div class="l">ความแม่นยำมาตรฐาน</div>
+      </div>
+      <div class="kpi-sep"></div>
+      <div class="kpi">
+        <div class="n num">3<span class="u">นาที</span></div>
+        <div class="l">เวลาเฉลี่ยต่อแบบประเมิน</div>
+      </div>
+      <div class="kpi-sep"></div>
+      <div class="kpi">
+        <div class="n num">24<span class="u">/7</span></div>
+        <div class="l">ระบบพร้อมใช้งาน</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-top">
+      <div class="panel-title">⏱ สถานะระบบ</div>
+      <span class="panel-chip">Active</span>
+    </div>
+
+    <div class="gauge-wrap">
+      <svg id="gauge" viewBox="0 0 300 190" width="100%" style="max-width:300px;"></svg>
+      <div class="gauge-caption">
+        <div class="val">99<span>.2%</span></div>
+        <div class="label">ความแม่นยำแม่พิมพ์เฉลี่ย</div>
+      </div>
+    </div>
+
+    <div class="readouts">
+      <div class="readout"><span class="k">แม่พิมพ์ที่ตรวจสอบวันนี้</span><span class="v num">42</span></div>
+      <div class="readout"><span class="k">รอตรวจสอบ</span><span class="v num">6</span></div>
+      <div class="readout"><span class="k">เวลาปัจจุบัน (ไทย)</span><span class="v num" id="clock2">--:--:--</span></div>
+    </div>
+  </div>
+</main>
+
+<div class="ticker">
+  <div class="ticker-track" id="tickerTrack"></div>
+</div>
+
+<footer>Developed by Sarawut.C · © 2026 · TOKAI TIRE &amp; TRACK</footer>
+
+<script>
+/* ── clock ── */
+function tick(){
+  const t = new Date().toLocaleTimeString('th-TH', { hour:'2-digit', minute:'2-digit', second:'2-digit', timeZone:'Asia/Bangkok' });
+  const c1 = document.getElementById('clock'); if(c1) c1.textContent = t;
+  const c2 = document.getElementById('clock2'); if(c2) c2.textContent = t;
+}
+tick(); setInterval(tick, 1000);
+
+/* ── ticker content ── */
+(function(){
+  const words = ['TOKAI TIRE & TRACK','MOULDMATE ESTIMATION SYSTEM','ระบบประเมินแม่พิมพ์ยางอัจฉริยะ','ความแม่นยำคือมาตรฐานของเรา','เฉพาะพนักงานที่ลงทะเบียน'];
+  const track = document.getElementById('tickerTrack');
+  let html = '';
+  for(let r=0;r<2;r++){
+    words.forEach((w,i)=>{
+      html += `<span class="${i%2===0?'hl':''}">${w}</span><span>•</span>`;
+    });
+  }
+  track.innerHTML = html;
+})();
+
+/* ── gauge (240deg sweep, needle at 99.2%) ── */
+(function(){
+  const svg = document.getElementById('gauge');
+  const cx = 150, cy = 165, r = 118;
+  const startA = -120, endA = 120;
+  const pct = 0.992;
+  const needleA = startA + (endA - startA) * pct;
+
+  function polar(cx,cy,r,angleDeg){
+    const a = (angleDeg - 90) * Math.PI / 180;
+    return { x: cx + r * Math.cos(a), y: cy + r * Math.sin(a) };
+  }
+  function arcPath(cx,cy,r,a0,a1){
+    const p0 = polar(cx,cy,r,a0), p1 = polar(cx,cy,r,a1);
+    const large = (a1 - a0) <= 180 ? 0 : 1;
+    return `M ${p0.x} ${p0.y} A ${r} ${r} 0 ${large} 1 ${p1.x} ${p1.y}`;
+  }
+
+  let svgns = 'http://www.w3.org/2000/svg';
+  function el(tag, attrs){
+    const e = document.createElementNS(svgns, tag);
+    for(const k in attrs) e.setAttribute(k, attrs[k]);
+    return e;
+  }
+
+  // background arc
+  svg.appendChild(el('path', { d: arcPath(cx,cy,r,startA,endA), fill:'none', stroke:'rgba(255,255,255,0.09)', 'stroke-width':10, 'stroke-linecap':'round' }));
+  // progress arc
+  const prog = el('path', { d: arcPath(cx,cy,r,startA,needleA), fill:'none', stroke:'url(#gaugeGrad)', 'stroke-width':10, 'stroke-linecap':'round' });
+  const defs = el('defs', {});
+  const grad = el('linearGradient', { id:'gaugeGrad', x1:'0%', y1:'0%', x2:'100%', y2:'0%' });
+  grad.appendChild(el('stop', { offset:'0%', 'stop-color':'#6e0f16' }));
+  grad.appendChild(el('stop', { offset:'100%', 'stop-color':'#ff4a3c' }));
+  defs.appendChild(grad);
+  svg.appendChild(defs);
+  svg.appendChild(prog);
+
+  // ticks
+  const tickGroup = el('g', {});
+  for(let a = startA; a <= endA + 0.001; a += 12){
+    const major = Math.round((a - startA) / 12) % 5 === 0;
+    const p0 = polar(cx,cy, r+10, a);
+    const p1 = polar(cx,cy, r + (major?18:13), a);
+    tickGroup.appendChild(el('line', { x1:p0.x, y1:p0.y, x2:p1.x, y2:p1.y, stroke: major ? 'rgba(255,255,255,0.55)' : 'rgba(255,255,255,0.25)', 'stroke-width': major?1.6:1 }));
+  }
+  svg.appendChild(tickGroup);
+
+  // needle
+  const needleTip = polar(cx,cy,r-16,needleA);
+  const needle = el('line', { x1:cx, y1:cy, x2:needleTip.x, y2:needleTip.y, stroke:'#ff4a3c', 'stroke-width':3, 'stroke-linecap':'round' });
+  needle.style.transformOrigin = `${cx}px ${cy}px`;
+  needle.style.animation = 'needleSettle 2.4s cubic-bezier(.2,1.4,.3,1) both, needleIdle 3.6s ease-in-out 2.4s infinite';
+  svg.appendChild(needle);
+  svg.appendChild(el('circle', { cx:cx, cy:cy, r:6, fill:'#ff4a3c' }));
+  svg.appendChild(el('circle', { cx:cx, cy:cy, r:2.4, fill:'#0a0908' }));
+
+  const styleTag = document.createElement('style');
+  styleTag.textContent = `
+    @keyframes needleSettle{ from{ transform:rotate(${startA - needleA}deg);} to{ transform:rotate(0deg);} }
+    @keyframes needleIdle{ 0%,100%{ transform:rotate(0deg);} 50%{ transform:rotate(1.2deg);} }
+  `;
+  document.head.appendChild(styleTag);
+})();
+</script>
+</body>
+</html>
