@@ -1,823 +1,608 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TokaiSolidtire System - ระบบบริหารจัดการองค์กร</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&family=Sarabun:wght@300;400;500&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary-blue: #1a73e8;
-            --dark-blue: #0d47a1;
-            --light-blue: #e8f0fe;
-            --gray-bg: #f5f7fa;
-            --text-dark: #202124;
-            --text-light: #5f6368;
-            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            --card-shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.12);
-            --border-radius: 12px;
-            --transition: all 0.3s ease;
-            --notice-urgent: #ff5252;
-            --notice-info: #2196f3;
-            --notice-warning: #ff9800;
-            --notice-success: #4caf50;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: 'Sarabun', sans-serif;
-            background-color: var(--gray-bg);
-            color: var(--text-dark);
-            line-height: 1.6;
-        }
-
-        h1, h2, h3, h4 { font-family: 'Kanit', sans-serif; font-weight: 500; }
-
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-
-        /* ===== LOGIN OVERLAY ===== */
-        #loginOverlay {
-            position: fixed;
-            inset: 0;
-            background: linear-gradient(135deg, #0d47a1ee, #1a73e8ee);
-            backdrop-filter: blur(6px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            animation: fadeIn 0.4s ease;
-        }
-
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-
-        .login-box {
-            background: white;
-            border-radius: 20px;
-            padding: 40px 36px;
-            width: 100%;
-            max-width: 400px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            animation: slideUp 0.4s ease;
-            text-align: center;
-        }
-
-        .login-logo {
-            width: 72px;
-            height: 72px;
-            border-radius: 50%;
-            background: var(--light-blue);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            overflow: hidden;
-            padding: 5px;
-            box-shadow: 0 4px 12px rgba(26,115,232,0.2);
-        }
-
-        .login-logo img { width: 100%; height: 100%; object-fit: contain; }
-
-        .login-box h2 {
-            font-size: 1.5rem;
-            color: var(--text-dark);
-            margin-bottom: 6px;
-        }
-
-        .login-box .login-sub {
-            font-size: 0.9rem;
-            color: var(--text-light);
-            margin-bottom: 28px;
-        }
-
-        .login-field {
-            position: relative;
-            margin-bottom: 16px;
-            text-align: left;
-        }
-
-        .login-field label {
-            font-size: 0.85rem;
-            color: var(--text-light);
-            margin-bottom: 6px;
-            display: block;
-            font-family: 'Kanit', sans-serif;
-        }
-
-        .login-field .field-wrap {
-            position: relative;
-        }
-
-        .login-field .field-icon {
-            position: absolute;
-            left: 14px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #aaa;
-            font-size: 0.95rem;
-        }
-
-        .login-field input {
-            width: 100%;
-            padding: 12px 14px 12px 40px;
-            border: 1.5px solid #ddd;
-            border-radius: 10px;
-            font-family: 'Sarabun', sans-serif;
-            font-size: 1rem;
-            transition: var(--transition);
-            background: #fafafa;
-        }
-
-        .login-field input:focus {
-            outline: none;
-            border-color: var(--primary-blue);
-            background: white;
-            box-shadow: 0 0 0 3px rgba(26,115,232,0.1);
-        }
-
-        .login-btn {
-            width: 100%;
-            padding: 13px;
-            background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-family: 'Kanit', sans-serif;
-            font-size: 1.05rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: var(--transition);
-            margin-top: 8px;
-            letter-spacing: 0.5px;
-        }
-
-        .login-btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
-        .login-btn:active { transform: translateY(0); }
-        .login-btn:disabled { opacity: 0.65; cursor: not-allowed; transform: none; }
-
-        #loginError {
-            display: none;
-            background: rgba(255,82,82,0.1);
-            color: #d32f2f;
-            border: 1px solid rgba(255,82,82,0.3);
-            border-radius: 8px;
-            padding: 10px 14px;
-            font-size: 0.9rem;
-            margin-top: 14px;
-            text-align: left;
-        }
-
-        #loginError i { margin-right: 6px; }
-
-        /* ===== HEADER ===== */
-        header {
-            background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
-            color: white;
-            padding: 20px 0;
-            border-bottom-left-radius: 20px;
-            border-bottom-right-radius: 20px;
-            box-shadow: 0 4px 12px rgba(13,71,161,0.2);
-            margin-bottom: 40px;
-        }
-
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .logo-container { display: flex; align-items: center; gap: 15px; }
-
-        .logo-image {
-            width: 56px; height: 56px;
-            border-radius: 50%;
-            background: white;
-            display: flex; align-items: center; justify-content: center;
-            overflow: hidden; padding: 5px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            flex-shrink: 0;
-        }
-
-        .logo-image img { width: 100%; height: 100%; object-fit: contain; }
-        .logo-text h1 { font-size: 1.6rem; margin-bottom: 3px; }
-        .logo-text p { font-size: 0.85rem; opacity: 0.9; }
-
-        /* ===== USER BADGE (top-right) ===== */
-        .header-right {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 10px;
-        }
-
-        .user-badge {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: rgba(255,255,255,0.15);
-            border: 1.5px solid rgba(255,255,255,0.3);
-            padding: 8px 14px;
-            border-radius: 50px;
-            backdrop-filter: blur(4px);
-            transition: var(--transition);
-        }
-
-        .user-badge:hover { background: rgba(255,255,255,0.22); }
-
-        .user-avatar {
-            width: 34px; height: 34px;
-            border-radius: 50%;
-            background: white;
-            display: flex; align-items: center; justify-content: center;
-            color: var(--primary-blue);
-            font-size: 1rem;
-            font-weight: 600;
-            flex-shrink: 0;
-            font-family: 'Kanit', sans-serif;
-        }
-
-        .user-info { line-height: 1.3; }
-        .user-greeting { font-size: 0.72rem; opacity: 0.8; display: block; }
-        .user-name { font-size: 0.95rem; font-weight: 500; font-family: 'Kanit', sans-serif; }
-
-        .logout-btn {
-            background: rgba(255,255,255,0.15);
-            border: 1px solid rgba(255,255,255,0.3);
-            color: white;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-family: 'Kanit', sans-serif;
-            font-size: 0.8rem;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .logout-btn:hover { background: rgba(255,82,82,0.4); border-color: rgba(255,82,82,0.5); }
-
-        /* Search Bar */
-        .search-container {
-            width: 100%;
-            max-width: 480px;
-            position: relative;
-            align-self: center;
-        }
-
-        .search-bar {
-            width: 100%;
-            padding: 12px 20px 12px 46px;
-            border: none;
-            border-radius: 50px;
-            font-size: 1rem;
-            font-family: 'Sarabun', sans-serif;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            transition: var(--transition);
-        }
-
-        .search-bar:focus { outline: none; box-shadow: 0 6px 16px rgba(0,0,0,0.15); }
-
-        .search-icon {
-            position: absolute;
-            left: 18px; top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-light);
-            font-size: 1.1rem;
-        }
-
-        /* ===== NOTICE BOARD ===== */
-        .notice-board-container {
-            background: white;
-            border-radius: var(--border-radius);
-            padding: 20px;
-            margin-bottom: 30px;
-            box-shadow: var(--card-shadow);
-            border-top: 5px solid var(--primary-blue);
-        }
-
-        .notice-board-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .notice-board-title { display: flex; align-items: center; gap: 10px; }
-        .notice-board-title h3 { font-size: 1.4rem; color: var(--text-dark); }
-
-        .notice-board-icon {
-            background-color: var(--primary-blue);
-            color: white;
-            width: 40px; height: 40px;
-            border-radius: 8px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.2rem;
-        }
-
-        .notice-board-btn {
-            background-color: var(--light-blue);
-            color: var(--primary-blue);
-            border: none;
-            padding: 8px 15px;
-            border-radius: 6px;
-            font-family: 'Kanit', sans-serif;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex; align-items: center; gap: 5px;
-        }
-
-        .notice-board-btn:hover { background-color: #dce8ff; }
-
-        .notice-board-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-        }
-
-        .notice-card {
-            background: white;
-            border-radius: var(--border-radius);
-            padding: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            border-left: 4px solid var(--notice-info);
-            transition: var(--transition);
-            border: 1px solid #eee;
-            border-left-width: 4px;
-        }
-
-        .notice-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); transform: translateY(-3px); }
-        .notice-card.urgent { border-left-color: var(--notice-urgent); }
-        .notice-card.warning { border-left-color: var(--notice-warning); }
-        .notice-card.success { border-left-color: var(--notice-success); }
-        .notice-card.info { border-left-color: var(--notice-info); }
-
-        .notice-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
-
-        .notice-card-type {
-            font-size: 0.8rem;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-weight: 500;
-            font-family: 'Kanit', sans-serif;
-        }
-
-        .notice-card-type.info { background-color: rgba(33,150,243,0.1); color: var(--notice-info); }
-        .notice-card-type.urgent { background-color: rgba(255,82,82,0.1); color: var(--notice-urgent); }
-        .notice-card-type.warning { background-color: rgba(255,152,0,0.1); color: var(--notice-warning); }
-        .notice-card-type.success { background-color: rgba(76,175,80,0.1); color: var(--notice-success); }
-
-        .notice-card-icon { margin-right: 10px; font-size: 1.1rem; }
-        .notice-card-icon.info { color: var(--notice-info); }
-        .notice-card-icon.urgent { color: var(--notice-urgent); }
-        .notice-card-icon.warning { color: var(--notice-warning); }
-        .notice-card-icon.success { color: var(--notice-success); }
-
-        .empty-notices { grid-column: 1 / -1; text-align: center; padding: 40px 20px; color: var(--text-light); }
-        .empty-notices i { font-size: 3rem; margin-bottom: 15px; color: #ddd; }
-
-        /* ===== MAIN / DEPT CARDS ===== */
-        .main-title { text-align: center; margin-bottom: 30px; }
-        .main-title h2 { font-size: 2rem; margin-bottom: 10px; }
-        .main-title p { color: var(--text-light); max-width: 600px; margin: 0 auto; }
-
-        .departments-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
-            margin-bottom: 50px;
-        }
-
-        .department-card {
-            background: white;
-            border-radius: var(--border-radius);
-            padding: 25px;
-            box-shadow: var(--card-shadow);
-            transition: var(--transition);
-            cursor: pointer;
-            border-left: 5px solid var(--primary-blue);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .department-card:hover { transform: translateY(-5px); box-shadow: var(--card-shadow-hover); }
-
-        .card-header { display: flex; align-items: center; margin-bottom: 20px; }
-
-        .card-icon {
-            width: 60px; height: 60px;
-            border-radius: 12px;
-            display: flex; align-items: center; justify-content: center;
-            margin-right: 15px;
-            font-size: 1.8rem;
-            color: white;
-            flex-shrink: 0;
-        }
-
-        .card-icon.maintenance { background: linear-gradient(135deg, #ff6b6b, #ee5a52); }
-        .card-icon.it { background: linear-gradient(135deg, #4ecdc4, #44a08d); }
-        .card-icon.hr { background: linear-gradient(135deg, #ffe66d, #ffd166); }
-        .card-icon.vehicle { background: linear-gradient(135deg, #1a936f, #136f63); }
-        .card-icon.accounting { background: linear-gradient(135deg, #9d4edd, #6a2c9c); }
-        .card-icon.store { background: linear-gradient(135deg, #ff9a00, #ff6a00); }
-
-        .card-title h3 { font-size: 1.3rem; margin-bottom: 5px; }
-        .card-title p { font-size: 0.9rem; color: var(--text-light); }
-
-        .card-description { margin-bottom: 20px; flex-grow: 1; color: var(--text-light); }
-
-        .card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
-
-        .visit-btn {
-            background-color: var(--primary-blue);
-            color: white;
-            border: none;
-            padding: 10px 18px;
-            border-radius: 8px;
-            font-family: 'Kanit', sans-serif;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex; align-items: center; gap: 8px;
-        }
-
-        .visit-btn:hover { background-color: var(--dark-blue); }
-        .external-link { color: var(--primary-blue); font-size: 1.2rem; }
-
-        /* ===== FOOTER ===== */
-        footer {
-            background-color: white;
-            padding: 25px 0;
-            margin-top: 30px;
-            border-top: 1px solid #e0e0e0;
-            text-align: center;
-            color: var(--text-light);
-        }
-
-        .footer-content { display: flex; flex-direction: column; align-items: center; gap: 15px; }
-        .footer-logo-container { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-        .footer-logo { font-weight: 600; color: var(--primary-blue); font-size: 1.2rem; }
-        .footer-logo-img { width: 40px; height: 40px; }
-        .footer-logo-img img { width: 100%; height: 100%; object-fit: contain; }
-
-        .no-results { text-align: center; padding: 40px; grid-column: 1 / -1; color: var(--text-light); }
-        .no-results i { font-size: 3rem; margin-bottom: 15px; color: #ccc; }
-
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 768px) {
-            .header-content { flex-direction: column; text-align: center; }
-            .header-right { align-items: center; width: 100%; }
-            .logo-container { justify-content: center; }
-            .notice-board-grid, .departments-grid { grid-template-columns: 1fr; }
-            .main-title h2 { font-size: 1.6rem; }
-            .notice-board-header { flex-direction: column; gap: 15px; align-items: flex-start; }
-            .search-container { max-width: 100%; }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ทะเบียนแบบประเมิน</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700;800&family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --primary:#b91c1c;
+    --primary-dark:#3f0d0d;
+    --accent:#f59e0b;
+    --bg:#141010;
+    --card:#1f1717;
+    --card-alt:#1a1212;
+    --text:#f2e9e9;
+    --muted:#b98f8f;
+    --danger:#ef4444;
+    --ok:#22c55e;
+    --border:#3a2626;
+    --radius:16px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Segoe UI', 'Sarabun', 'Noto Sans Thai', sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    min-height:100vh;
+  }
+  .page{
+    max-width:760px;
+    margin:0 auto;
+    padding:0 0 60px;
+  }
+
+  /* ===== Topbar ===== */
+  .topbar{
+    background:linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color:#fff;
+    padding:26px 20px 32px;
+    text-align:center;
+    position:relative;
+  }
+  .topbar h1{
+    margin:0;
+    font-size:22px;
+    font-weight:800;
+  }
+  .topbar p{
+    margin:6px 0 0;
+    font-size:13.5px;
+    opacity:.9;
+    max-width:440px;
+    margin-left:auto;
+    margin-right:auto;
+  }
+
+  .admin-toggle{
+    position:fixed;
+    top:16px;
+    right:16px;
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    background:rgba(255,255,255,.18);
+    border:1px solid rgba(255,255,255,.4);
+    color:#fff;
+    font-family:inherit;
+    font-size:13px;
+    font-weight:600;
+    padding:10px 14px;
+    border-radius:12px;
+    cursor:pointer;
+    z-index:60;
+    transition:background .15s;
+  }
+  .admin-toggle:hover{ background:rgba(255,255,255,.28); }
+  .admin-toggle.on{
+    background:var(--danger);
+    border-color:var(--danger);
+  }
+
+  /* ===== Search / index ===== */
+  .container-inner{
+    padding:0 16px;
+  }
+  .index-bar{
+    margin-top:-20px;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    box-shadow:0 1px 3px rgba(0,0,0,.3), 0 1px 2px rgba(0,0,0,.2);
+    padding:14px 16px;
+    display:flex;
+    gap:10px;
+    align-items:center;
+    position:relative;
+    z-index:2;
+  }
+  .index-bar svg{flex:none;color:var(--muted);}
+  .index-bar input{
+    flex:1;
+    border:none;
+    outline:none;
+    background:transparent;
+    font-family:inherit;
+    font-size:15px;
+    color:var(--text);
+  }
+  .index-bar input::placeholder{color:var(--muted);}
+  .count-tag{
+    font-size:12px;
+    font-weight:700;
+    color:#fff;
+    background:var(--accent);
+    padding:4px 10px;
+    border-radius:999px;
+    white-space:nowrap;
+  }
+
+  .admin-banner{
+    margin-top:14px;
+    background:#2a1414;
+    border:1px solid var(--danger);
+    color:#fca5a5;
+    font-size:13px;
+    padding:12px 14px;
+    border-radius:12px;
+    line-height:1.6;
+  }
+  .admin-banner b{ color:#fff; }
+
+  /* ===== Category tabs ===== */
+  .tabs{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin:20px 0 4px;
+  }
+  .tab{
+    font-family:inherit;
+    font-size:13.5px;
+    font-weight:600;
+    padding:9px 15px;
+    border:2px solid var(--border);
+    border-radius:10px;
+    background:var(--card-alt);
+    color:var(--muted);
+    cursor:pointer;
+    transition:background .15s, color .15s, border-color .15s;
+  }
+  .tab.active{
+    background:var(--primary);
+    color:#fff;
+    border-color:var(--primary);
+  }
+
+  /* ===== Category card & rows ===== */
+  .card{
+    background:var(--card);
+    border-radius:var(--radius);
+    padding:18px 16px;
+    box-shadow:0 1px 3px rgba(0,0,0,.3), 0 1px 2px rgba(0,0,0,.2);
+    margin-bottom:16px;
+    border:1px solid var(--border);
+  }
+  .cat-head{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    margin-bottom:12px;
+  }
+  .cat-head h2{
+    font-size:16px;
+    font-weight:800;
+    color:var(--text);
+    margin:0;
+  }
+  .cat-head span{
+    font-size:11.5px;
+    font-weight:600;
+    color:var(--accent);
+  }
+  .row{
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:14px 16px;
+    margin-bottom:12px;
+    background:var(--card-alt);
+    transition:opacity .15s;
+  }
+  .row:last-child{ margin-bottom:0; }
+  .row.inactive{ opacity:.55; }
+  .row-top{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    margin-bottom:12px;
+  }
+  .row-no{
+    font-size:11.5px;
+    font-weight:700;
+    color:var(--accent);
+    flex:none;
+    padding-top:2px;
+  }
+  .row-body{flex:1; min-width:0;}
+  .row-body h3{
+    font-size:15px;
+    font-weight:700;
+    margin:0 0 3px;
+    color:var(--text);
+  }
+  .row-body p{
+    font-size:13px;
+    color:var(--muted);
+    margin:0;
+    line-height:1.5;
+  }
+  .status-pill{
+    display:inline-block;
+    margin-top:6px;
+    font-size:11px;
+    font-weight:700;
+    padding:3px 9px;
+    border-radius:999px;
+    background:#2a1414;
+    color:var(--danger);
+    border:1px solid var(--danger);
+  }
+
+  .open-btn{
+    display:block;
+    width:100%;
+    text-align:center;
+    font-family:inherit;
+    font-size:14px;
+    font-weight:700;
+    color:#fff;
+    background:var(--primary);
+    border:none;
+    padding:11px;
+    border-radius:10px;
+    cursor:pointer;
+    text-decoration:none;
+    transition:background .15s;
+  }
+  .open-btn:hover{ background:var(--primary-dark); }
+  .open-btn.disabled{
+    background:#4a3a3a;
+    color:var(--muted);
+    cursor:not-allowed;
+    pointer-events:none;
+  }
+  .open-btn:focus-visible, .tab:focus-visible, input:focus-visible, .admin-toggle:focus-visible, .toggle-btn:focus-visible{
+    outline:2.5px solid var(--accent);
+    outline-offset:2px;
+  }
+
+  /* ===== Admin toggle-row (เปิด/ปิด แบบ take-nottake) ===== */
+  .toggle-row{
+    display:flex;
+    gap:8px;
+  }
+  .toggle-btn{
+    flex:1;
+    padding:9px 8px;
+    text-align:center;
+    border:2px solid var(--border);
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:700;
+    font-size:13px;
+    background:var(--card-alt);
+    color:var(--muted);
+    user-select:none;
+    transition:background .15s,border-color .15s,color .15s;
+  }
+  .toggle-btn.on-btn.active{
+    border-color:var(--ok);
+    background:#122417;
+    color:var(--ok);
+  }
+  .toggle-btn.off-btn.active{
+    border-color:var(--danger);
+    background:#2a1414;
+    color:var(--danger);
+  }
+
+  .empty{
+    text-align:center;
+    padding:50px 20px;
+    color:var(--muted);
+    font-size:14px;
+  }
+
+  .app-footer{
+    text-align:center;
+    font-size:12px;
+    color:var(--muted);
+    opacity:.75;
+    margin-top:20px;
+    padding-top:16px;
+    border-top:1px solid var(--border);
+    line-height:1.6;
+  }
+
+  /* ===== Modal ===== */
+  .modal-overlay{
+    position:fixed; inset:0;
+    background:rgba(0,0,0,.6);
+    display:flex; align-items:center; justify-content:center;
+    z-index:100;
+    padding:20px;
+  }
+  .modal-overlay[hidden]{ display:none; }
+  .modal{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:26px 24px;
+    max-width:340px;
+    width:100%;
+    box-shadow:0 8px 30px rgba(0,0,0,.5);
+    text-align:center;
+  }
+  .modal h3{
+    font-size:18px;
+    font-weight:800;
+    color:var(--text);
+    margin:0 0 8px;
+  }
+  .modal p{
+    color:var(--muted);
+    font-size:13.5px;
+    margin:0 0 16px;
+    line-height:1.6;
+  }
+  .modal input{
+    width:100%;
+    background:#211717;
+    border:1px solid var(--border);
+    color:var(--text);
+    padding:12px 14px;
+    border-radius:10px;
+    font-size:15px;
+    outline:none;
+    margin-bottom:8px;
+    font-family:inherit;
+    text-align:left;
+  }
+  .modal input:focus{ border-color:var(--primary); background:#2a1c1c; }
+  .modal-error{
+    color:var(--danger);
+    font-size:12.5px;
+    margin:0 0 10px;
+  }
+  .modal-actions{
+    display:flex; gap:10px; margin-top:6px;
+  }
+  .modal-actions button{
+    flex:1;
+    padding:11px;
+    border-radius:10px;
+    font-family:inherit;
+    font-weight:700;
+    font-size:14px;
+    cursor:pointer;
+    border:none;
+  }
+  #adminCancelBtn{ background:transparent; border:2px solid var(--border); color:var(--muted); }
+  #adminSubmitBtn{ background:var(--primary); color:#fff; }
+  #adminSubmitBtn:hover{ background:var(--primary-dark); }
+
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none !important;}
+  }
+</style>
 </head>
 <body>
+<div class="page">
 
-    <!-- ===== LOGIN OVERLAY ===== -->
-    <div id="loginOverlay">
-        <div class="login-box">
-            <div class="login-logo">
-                <img src="https://sarawutc6689-cpu.github.io/Mouldmate-HR/logotokai.png" alt="Logo"
-                     onerror="this.onerror=null;this.src='https://via.placeholder.com/72/1a73e8/FFFFFF?text=T';">
-            </div>
-            <h2>TokaiSolidTire System</h2>
-            <p class="login-sub">กรุณาเข้าสู่ระบบเพื่อดำเนินการต่อ</p>
+  <button class="admin-toggle" id="adminToggleBtn">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    <span id="adminToggleLabel">แอดมิน</span>
+  </button>
 
-            <div class="login-field">
-                <label><i class="fas fa-id-badge"></i> รหัสพนักงาน</label>
-                <div class="field-wrap">
-                    <i class="fas fa-id-badge field-icon"></i>
-                    <input type="text" id="loginCode" placeholder="กรอกรหัสพนักงาน" autocomplete="username">
-                </div>
-            </div>
+  <div class="topbar">
+    <h1>📋 ทะเบียนแบบประเมินความพึงพอใจ</h1>
+    <p>รวมลิงก์แบบประเมินทั้งหมดไว้ในที่เดียว ค้นหาหรือเลือกหมวดหมู่แล้วกดเปิดแบบประเมินที่ต้องการได้ทันที</p>
+  </div>
 
-            <div class="login-field">
-                <label><i class="fas fa-lock"></i> รหัสผ่าน</label>
-                <div class="field-wrap">
-                    <i class="fas fa-lock field-icon"></i>
-                    <input type="password" id="loginPass" placeholder="กรอกรหัสผ่าน" autocomplete="current-password">
-                </div>
-            </div>
-
-            <button class="login-btn" id="loginBtn" onclick="doLogin()">
-                <i class="fas fa-sign-in-alt"></i> เข้าสู่ระบบ
-            </button>
-
-            <div id="loginError">
-                <i class="fas fa-exclamation-circle"></i>
-                <span id="loginErrorMsg">รหัสพนักงานหรือรหัสผ่านไม่ถูกต้อง</span>
-            </div>
-        </div>
+  <div class="container-inner">
+    <div class="index-bar">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input id="searchInput" type="text" placeholder="ค้นหาชื่อแบบประเมิน…">
+      <span class="count-tag" id="countTag">0 รายการ</span>
     </div>
 
-    <!-- ===== MAIN APP (hidden until login) ===== -->
-    <div id="mainApp" style="display:none;">
-
-        <header>
-            <div class="container header-content">
-                <div class="logo-container">
-                    <div class="logo-image">
-                        <img src="https://sarawutc6689-cpu.github.io/Mouldmate-HR/logotokai.png" alt="TokaiSolidTire Logo"
-                             onerror="this.onerror=null;this.src='https://via.placeholder.com/60/1a73e8/FFFFFF?text=T';">
-                    </div>
-                    <div class="logo-text">
-                        <h1>TokaiSolidTire System</h1>
-                        <p>ระบบบริหารจัดการองค์กร</p>
-                    </div>
-                </div>
-
-                <div class="search-container">
-                    <i class="fas fa-search search-icon"></i>
-                    <input type="text" class="search-bar" id="searchInput" placeholder="ค้นหาแผนก...">
-                </div>
-
-                <!-- USER BADGE top-right -->
-                <div class="header-right">
-                    <div class="user-badge">
-                        <div class="user-avatar" id="userAvatar">?</div>
-                        <div class="user-info">
-                            <span class="user-greeting">ยินดีต้อนรับ</span>
-                            <span class="user-name" id="userNameDisplay">กำลังโหลด...</span>
-                        </div>
-                    </div>
-                    <button class="logout-btn" onclick="doLogout()">
-                        <i class="fas fa-sign-out-alt"></i> ออกจากระบบ
-                    </button>
-                </div>
-            </div>
-        </header>
-
-        <main class="container">
-            <!-- Notice Board -->
-            <div class="notice-board-container">
-                <div class="notice-board-header">
-                    <div class="notice-board-title">
-                        <div class="notice-board-icon"><i class="fas fa-bullhorn"></i></div>
-                        <h3>กระดานประกาศองค์กร</h3>
-                        <span id="noticeCount" style="background:var(--primary-blue);color:white;padding:2px 8px;border-radius:10px;font-size:.9rem;margin-left:10px;">0</span>
-                    </div>
-                    <div>
-                        <button class="notice-board-btn" id="toggleNoticesBtn">
-                            <i class="fas fa-chevron-down"></i> ซ่อนประกาศ
-                        </button>
-                    </div>
-                </div>
-                <div class="notice-board-grid" id="noticeBoard"></div>
-            </div>
-
-            <div class="main-title">
-                <h2>แผนกในระบบ TokaiSolidTire</h2>
-                <p>เข้าถึงระบบงานของแผนกต่างๆ ได้จากลิงก์ด้านล่างนี้</p>
-            </div>
-
-            <div class="departments-grid" id="departmentsGrid"></div>
-        </main>
-
-        <footer>
-            <div class="container footer-content">
-                <div class="footer-logo-container">
-                    <div class="footer-logo-img">
-                        <img src="https://sarawutc6689-cpu.github.io/Mouldmate-HR/logotokai.png" alt="Logo"
-                             onerror="this.onerror=null;this.src='https://via.placeholder.com/40/1a73e8/FFFFFF?text=T';">
-                    </div>
-                    <div class="footer-logo">TokaiSolidTire System</div>
-                </div>
-                <p>© 2026 ระบบบริหารจัดการองค์กรครบวงจร | ออกแบบเพื่อความสะดวกและประสิทธิภาพ</p>
-                <span>พัฒนาระบบโดย Sarawut.C</span>
-            </div>
-        </footer>
+    <div id="adminBanner" class="admin-banner" hidden>
+      อยู่ใน <b>โหมดแอดมิน</b> — กดปุ่ม "เปิดใช้งาน / ปิดใช้งาน" ท้ายแต่ละแบบประเมินได้เลย
+      สถานะที่ตั้งจะถูกบันทึกไว้และ <b>ทุกคนที่เปิดหน้านี้จะเห็นผลเหมือนกัน</b>
     </div>
 
-    <script>
-        // ========== CONFIG ==========
-        const SHEET_ID = '1xadpjbQOM4DlpcAjQNuIgdVzLFdPI32xnGCRDMHZylw';
-        const SHEET_NAME = 'DATA';
-        const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}`;
+    <div class="tabs" id="tabs"></div>
+    <div id="results"></div>
 
-        // ========== DATA ==========
-        const departments = [
-            { id:1, name:"แผนกซ่อมบำรุงและไฟฟ้า", description:"ดูแลการซ่อมบำรุงอุปกรณ์ เครื่องจักร และระบบไฟฟ้าทั้งภายในและภายนอกองค์กร", url:"https://sites.google.com/view/mouldmatema", icon:"fas fa-tools", iconClass:"maintenance" },
-            { id:2, name:"แผนกเทคโนโลยีสารสนเทศ", description:"จัดการระบบไอที ดูแลเครือข่าย พัฒนาซอฟต์แวร์ และให้การสนับสนุนด้านเทคโนโลยี", url:"https://sarawutc6689-cpu.github.io/Mouldmate-IT/it-home.html", icon:"fas fa-laptop-code", iconClass:"it" },
-            { id:3, name:"ฝ่ายทรัพยากรบุคคลและธุรการ", description:"บริหารงานบุคคล ดูแลสวัสดิการ พัฒนาบุคลากร และงานธุรการทั่วไป", url:"https://sarawutc6689-cpu.github.io/Mouldmate-HR/hr-p3.html", icon:"fas fa-users", iconClass:"hr" },
-            { id:4, name:"แผนกบริการยานยนต์", description:"ให้บริการด้านยานยนต์ ซ่อมบำรุงรถยนต์ และจัดการระบบขนส่งองค์กร", url:"https://sarawutc6689-cpu.github.io/Mouldmate-AMS/Main.html", icon:"fas fa-car", iconClass:"vehicle" },
-            { id:5, name:"แผนกคลังพัสดุ", description:"ค้นหารหัสเบิกพัสดุต่างๆ ทั้งหมวด SP และ SU", url:"https://sarawutc6689-cpu.github.io/Mouldmate-ST/Home.html", icon:"fas fa-store", iconClass:"store" }
-        ];
+    <div class="app-footer">
+      ทะเบียนแบบประเมิน &nbsp;© 2569&nbsp; | &nbsp;แก้ไขรายการลิงก์ได้ที่ const DATA ในไฟล์นี้
+    </div>
+  </div>
+</div>
 
-        const announcements = [
-            { id:1, title:"ระบบอัปเดตล่าสุด", content:"เพิ่มความเร็วในการเข้าถึงข้อมูล 30% และเพิ่มฟังก์ชันการทำงานใหม่", type:"info", icon:"fas fa-rocket" },
-            { id:2, title:"นโยบายความปลอดภัยใหม่", content:"โปรดเปลี่ยนรหัสผ่านทุก 90 วันเพื่อความปลอดภัยของข้อมูลองค์กร", type:"warning", icon:"fas fa-shield-alt" },
-            { id:3, title:"ระบบแจ้งปัญหาผ่านช่องทางใหม่", content:"แจ้งปัญหาได้ตลอด 24 ชม. ผ่านระบบออนไลน์และแอปพลิเคชันมือถือ", type:"success", icon:"fas fa-robot" },
-            { id:4, title:"ซ่อมบำรุงระบบ Helpdesk ประจำเดือน", content:"วันที่ 25 ของทุกเดือน เวลา 20:00-00:00 น. ระบบอาจหยุดให้บริการชั่วคราว", type:"warning", icon:"fas fa-tools" },
-            { id:5, title:"รายงานประสิทธิภาพองค์กร", content:"ประสิทธิภาพองค์กรเพิ่มขึ้น 10% ในเดือนที่ผ่านมา", type:"success", icon:"fas fa-chart-line" },
-            { id:6, title:"ประกาศด่วน! ระบบ Helpdesk สำรองข้อมูล", content:"จะมีทดสอบระบบการสำรองข้อมูลทั้งหมดในวันที่ 31 มกราคม 2026 เวลา 21:00 น. อาจส่งผลกระทบต่อการใช้งาน", type:"urgent", icon:"fas fa-exclamation-triangle" }
-        ];
+<div class="modal-overlay" id="adminModal" hidden>
+  <div class="modal">
+    <h3>🔒 เข้าสู่โหมดแอดมิน</h3>
+    <p>กรอกรหัสผ่านเพื่อจัดการสถานะเปิด/ปิดของแต่ละแบบประเมิน</p>
+    <input id="adminPassInput" type="password" placeholder="รหัสผ่าน" autocomplete="off">
+    <p class="modal-error" id="adminError" hidden>รหัสผ่านไม่ถูกต้อง ลองใหม่อีกครั้ง</p>
+    <div class="modal-actions">
+      <button id="adminCancelBtn">ยกเลิก</button>
+      <button id="adminSubmitBtn">ยืนยัน</button>
+    </div>
+  </div>
+</div>
 
-        // ========== LOGIN ==========
-        let sheetRows = []; // cache all rows after fetch
+<script>
+const DATA = {
+  "งานบริการทั่วไป": [
+    { id: "gen-01", title: "แบบประเมินความพึงพอใจ การให้บริการหน้าเคาน์เตอร์", desc: "สำหรับผู้มาติดต่อ ณ จุดบริการ", url: "https://forms.gle/ตัวอย่าง1" },
+    { id: "gen-02", title: "แบบประเมินความพึงพอใจ ศูนย์รับเรื่องร้องเรียน", desc: "ประเมินคุณภาพการตอบข้อร้องเรียน", url: "https://forms.gle/ตัวอย่าง2" },
+    { id: "gen-03", title: "แบบประเมินความพึงพอใจ เว็บไซต์หน่วยงาน", desc: "ความง่ายในการใช้งานและค้นหาข้อมูล", url: "https://forms.gle/ตัวอย่าง3" }
+  ],
+  "งานวิชาการ / อบรม": [
+    { id: "edu-01", title: "แบบประเมินความพึงพอใจ หลักสูตรอบรมออนไลน์", desc: "ประเมินหลังจบหลักสูตร", url: "https://forms.gle/ตัวอย่าง4" },
+    { id: "edu-02", title: "แบบประเมินวิทยากร", desc: "ประเมินการบรรยายและสื่อการสอน", url: "https://forms.gle/ตัวอย่าง5" },
+    { id: "edu-03", title: "แบบประเมินความพึงพอใจ ห้องสมุด", desc: "คุณภาพทรัพยากรและบรรยากาศ", url: "https://forms.gle/ตัวอย่าง6" }
+  ],
+  "งานสุขภาพ / คลินิก": [
+    { id: "med-01", title: "แบบประเมินความพึงพอใจ แผนกผู้ป่วยนอก", desc: "ความรวดเร็วและมารยาทเจ้าหน้าที่", url: "https://forms.gle/ตัวอย่าง7" },
+    { id: "med-02", title: "แบบประเมินความพึงพอใจ ห้องยา", desc: "เวลารอคอยรับยา", url: "https://forms.gle/ตัวอย่าง8" }
+  ],
+  "งานกิจกรรม / โครงการ": [
+    { id: "act-01", title: "แบบประเมินความพึงพอใจ งานประจำปี", desc: "ภาพรวมการจัดงานและสถานที่", url: "https://forms.gle/ตัวอย่าง9" },
+    { id: "act-02", title: "แบบประเมินความพึงพอใจ โครงการอาสาสมัคร", desc: "ความประทับใจของผู้เข้าร่วม", url: "https://forms.gle/ตัวอย่าง10" }
+  ]
+};
 
-        async function fetchSheetData() {
-            const res = await fetch(SHEET_URL);
-            const text = await res.text();
-            // Google wraps JSON in /*O_o*/ ... 
-            const json = JSON.parse(text.substring(text.indexOf('{'), text.lastIndexOf('}') + 1));
-            const rows = json.table.rows;
-            return rows.map(row => ({
-                code:     (row.c[0]?.v ?? '').toString().trim(),   // A
-                password: (row.c[1]?.v ?? '').toString().trim(),   // B
-                status:   (row.c[2]?.v ?? '').toString().trim(),   // C
-                name:     (row.c[4]?.v ?? '').toString().trim(),   // E
-            }));
-        }
+const ADMIN_PASSWORD = "mm169Moo4";
+const STORAGE_KEY = "link-status";
 
-        async function doLogin() {
-            const code = document.getElementById('loginCode').value.trim();
-            const pass = document.getElementById('loginPass').value.trim();
-            const btn  = document.getElementById('loginBtn');
-            const errDiv = document.getElementById('loginError');
-            const errMsg = document.getElementById('loginErrorMsg');
+let STATUS = {};
+let isAdmin = false;
 
-            if (!code || !pass) {
-                errMsg.textContent = 'กรุณากรอกรหัสพนักงานและรหัสผ่าน';
-                errDiv.style.display = 'block';
-                return;
-            }
+const tabsEl = document.getElementById('tabs');
+const resultsEl = document.getElementById('results');
+const searchInput = document.getElementById('searchInput');
+const countTag = document.getElementById('countTag');
+const adminToggleBtn = document.getElementById('adminToggleBtn');
+const adminToggleLabel = document.getElementById('adminToggleLabel');
+const adminBanner = document.getElementById('adminBanner');
+const adminModal = document.getElementById('adminModal');
+const adminPassInput = document.getElementById('adminPassInput');
+const adminError = document.getElementById('adminError');
 
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> กำลังตรวจสอบ...';
-            errDiv.style.display = 'none';
+const categories = Object.keys(DATA);
+let activeCategory = 'ทั้งหมด';
 
-            try {
-                if (sheetRows.length === 0) {
-                    sheetRows = await fetchSheetData();
-                }
+function isActive(id){
+  return STATUS[id] !== false;
+}
 
-                const user = sheetRows.find(r =>
-                    r.code === code && r.password === pass
-                );
+async function loadStatus(){
+  try{
+    const res = await window.storage.get(STORAGE_KEY, true);
+    STATUS = res && res.value ? JSON.parse(res.value) : {};
+  }catch(e){
+    STATUS = {};
+  }
+}
 
-                if (!user) {
-                    errMsg.textContent = 'รหัสพนักงานหรือรหัสผ่านไม่ถูกต้อง';
-                    errDiv.style.display = 'block';
-                    btn.disabled = false;
-                    btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> เข้าสู่ระบบ';
-                    return;
-                }
+async function saveStatus(){
+  try{
+    const result = await window.storage.set(STORAGE_KEY, JSON.stringify(STATUS), true);
+    if(!result){ console.error('บันทึกสถานะไม่สำเร็จ'); }
+  }catch(e){
+    console.error('เกิดข้อผิดพลาดในการบันทึกสถานะ', e);
+  }
+}
 
-                if (user.status && user.status.toLowerCase() === 'inactive') {
-                    errMsg.textContent = 'บัญชีผู้ใช้นี้ถูกระงับ กรุณาติดต่อผู้ดูแลระบบ';
-                    errDiv.style.display = 'block';
-                    btn.disabled = false;
-                    btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> เข้าสู่ระบบ';
-                    return;
-                }
+function buildTabs(){
+  const all = ['ทั้งหมด', ...categories];
+  tabsEl.innerHTML = all.map(cat =>
+    '<button class="tab ' + (cat===activeCategory?'active':'') + '" data-cat="' + cat + '">' + cat + '</button>'
+  ).join('');
+  tabsEl.querySelectorAll('.tab').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      activeCategory = btn.dataset.cat;
+      buildTabs();
+      render();
+    });
+  });
+}
 
-                // SUCCESS — store session & show app
-                sessionStorage.setItem('loggedUser', JSON.stringify({ code: user.code, name: user.name }));
-                showApp(user.name);
+function toggleStatus(id, value){
+  STATUS[id] = value;
+  saveStatus();
+  render();
+}
 
-            } catch (err) {
-                errMsg.textContent = 'ไม่สามารถเชื่อมต่อกับระบบได้ กรุณาลองใหม่อีกครั้ง';
-                errDiv.style.display = 'block';
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> เข้าสู่ระบบ';
-                console.error(err);
-            }
-        }
+function render(){
+  const query = searchInput.value.trim().toLowerCase();
+  let total = 0;
+  let html = '';
 
-        function showApp(name) {
-            document.getElementById('loginOverlay').style.display = 'none';
-            document.getElementById('mainApp').style.display = 'block';
+  categories.forEach(cat=>{
+    if(activeCategory !== 'ทั้งหมด' && activeCategory !== cat) return;
 
-            // Set name in badge
-            const initials = name.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase() || '?';
-            document.getElementById('userAvatar').textContent = initials;
-            document.getElementById('userNameDisplay').textContent = name || 'ไม่ระบุชื่อ';
-        }
+    const items = DATA[cat].filter(item =>
+      item.title.toLowerCase().includes(query) || item.desc.toLowerCase().includes(query)
+    );
+    if(items.length === 0) return;
 
-        function doLogout() {
-            sessionStorage.removeItem('loggedUser');
-            document.getElementById('mainApp').style.display = 'none';
-            document.getElementById('loginOverlay').style.display = 'flex';
-            document.getElementById('loginCode').value = '';
-            document.getElementById('loginPass').value = '';
-            document.getElementById('loginError').style.display = 'none';
-            const btn = document.getElementById('loginBtn');
-            btn.disabled = false;
-            btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> เข้าสู่ระบบ';
-        }
+    total += items.length;
 
-        // Press Enter to login
-        ['loginCode','loginPass'].forEach(id => {
-            document.getElementById(id).addEventListener('keyup', e => {
-                if (e.key === 'Enter') doLogin();
-            });
-        });
+    html += '<div class="card">' +
+      '<div class="cat-head"><h2>' + cat + '</h2><span>' + items.length + ' รายการ</span></div>' +
+      items.map((item, i) => {
+        const active = isActive(item.id);
+        const rowClass = active ? 'row' : 'row inactive';
+        const btnHtml = active
+          ? '<a class="open-btn" href="' + item.url + '" target="_blank" rel="noopener">เปิดแบบประเมิน</a>'
+          : '<span class="open-btn disabled">ปิดรับการประเมิน</span>';
+        const statusPill = active ? '' : '<span class="status-pill">ปิดใช้งานอยู่</span>';
+        const adminRow = isAdmin
+          ? '<div class="toggle-row" style="margin-top:10px;">' +
+              '<div class="toggle-btn on-btn ' + (active ? 'active' : '') + '" data-id="' + item.id + '" data-val="true">✅ เปิดใช้งาน</div>' +
+              '<div class="toggle-btn off-btn ' + (!active ? 'active' : '') + '" data-id="' + item.id + '" data-val="false">🚫 ปิดใช้งาน</div>' +
+            '</div>'
+          : '';
+        return '<div class="' + rowClass + '">' +
+            '<div class="row-top">' +
+              '<span class="row-no">' + String(i+1).padStart(3,'0') + '</span>' +
+              '<div class="row-body"><h3>' + item.title + '</h3><p>' + item.desc + '</p>' + statusPill + '</div>' +
+            '</div>' +
+            btnHtml +
+            adminRow +
+          '</div>';
+      }).join('') +
+    '</div>';
+  });
 
-        // ========== NOTICES ==========
-        function getTypeLabel(type) {
-            return { info:'ข้อมูล', urgent:'ด่วน', warning:'เตือน', success:'สำเร็จ' }[type] || type;
-        }
+  resultsEl.innerHTML = total > 0 ? html : '<div class="empty">ไม่พบแบบประเมินที่ตรงกับคำค้นหา</div>';
+  countTag.textContent = total + ' รายการ';
 
-        function createNoticeCard(n) {
-            return `
-                <div class="notice-card ${n.type}">
-                    <div class="notice-card-header">
-                        <span class="notice-card-type ${n.type}">${getTypeLabel(n.type)}</span>
-                    </div>
-                    <div class="notice-card-content">
-                        <div style="display:flex;align-items:flex-start;margin-bottom:10px;">
-                            <i class="${n.icon} notice-card-icon ${n.type}"></i>
-                            <h4 style="margin:0;font-size:1.1rem;">${n.title}</h4>
-                        </div>
-                        <p style="margin-left:30px;">${n.content}</p>
-                    </div>
-                </div>`;
-        }
+  resultsEl.querySelectorAll('.toggle-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=> toggleStatus(btn.dataset.id, btn.dataset.val === 'true'));
+  });
+}
 
-        function renderNotices(arr) {
-            document.getElementById('noticeCount').textContent = arr.length;
-            const board = document.getElementById('noticeBoard');
-            if (!arr.length) {
-                board.innerHTML = `<div class="empty-notices"><i class="far fa-bell-slash"></i><h3>ไม่มีประกาศในขณะนี้</h3><p>เมื่อมีประกาศใหม่จะปรากฏที่นี่</p></div>`;
-                return;
-            }
-            const order = { urgent:0, warning:1, info:2, success:3 };
-            board.innerHTML = [...arr].sort((a,b) => order[a.type] - order[b.type]).map(createNoticeCard).join('');
-        }
+function openAdminModal(){
+  adminError.hidden = true;
+  adminPassInput.value = '';
+  adminModal.hidden = false;
+  adminPassInput.focus();
+}
+function closeAdminModal(){ adminModal.hidden = true; }
 
-        // ========== DEPARTMENTS ==========
-        function createDepartmentCard(dept) {
-            return `
-                <div class="department-card">
-                    <div class="card-header">
-                        <div class="card-icon ${dept.iconClass}"><i class="${dept.icon}"></i></div>
-                        <div class="card-title">
-                            <h3>${dept.name}</h3>
-                            <p>${dept.description}</p>
-                        </div>
-                    </div>
-                    <div class="card-description">เข้าสู่ระบบงานของแผนกเพื่อบริหารจัดการงานด้าน${dept.name.split(' ')[0]}</div>
-                    <div class="card-footer">
-                        <button class="visit-btn" onclick="window.open('${dept.url}','_blank')">
-                            <i class="fas fa-external-link-alt"></i> เข้าสู่ระบบ
-                        </button>
-                        <a href="${dept.url}" target="_blank" class="external-link"><i class="fas fa-external-link-alt"></i></a>
-                    </div>
-                </div>`;
-        }
+function setAdminState(on){
+  isAdmin = on;
+  adminToggleBtn.classList.toggle('on', on);
+  adminToggleLabel.textContent = on ? 'ออกจากแอดมิน' : 'แอดมิน';
+  adminBanner.hidden = !on;
+  render();
+}
 
-        function renderDepartments(arr) {
-            const grid = document.getElementById('departmentsGrid');
-            if (!arr.length) {
-                grid.innerHTML = `<div class="no-results"><i class="fas fa-search"></i><h3>ไม่พบแผนกที่คุณค้นหา</h3><p>ลองค้นหาด้วยคำอื่นหรือดูแผนกทั้งหมด</p></div>`;
-                return;
-            }
-            grid.innerHTML = arr.map(createDepartmentCard).join('');
-        }
+adminToggleBtn.addEventListener('click', ()=>{
+  if(isAdmin){
+    setAdminState(false);
+  }else{
+    openAdminModal();
+  }
+});
+document.getElementById('adminCancelBtn').addEventListener('click', closeAdminModal);
+document.getElementById('adminSubmitBtn').addEventListener('click', ()=>{
+  if(adminPassInput.value === ADMIN_PASSWORD){
+    closeAdminModal();
+    setAdminState(true);
+  }else{
+    adminError.hidden = false;
+  }
+});
+adminPassInput.addEventListener('keydown', (e)=>{
+  if(e.key === 'Enter') document.getElementById('adminSubmitBtn').click();
+});
 
-        function searchDepartments() {
-            const q = document.getElementById('searchInput').value.toLowerCase();
-            renderDepartments(q ? departments.filter(d => d.name.toLowerCase().includes(q) || d.description.toLowerCase().includes(q)) : departments);
-        }
+searchInput.addEventListener('input', render);
 
-        function toggleNoticesVisibility() {
-            const board = document.getElementById('noticeBoard');
-            const btn   = document.getElementById('toggleNoticesBtn');
-            const hidden = board.style.display === 'none';
-            board.style.display = hidden ? 'grid' : 'none';
-            btn.innerHTML = hidden
-                ? '<i class="fas fa-chevron-down"></i> ซ่อนประกาศ'
-                : '<i class="fas fa-chevron-up"></i> แสดงประกาศ';
-        }
-
-        // ========== INIT ==========
-        function init() {
-            renderNotices(announcements);
-            renderDepartments(departments);
-            document.getElementById('searchInput').addEventListener('input', searchDepartments);
-            document.getElementById('searchInput').addEventListener('keyup', e => { if (e.key==='Enter') searchDepartments(); });
-            document.getElementById('toggleNoticesBtn').addEventListener('click', toggleNoticesVisibility);
-
-            // Resume session if already logged in
-            const saved = sessionStorage.getItem('loggedUser');
-            if (saved) {
-                try {
-                    const u = JSON.parse(saved);
-                    showApp(u.name);
-                } catch(e) { sessionStorage.removeItem('loggedUser'); }
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', init);
-    </script>
+(async function init(){
+  buildTabs();
+  await loadStatus();
+  render();
+})();
+</script>
 </body>
 </html>
