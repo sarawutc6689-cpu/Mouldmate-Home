@@ -277,6 +277,21 @@
     .topbar{padding:1.2rem 6%;}
     .status-pill span#clock{display:none;}
   }
+  /* แสงสีฟ้าจางๆ กระพริบ */
+.bg-blue{
+  position:fixed; inset:0; z-index:0; pointer-events:none;
+  background:
+    radial-gradient(620px 620px at 18% 28%, rgba(58,167,255,0.14), transparent 60%),
+    radial-gradient(520px 520px at 78% 78%, rgba(58,167,255,0.10), transparent 65%);
+  animation:bluePulse 4.5s ease-in-out infinite;
+}
+@keyframes bluePulse{
+  0%,100%{opacity:.2;}
+  50%{opacity:1;}
+}
+@media (prefers-reduced-motion: reduce){
+  .bg-blue{animation:none; opacity:.5;}
+}
 </style>
 </head>
 <body>
@@ -284,6 +299,10 @@
 <div class="bg-void"></div>
 <div class="bg-grid"></div>
 <div class="bg-glow"></div>
+  <div class="bg-void"></div>
+  <div class="bg-grid"></div>
+  <div class="bg-glow"></div>
+  <div class="bg-blue"></div>
 
 <div class="bg-tread">
   <svg viewBox="0 0 800 140" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
